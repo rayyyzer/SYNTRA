@@ -1,12 +1,12 @@
 """Explicit Polarity and Action Intent Handling.
 
 Distinguishes:
-- enable: turn on, activate, switch on, start, allow, unmute
-- disable: turn off, deactivate, switch off, stop, mute, block, prevent
+- enable: turn on, activate, switch on, start, allow, unmute, resource conservation goals, negation reversals
+- disable: turn off, deactivate, switch off, stop, mute, block, prevent, mode reversals, complaints
 - view: open, view, check, inspect, show, display
 - configure: adjust, customize, set up, format, change
 - query: how do I, why does, what is
-- unknown: ambiguous or no clear directional signal
+- unknown: ambiguous, symptom diagnosis, or no clear directional signal
 """
 
 from __future__ import annotations
@@ -27,13 +27,13 @@ class Polarity(str, Enum):
 POLARITY_ENABLE_PHRASES = (
     "turn on", "switch on", "activate", "enable", "start", "allow",
     "unmute", "bring back", "turn back on", "switch back on", "turn up",
-    "increase brightness", "connect to", "reconnect"
+    "connect to", "reconnect"
 )
 
 POLARITY_DISABLE_PHRASES = (
     "turn off", "switch off", "deactivate", "disable", "stop", "mute",
     "block", "shut off", "turn down", "silence", "disconnect",
-    "stop buzzing", "no more", "prevent", "cancel", "disabel"
+    "stop buzzing", "no more", "prevent", "cancel"
 )
 
 POLARITY_VIEW_PHRASES = (
@@ -50,56 +50,89 @@ POLARITY_QUERY_PHRASES = (
     "how do i", "how to", "why does", "what is", "can i", "is there a way"
 )
 
+DRAIN_SYMPTOM_RE = re.compile(
+    r"\b(battery\s+(?:dies|dying|draining|drains|drops\s+fast)|drain\s+issu|battery\s+drain|check\s+why\s+battery|battery\s+isn'?t\s+making\s+it|eating\s+(?:up\s+)?charge)\b",
+    re.I
+)
 
 CONSERVATION_INTENT_PATTERN = re.compile(
     r"\b("
-    r"conserve\s+(?:battery\s+|device\s+|phone\s+)?(?:power|energy|charge|battery)"
-    r"|save\s+(?:battery|power|energy|charge)"
-    r"|preserve\s+(?:battery|power|energy)(?:\s+life)?"
-    r"|extend\s+(?:battery|power|energy)(?:\s+life)?"
-    r"|reduce\s+(?:battery\s+|power\s+|energy\s+)?(?:consumption|usage)"
-    r"|(?:better|longer|improve|increase)\s+battery\s+life"
-    r"|battery\s+(?:to\s+)?last\s+(?:much\s+)?(?:longer|all\s+day)"
+    r"(?:use\s+less|consume\s+less|save|conserve|preserve|extend|reduce|cut\s+down)\b.*?\b(?:battery|power|charge|energy|consumption|usage)"
+    r"|stretch\b.*?\b(?:time\s+between\s+charges|charges)"
+    r"|(?:better|longer|improve|increase|more)\s+(?:battery\s+life|battery\s+runtime|hours\s+out\s+of)"
+    r"|(?:battery|power|charge)\b.*?\b(?:last|stretch|longer|more\s+hours|all\s+day)"
+    r"|power\s+saving|battery\s+saver"
     r"|energy\s+conservation"
     r"|eating\s+(?:up\s+)?battery"
-    r"|power\s+saver"
-    r"|battery\s+saver"
+    r"|stop\s+using\s+so\s+much\s+(?:battery|power)"
     r")\b",
     re.I
 )
 
 DISABLE_REVERSAL_PATTERN = re.compile(
     r"\b("
-    r"(?:don'?t\s+want|do\s+not\s+want|never\s+want)\b.*?\b(?:enabled?|active|on)"
-    r"|(?:turn|switch|shut)\s+.*?\s+off"
-    r"|(?:turn\s+off|disable|deactivate|stop|shut\s+off)\b.*?\b(?:power\s+saving|battery\s+saver|energy\s+saver)"
-    r"|(?:power\s+saving|battery\s+saver|energy\s+saver)\b.*?\b(?:off|disabled?|deactivated)"
+    r"stop\s+(?:conserving|saving|battery\s+saver)|return\s+to\s+normal|restore\s+normal|resume\s+normal|normal\s+(?:battery|power)\s+usage"
+    r"|turn\s+(?:battery\s+saver|power\s+saving)\s+off"
+    r"|(?:turn\s+off|disable|deactivate|stop)\s+(?:power\s+saving|battery\s+saver)"
+    r"|don'?t\s+want\s+(?:power\s+saving|battery\s+saver)\s+enabled"
+    r"|don'?t\s+use\s+power\s+saving"
     r")\b",
     re.I
 )
 
 
-def detect_query_polarity(query: str) -> Polarity:
-    """Classifies query intent into a discrete semantic Polarity state."""
+def detect_query_polarity(query: str, dense_retriever: Any = None) -> Polarity:
+    """Classifies query intent into a discrete semantic Polarity state using compositional reasoning."""
     q_low = query.lower()
 
-    # 0a. Explicit negation and disable reversals (higher specificity than isolated 'enable' words)
+    # 0. Diagnostic Symptoms and Ongoing Issues are NOT direct toggle actions
+    if DRAIN_SYMPTOM_RE.search(q_low):
+        return Polarity.UNKNOWN
+
+    # 1. Complex Polarity Traps & Double Negations
+    # "I don't want power saving turned off" -> Double negative = ENABLE
+    # "stop disabling battery saving" -> Double negative = ENABLE
+    # "don't stop conserving power" -> Double negative = ENABLE
+    if re.search(r"\b(?:don'?t\s+want|do\s+not\s+want|never\s+want)\b.*?\b(?:off|disabled?|deactivated)\b", q_low):
+        return Polarity.ENABLE
+    if re.search(r"\b(?:stop|prevent|avoid)\s+(?:disabling|turning\s+off|deactivating)\b", q_low):
+        return Polarity.ENABLE
+    if re.search(r"\b(?:don'?t|do\s+not)\s+stop\s+(?:conserving|saving)\b", q_low):
+        return Polarity.ENABLE
+    if re.search(r"\b(?:don'?t\s+want|do\s+not\s+want|never\s+want)\b.*?\b(?:on|enabled?|activated)\b", q_low):
+        return Polarity.DISABLE
+
+    # 2. Single Negations on Enablers / Disablers
+    # "don't enable Bluetooth" -> DISABLE
+    # "keep airplane mode disabled" -> DISABLE
+    # "keep Wi-Fi enabled" -> ENABLE
+    if re.search(r"\b(?:don'?t|do\s+not|never)\s+(?:enable|activate|turn\s+on)\b", q_low):
+        return Polarity.DISABLE
+    if re.search(r"\bkeep\b.*?\b(?:off|disabled?|deactivated)\b", q_low) and not re.search(r"\bkeep\b.*?\bfrom\b", q_low):
+        return Polarity.DISABLE
+    if re.search(r"\bkeep\b.*?\b(?:on|enabled?|activated)\b", q_low) or re.search(r"\bkeep\b.*?\bfrom\s+(?:turning\s+off|shutting\s+off)\b", q_low):
+        return Polarity.ENABLE
+
+    # 3. Explicit Mode Reversals (e.g. "stop conserving power", "return to normal battery usage")
     if DISABLE_REVERSAL_PATTERN.search(q_low):
         return Polarity.DISABLE
 
-    # 0b. Mode Enablers & Inverted Mode Enablers (Flight, Battery Saving, DND/Zen Mode)
-    if any(k in q_low for k in ("take off", "takeoff", "flight mode", "on a plane", "on a flight")):
-        return Polarity.ENABLE
+    # 4. Resource Reduction / Conservation Goals (wants restriction mode active)
     if CONSERVATION_INTENT_PATTERN.search(q_low):
         return Polarity.ENABLE
-    if any(k in q_low for k in ("protect battery", "battery protection")):
-        if not any(k in q_low for k in ("turn off", "disable", "deactivate")):
-            return Polarity.ENABLE
-    if any(k in q_low for k in ("silence all", "mute all", "total silence", "stop making noise", "exam and must", "do not disturb")):
-        if not any(k in q_low for k in ("turn off do not disturb", "disable do not disturb")):
+
+    # 4b. Vibration / Noise Complaints (wants to disable nuisance feedback)
+    if any(k in q_low for k in ("buzzes", "buzzing", "vibrates every time", "vibrating every time", "stop buzzing", "stop vibrating")):
+        return Polarity.DISABLE
+
+    # 5. Device Mode Enablers (Flight, Zen/Do Not Disturb)
+    if any(k in q_low for k in ("take off", "takeoff", "flight mode", "on a plane", "on a flight")):
+        return Polarity.ENABLE
+    if any(k in q_low for k in ("silence all", "mute all", "total silence", "stop making noise", "do not disturb")):
+        if not any(k in q_low for k in ("turn off", "disable", "stop", "end", "deactivate")):
             return Polarity.ENABLE
 
-    # 1. Multi-word phrase check (higher specificity)
+    # 6. Multi-word phrase check (higher specificity)
     for phrase in POLARITY_ENABLE_PHRASES:
         if phrase in q_low:
             return Polarity.ENABLE
@@ -120,7 +153,7 @@ def detect_query_polarity(query: str) -> Polarity:
         if phrase in q_low:
             return Polarity.QUERY
 
-    # 2. Token-level fallback
+    # 7. Token-level fallback
     tokens = set(re.findall(r"\b[a-z]{2,}\b", q_low))
     if any(t in ("enable", "activate", "on") for t in tokens):
         return Polarity.ENABLE

@@ -270,3 +270,27 @@ User Query + SIIS Response Payload
   - **Distinct Action Names:** **75**
   - **Cold Start Latency:** **44.46 ms** (cap: 8,000 ms)
   - **P95 Latency:** **34.57 ms** (cap: 300 ms)
+
+---
+
+## 11. Phase 7 — Semantic Intent Generalization & Benchmark Patch Removal (Completed)
+
+- **Deliverables (`docs/PHASE_7_RETRIEVAL_GENERALIZATION.md`):**
+  - **Removed All Category E Benchmark Patches:** Completely eliminated `luminescence`, `important exam`, `lifeless with no click vibration`, `disabel`, and synthetic token expansion rules.
+  - **Compositional Polarity Analyzer (`polarity.py`):** Multi-stage grammatical reasoning handling double negations (`don't want turned off` -> ENABLE), negation traps (`don't enable Bluetooth` -> DISABLE), state maintenance (`keep disabled` -> DISABLE, `keep from turning off` -> ENABLE), mode reversals (`stop conserving power` -> DISABLE, `stop do not disturb` -> DISABLE), and symptom differentiation (`battery dies fast` -> UNKNOWN).
+  - **Toggle Partner Expansion (`hybrid_retriever.py`):** Ensures both ENABLE and DISABLE variants of configurable settings enter candidate fusion via `key_to_entries` validation grouping.
+  - **SIIS Procedure Semantic Grounding (`hybrid_retriever.py` & `adjudicator.py`):** Dense sentence scoring of official SIIS instructions against catalog candidate message embeddings.
+  - **Device Compatibility Filtering:** Penalizes non-mobile catalog entries (e.g. TV Settings -0.40).
+  - **Zero Hard-Coding Verified:** 0 catalog IDs, 0 expected action names, 0 query-to-ID mappings.
+- **Official Evaluator (`Theme02_Engine/test_suite.py`):** **60 / 60 points [PASS]** (Gates G2–G5 PASS, 0 URL leaks).
+- **Unseen Generalization Suite (50 Novel Scenarios across 9 Domains):** **94.0% PASS (47 / 50)**.
+- **Adversarial Polarity Suite (15 Complex Traps):** **100.0% Polarity (15 / 15)**, **86.7% Action Selection (13 / 15)**.
+- **164-Case Offline Robustness Benchmark:**
+  - **URI Exact Match Rate:** 40.85% (67 / 164) — honest baseline after removing 5 Category E benchmark patches.
+  - **Action Match Rate:** 53.05% (87 / 164).
+  - **Polarity Accuracy Rate:** 84.52% (71 / 84).
+  - **Hardware Safety:** 100.0% (5 / 5).
+  - **Repeat Cache:** 100.0% (P95: 0.02 ms).
+  - **Paraphrase Cache:** 100.0%.
+  - **Cold Start Latency:** 304.72 ms.
+  - **P95 Latency:** 224.03 ms.

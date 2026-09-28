@@ -38,7 +38,13 @@ class TroubleshootingEngine:
         self.adjudicator = CandidateAdjudicator(dense=self.retriever.dense)
         self.cache = QueryCache()
 
-    def troubleshoot(self, query: str, siis_response: Dict[str, Any]) -> Dict[str, Any]:
+    def troubleshoot(
+        self,
+        query: str,
+        siis_response: Optional[Dict[str, Any]] = None,
+        siis_title: Optional[str] = None,
+        siis_content: Optional[str] = None
+    ) -> Dict[str, Any]:
         """Main entry point: returns schema-valid ContextDeeplinkResponse as dict."""
         # 1. Check two-tier cache first (<0.05ms)
         cached = self.cache.get(query)
@@ -46,8 +52,12 @@ class TroubleshootingEngine:
             return cached
 
         # 2. Extract and sanitize raw text from SIIS
-        siis_title = sanitize_text(siis_response.get("title", "Device Issue"))
-        siis_content = sanitize_text(siis_response.get("content", ""))
+        if siis_response is None:
+            siis_response = {}
+        raw_title = siis_title if siis_title is not None else siis_response.get("title", "Device Issue")
+        raw_content = siis_content if siis_content is not None else siis_response.get("content", "")
+        siis_title = sanitize_text(raw_title)
+        siis_content = sanitize_text(raw_content)
 
         # 3. Check Safety & Hardware Router for physical damage or hazardous operations
         if is_unsupported_hardware(query, siis_content):
@@ -103,8 +113,13 @@ class TroubleshootingEngine:
             auto_steps = [raw_sentences[0]]
             manual_steps = raw_sentences[1:]
 
-        # 5. Hybrid Retrieval (<25ms) + Candidate Adjudication
-        candidates = self.retriever.retrieve(query, top_k=5)
+        # 5. SIIS-Grounded Hybrid Retrieval (<25ms) + Candidate Adjudication
+        candidates = self.retriever.retrieve(
+            query=query,
+            top_k=5,
+            siis_title=siis_title,
+            siis_content=siis_content
+        )
 
         if candidates and candidates[0]["score"] >= 0.20:
             adj = self.adjudicator.adjudicate(
@@ -262,10 +277,16 @@ class TroubleshootingEngine:
             "triage_reason": "Physical crack, liquid exposure, or component failure detected" if hw_triggered else "Standard settings troubleshooting"
         }
 
-        # 5. Hybrid Retrieval
+        # 5. SIIS-Grounded Hybrid Retrieval
         t_ret_0 = time.perf_counter()
-        candidates = self.retriever.retrieve(query, top_k=5)
+        candidates = self.retriever.retrieve(
+            query=query,
+            top_k=5,
+            siis_title=siis_title,
+            siis_content=siis_content
+        )
         t_ret_1 = time.perf_counter()
+
         retrieval_latency_ms = (t_ret_1 - t_ret_0) * 1000.0
 
         formatted_cands = []

@@ -10,6 +10,8 @@ import hashlib
 import re
 from typing import Any, Dict, Optional, Set, Tuple
 
+from retrieval.polarity import detect_query_polarity, Polarity
+
 
 SYNONYM_MAP = {
     # Separated phrasal verbs: 'turn Wi-Fi on', 'turn Bluetooth off'
@@ -25,7 +27,8 @@ SYNONYM_MAP = {
     r"\b(view|check|open|show|inspect)\b": "__view__",
 
     # Domains / Features
-    r"\b(battery\s+saver(\s+mode)?|power\s+saving(\s+mode)?|battery\s+saving|low\s+power\s+mode|conserve\s+(?:battery\s+)?power|save\s+battery|save\s+power|reduce\s+battery\s+consumption|preserve\s+battery(\s+life)?|better\s+battery\s+life)\b": "__power_saving__",
+    r"\b(battery\s+saver|power\s+saving|battery\s+saving|low\s+power\s+mode|conserve\s+(?:battery\s+)?power|save\s+(?:battery|power))\b": "__power_saving__",
+
     r"\b(wi[- ]?fi(\s+connection)?|wireless\s+network|wlan)\b": "__wifi__",
     r"\b(bluetooth(\s+radio|\s+adapter)?|bt)\b": "__bluetooth__",
     r"\b(airplane\s+mode|flight\s+mode)\b": "__airplane_mode__",
@@ -55,18 +58,17 @@ class QueryCache:
     @staticmethod
     def _detect_polarity(query: str) -> str:
         """Classify directional intent to prevent cross-polarity cache collisions."""
-        q = query.lower()
-        if re.search(r"\b((?:don'?t\s+want|do\s+not\s+want|never\s+want)\b.*?\b(?:enabled?|active|on)|turn\s+.*?\s+off|switch\s+.*?\s+off|turn\s+off|switch\s+off|disable|deactivate|stop)\b", q):
+        pol = detect_query_polarity(query)
+        if pol == Polarity.ENABLE:
+            return "ENABLE"
+        if pol == Polarity.DISABLE:
             return "DISABLE"
-        if re.search(r"\b(conserve\s+(?:battery\s+|device\s+|phone\s+)?(?:power|energy|charge|battery)|save\s+(?:battery|power|energy|charge)|preserve\s+(?:battery|power|energy)|extend\s+(?:battery|power|energy)|reduce\s+(?:battery\s+|power\s+|energy\s+)?(?:consumption|usage)|(?:better|longer|improve|increase)\s+battery\s+life|battery\s+(?:to\s+)?last|energy\s+conservation|eating\s+(?:up\s+)?battery)\b", q):
-            return "ENABLE"
-        if re.search(r"\b(turn\s+.*?\s+on|switch\s+.*?\s+on|turn\s+on|switch\s+on|enable|activate)\b", q):
-            return "ENABLE"
-        if re.search(r"\b(view|open|check|inspect|show)\b", q):
+        if pol == Polarity.VIEW:
             return "VIEW"
-        if re.search(r"\b(adjust|configure|customize|change|format|set)\b", q):
+        if pol == Polarity.CONFIGURE:
             return "CONFIG"
         return "NEUTRAL"
+
 
     @classmethod
     def _extract_intent_signature(cls, query: str) -> str:
