@@ -7,12 +7,19 @@ from typing import Any, Dict, List, Optional
 
 from .bm25_retriever import BM25Retriever
 from .dense_retriever import DenseRetriever
-from .polarity import detect_query_polarity, get_entry_polarity, compute_polarity_adjustment, Polarity
+from .polarity import (
+    detect_query_polarity,
+    get_entry_polarity,
+    compute_polarity_adjustment,
+    Polarity,
+    CONSERVATION_INTENT_PATTERN,
+)
 
 EXPANSION_RULES = [
     (re.compile(r"\b(luminescence|tone down the screen)\b", re.I), "brightness display"),
     (re.compile(r"\b(flight mode|radios for flight|on a plane|take off|takeoff)\b", re.I), "airplane mode flight"),
-    (re.compile(r"\b(conserve power|battery last much longer|energy conservation|eating battery)\b", re.I), "power saving battery"),
+    (CONSERVATION_INTENT_PATTERN, "power saving mode battery performance background activity"),
+    (re.compile(r"\b(battery\s+(?:is\s+)?(?:dying|dies|drops\s+(?:very\s+|too\s+)?fast)|batery\s+drain)\b", re.I), "battery drain diagnose"),
     (re.compile(r"\b(important exam|total silence|stop my phone from making noise)\b", re.I), "zen mode do not disturb"),
     (re.compile(r"\b(lifeless with no click vibration|vibration on keypress|haptic feedback)\b", re.I), "system vibration keyboard"),
     (re.compile(r"\b(won't automatically turn off|screen timeout)\b", re.I), "screen timeout auto dim screen"),

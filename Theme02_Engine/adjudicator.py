@@ -82,13 +82,17 @@ class CandidateAdjudicator:
                 pol_adj = 0.0
                 msg_low = cand.get("message", "").lower()
                 if q_pol == Polarity.ENABLE:
-                    if msg_low.startswith(("enable", "turn on", "activate")):
+                    if msg_low.startswith(("enable", "turn on", "activate", "switch on")):
                         pol_adj += 0.20
+                    elif msg_low.startswith(("disable", "turn off", "deactivate", "switch off", "stop")):
+                        pol_adj -= 0.40
                     elif msg_low.startswith(("view", "open")):
                         pol_adj -= 0.15
                 elif q_pol == Polarity.DISABLE:
-                    if msg_low.startswith(("disable", "turn off", "deactivate")):
+                    if msg_low.startswith(("disable", "turn off", "deactivate", "switch off", "stop")):
                         pol_adj += 0.20
+                    elif msg_low.startswith(("enable", "turn on", "activate", "switch on")):
+                        pol_adj -= 0.40
                     elif msg_low.startswith(("view", "open")):
                         pol_adj -= 0.15
                 elif q_pol == Polarity.VIEW:

@@ -247,6 +247,26 @@ User Query + SIIS Response Payload
   - **Repeat Cache Hit Rate:** **100.0%** (P95: 0.01 ms)
   - **Paraphrase Cache Hit Rate:** **100.0%**
 
+---
 
+## 10. Phase 7.1 — Battery Conservation & Polarity Generalization Fix (Completed)
 
-
+- **Deliverables (`docs/PHASE_7_RETRIEVAL_GENERALIZATION.md` Section 11):**
+  - **Conservation & Negation Generalization (`polarity.py`):** Added `CONSERVATION_INTENT_PATTERN` handling all variations of battery conservation goals (`conserve battery power`, `save battery`, `reduce battery consumption`, `preserve battery life`, `battery to last longer`) mapping to `Polarity.ENABLE`. Added `DISABLE_REVERSAL_PATTERN` to correctly classify negations like `don't want power saving enabled`, `turn ... off`, and `stop battery saver` as `Polarity.DISABLE`.
+  - **Catalog-Aligned Expansion (`hybrid_retriever.py`):** Expanded conservation patterns with `"power saving mode battery performance background activity"`, matching DL-0412 official catalog QNA tokens. Added symptom expansion for `"battery dies"` $\rightarrow$ `"battery drain diagnose"`.
+  - **Symmetric Adjudicator Polarity Penalties (`adjudicator.py`):** Implemented `-0.40` penalty for opposite polarity toggle actions in `_deterministic_adjudicate`.
+  - **Safety Router Hardening (`safety_router.py`):** Generalized swollen battery regex for `"battery is swollen"`, `"swollen battery"`, `"battery is leaking"`.
+  - **Cache Isolation (`cache.py`):** Updated `SYNONYM_MAP` and `_detect_polarity` ensuring conservation and disable queries occupy strictly separated polarity cache keys.
+- **Targeted Test Suite (17 Scenarios):** **100% PASS (17 / 17)**
+- **Official Scorer (`Theme02_Engine/test_suite.py`):** **60 / 60 points [PASS]** (Gates G2–G5 PASS, 0 URL leaks)
+- **164-Case Robustness Benchmark Results:**
+  - **URI Exact Match Rate:** **43.90% (72 / 164)** — up from 42.07% (+1.83%)
+  - **Action Match Rate:** **56.71% (93 / 164)** — up from 54.88% (+1.83%)
+  - **Polarity Accuracy Rate:** **88.10% (74 / 84)** — up from 86.90% (+1.20%)
+  - **Hardware Safety:** **100.0% (5 / 5)**
+  - **Repeat Cache Hit Rate:** **100.0%** (0.006 ms)
+  - **Paraphrase Cache Hit Rate:** **100.0%**
+  - **Distinct Actionable URIs:** **81**
+  - **Distinct Action Names:** **75**
+  - **Cold Start Latency:** **44.46 ms** (cap: 8,000 ms)
+  - **P95 Latency:** **34.57 ms** (cap: 300 ms)

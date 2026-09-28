@@ -51,15 +51,50 @@ POLARITY_QUERY_PHRASES = (
 )
 
 
+CONSERVATION_INTENT_PATTERN = re.compile(
+    r"\b("
+    r"conserve\s+(?:battery\s+|device\s+|phone\s+)?(?:power|energy|charge|battery)"
+    r"|save\s+(?:battery|power|energy|charge)"
+    r"|preserve\s+(?:battery|power|energy)(?:\s+life)?"
+    r"|extend\s+(?:battery|power|energy)(?:\s+life)?"
+    r"|reduce\s+(?:battery\s+|power\s+|energy\s+)?(?:consumption|usage)"
+    r"|(?:better|longer|improve|increase)\s+battery\s+life"
+    r"|battery\s+(?:to\s+)?last\s+(?:much\s+)?(?:longer|all\s+day)"
+    r"|energy\s+conservation"
+    r"|eating\s+(?:up\s+)?battery"
+    r"|power\s+saver"
+    r"|battery\s+saver"
+    r")\b",
+    re.I
+)
+
+DISABLE_REVERSAL_PATTERN = re.compile(
+    r"\b("
+    r"(?:don'?t\s+want|do\s+not\s+want|never\s+want)\b.*?\b(?:enabled?|active|on)"
+    r"|(?:turn|switch|shut)\s+.*?\s+off"
+    r"|(?:turn\s+off|disable|deactivate|stop|shut\s+off)\b.*?\b(?:power\s+saving|battery\s+saver|energy\s+saver)"
+    r"|(?:power\s+saving|battery\s+saver|energy\s+saver)\b.*?\b(?:off|disabled?|deactivated)"
+    r")\b",
+    re.I
+)
+
+
 def detect_query_polarity(query: str) -> Polarity:
     """Classifies query intent into a discrete semantic Polarity state."""
     q_low = query.lower()
 
-    # 0. Suppressing / Inverted Mode Enablers (Flight, Battery Saving, DND/Zen Mode)
+    # 0a. Explicit negation and disable reversals (higher specificity than isolated 'enable' words)
+    if DISABLE_REVERSAL_PATTERN.search(q_low):
+        return Polarity.DISABLE
+
+    # 0b. Mode Enablers & Inverted Mode Enablers (Flight, Battery Saving, DND/Zen Mode)
     if any(k in q_low for k in ("take off", "takeoff", "flight mode", "on a plane", "on a flight")):
         return Polarity.ENABLE
-    if any(k in q_low for k in ("conserve power", "battery last", "energy conservation", "save battery", "eating battery", "drain battery", "protect battery")):
+    if CONSERVATION_INTENT_PATTERN.search(q_low):
         return Polarity.ENABLE
+    if any(k in q_low for k in ("protect battery", "battery protection")):
+        if not any(k in q_low for k in ("turn off", "disable", "deactivate")):
+            return Polarity.ENABLE
     if any(k in q_low for k in ("silence all", "mute all", "total silence", "stop making noise", "exam and must", "do not disturb")):
         if not any(k in q_low for k in ("turn off do not disturb", "disable do not disturb")):
             return Polarity.ENABLE

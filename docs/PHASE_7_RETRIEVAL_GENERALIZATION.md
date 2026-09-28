@@ -256,3 +256,51 @@ Paraphrase Cache Hit Rate:      100.00%
 4. [`scratch/generated/robustness_baseline_results.json`](file:///d:/Samsung_Hackathon/scratch/generated/robustness_baseline_results.json) — Updated 164-case detailed benchmark results.
 5. [`scratch/generated/robustness_dataset_stats.json`](file:///d:/Samsung_Hackathon/scratch/generated/robustness_dataset_stats.json) — Updated summary benchmark metrics.
 6. [`docs/PROJECT_STATE.md`](file:///d:/Samsung_Hackathon/docs/PROJECT_STATE.md) — Updated Section 9 tracking Phase 7 deliverables.
+
+---
+
+## 11. Battery Conservation Intent & Polarity Generalization Fix
+
+### Problem Statement & Root Cause
+In Phase 7 regression testing, the conservation query `"I want to conserve battery power"` unexpectedly resolved to `Disable Power saving` (DL-0411) instead of `Enable Power saving` (DL-0412).
+Analysis revealed three compounding root causes:
+1. **Polarity Blindspot:** `detect_query_polarity` checked for exact substring `"conserve power"`. The intervening word in `"conserve battery power"` caused it to miss the rule, falling back to `Polarity.UNKNOWN` (`pol_adj = 0.0`).
+2. **Dense Model Bias & Missing Expansion:** Without polarity re-ranking, all-MiniLM dense embeddings produced higher similarity for `"Disable Power saving"` (`cos = 0.7123`) than `"Enable Power saving"` (`cos = 0.6535`). Furthermore, `EXPANSION_RULES` only matched literal `"conserve power"`, failing to inject `"power saving mode battery"` into BM25.
+3. **Adjudicator Symmetric Penalty Gap:** `CandidateAdjudicator._deterministic_adjudicate` penalized `view/open` candidates when `q_pol == Polarity.ENABLE`, but gave zero penalty to opposite-polarity toggle candidates (`disable/turn off`).
+4. **Negation Vulnerability:** Phrases like `"I don't want power saving enabled"` triggered `Polarity.ENABLE` due to isolated token `"enabled"`, completely ignoring the negation `"don't want"`.
+
+### Implemented Solutions
+1. **Generalized Conservation & Negation Patterns (`polarity.py`):**
+   - Added `CONSERVATION_INTENT_PATTERN` matching `conserve`, `save`, `preserve`, `extend`, `reduce ... consumption`, `better/improve battery life`, and `battery to last longer`.
+   - Added `DISABLE_REVERSAL_PATTERN` giving highest priority to negations (`don't want ... enabled`, `turn ... off`, `stop battery saver`).
+   - Kept battery drain symptoms (`battery dies`, `battery drains fast`) strictly separate as non-enablers.
+2. **Catalog-Aligned Expansion (`hybrid_retriever.py`):**
+   - Expanded conservation intent with `"power saving mode battery performance background activity"`, matching DL-0412's official QNA text.
+   - Added symptom expansion for `"battery dies"` $\rightarrow$ `"battery drain diagnose"`.
+3. **Symmetric Adjudicator Polarity Penalties (`adjudicator.py`):**
+   - Opposite polarity toggles (`disable` when `q_pol == ENABLE`, and `enable` when `q_pol == DISABLE`) receive a severe `-0.40` penalty.
+4. **Safety Router Hardening (`safety_router.py`):**
+   - Generalized battery damage regex to robustly catch `"battery is swollen"`, `"swollen battery"`, `"battery is leaking"`, `"bulging battery"`.
+5. **Polarity-Safe Cache Isolation (`cache.py`):**
+   - Updated `SYNONYM_MAP` and `_detect_polarity` so conservation and disable queries map to strictly isolated namespaces (`ENABLE:__power_saving__` vs `DISABLE:__power_saving__`).
+
+### Benchmark Results
+- **Targeted Test Suite (17 Scenarios):** **17 / 17 (100.0%) PASS**
+  - All 7 Conservation queries $\rightarrow$ `Enable Power saving`
+  - All 5 Opposite polarity queries $\rightarrow$ `Disable Power saving`
+  - All 2 Drain symptom queries $\rightarrow$ `Diagnose Battery Drain`
+  - All 3 Hardware damage queries $\rightarrow$ `Schedule Device Repair Service`
+  - Cache Isolation & Repeat Latency $\rightarrow$ **PASS** (Repeat: 0.006 ms)
+- **Official Scorer (`Theme02_Engine/test_suite.py`):** **60 / 60 points [PASS]**
+- **Full 164-Case Robustness Benchmark:**
+  - **URI Exact Match:** **43.90% (72 / 164)** — up from 42.07% (+1.83%)
+  - **Action Match:** **56.71% (93 / 164)** — up from 54.88% (+1.83%)
+  - **Polarity Accuracy:** **88.10% (74 / 84)** — up from 86.90% (+1.20%)
+  - **Hardware Safety:** **100.0% (5 / 5)**
+  - **Repeat Cache Hit:** **100.0%**
+  - **Paraphrase Cache Hit:** **100.0%**
+  - **Distinct Actionable URIs:** **81**
+  - **Distinct Action Names:** **75**
+  - **Cold Start Latency:** **44.46 ms** (Cap: 8,000 ms)
+  - **P95 Latency:** **34.57 ms** (Cap: 300 ms)
+

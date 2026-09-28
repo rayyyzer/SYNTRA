@@ -18,7 +18,7 @@ from typing import Any, Dict, List, Optional, Tuple
 UNSUPPORTED_PATTERNS = [
     re.compile(r"\b(ocean|salt\s+water|submerged|water\s+got\s+inside|charging\s+port\s+.*water|dropped\s+(?:my\s+)?phone\s+in\s+water)\b", re.I),
     re.compile(r"\b(shattered\s+(into\s+)?sharp\s+pieces|shattered\s+on\s+concrete)\b", re.I),
-    re.compile(r"\b(motherboard\s+is\s+bent|smoke\s+came\s+out|battery\s+swollen|swelling\s+battery)\b", re.I),
+    re.compile(r"\b(motherboard\s+is\s+bent|smoke\s+came\s+out|battery\s+(?:is\s+|looks\s+|appears\s+)?(?:swollen|bulging|leaking|expanding)|(?:swollen|bulging|leaking|expanding)\s+battery|swelling\s+battery)\b", re.I),
     re.compile(r"\b(unofficial\s+third[- ]party\s+apk|unverified\s+website)\b", re.I),
     re.compile(r"\b(replace\s+(the\s+)?physical\s+oled|heat\s+gun|panel\s+myself)\b", re.I),
 ]
