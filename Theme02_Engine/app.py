@@ -33,6 +33,7 @@ async def health_check():
 
 
 @app.post("/v1/troubleshoot")
+@app.post("/troubleshoot")
 async def troubleshoot(req: TroubleshootRequest):
     """Main troubleshooting API: Returns schema-valid ContextDeeplinkResponse."""
     try:

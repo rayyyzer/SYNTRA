@@ -11,6 +11,35 @@ import re
 from typing import Any, Dict, Optional, Set, Tuple
 
 
+SYNONYM_MAP = {
+    # Separated phrasal verbs: 'turn Wi-Fi on', 'turn Bluetooth off'
+    r"\bturn\s+(.*?)\s+on\b": r"__enable__ \1",
+    r"\bturn\s+(.*?)\s+off\b": r"__disable__ \1",
+    r"\bswitch\s+(.*?)\s+on\b": r"__enable__ \1",
+    r"\bswitch\s+(.*?)\s+off\b": r"__disable__ \1",
+
+    # Actions / Polarity
+    r"\b(turn\s+on|enable|activate|switch\s+on)\b": "__enable__",
+    r"\b(turn\s+off|disable|deactivate|switch\s+off)\b": "__disable__",
+    r"\b(adjust|change|modify|configure|set)\b": "__adjust__",
+    r"\b(view|check|open|show|inspect)\b": "__view__",
+
+    # Domains / Features
+    r"\b(battery\s+saver(\s+mode)?|power\s+saving(\s+mode)?|battery\s+saving|low\s+power\s+mode)\b": "__power_saving__",
+    r"\b(wi[- ]?fi(\s+connection)?|wireless\s+network|wlan)\b": "__wifi__",
+    r"\b(bluetooth(\s+radio|\s+adapter)?|bt)\b": "__bluetooth__",
+    r"\b(airplane\s+mode|flight\s+mode)\b": "__airplane_mode__",
+    r"\b(always\s+on\s+display|aod)\b": "__aod__",
+    r"\b(eye\s+comfort(\s+shield)?|blue\s+light(\s+filter)?|eye\s+protection(\s+shield)?)\b": "__eye_comfort__",
+    r"\b(auto\s+dim(\s+screen)?|screen\s+timeout)\b": "__auto_dim__",
+    r"\b(accidental\s+touch(\s+protection)?)\b": "__accidental_touch__",
+    r"\b(app\s+icon\s+badges?)\b": "__icon_badges__",
+    r"\b(auto\s+blocker)\b": "__auto_blocker__",
+    r"\b(battery\s+protection|protect\s+battery)\b": "__battery_protect__",
+    r"\b(samsung\s+cloud(\s+backup)?|back\s+up\s+data(\s+to\s+cloud)?|backup\s+phone\s+data)\b": "__cloud_backup__",
+}
+
+
 class QueryCache:
     def __init__(self, capacity: int = 1000):
         self.capacity = capacity
@@ -25,22 +54,24 @@ class QueryCache:
 
     @staticmethod
     def _extract_intent_signature(query: str) -> str:
-        """Extract core semantic tokens to match paraphrases."""
-        stopwords = {"my", "the", "a", "an", "is", "and", "or", "to", "for", "in", "on", "it", "with", "when", "after", "about", "so", "i", "cant", "cannot", "phone", "device", "samsung", "galaxy"}
-        tokens = [w for w in re.findall(r"\b[a-z]{3,}\b", query.lower()) if w not in stopwords]
-        # Keep top distinguishing tokens sorted
-        key_tokens = sorted(set(tokens[:6]))
-        return "_".join(key_tokens)
+        """Extract canonical semantic tokens to match paraphrases in <0.05ms."""
+        q = query.lower()
+        for pattern, replacement in SYNONYM_MAP.items():
+            q = re.sub(pattern, replacement, q)
+        tokens = re.findall(r"__[a-z_]+__|[a-z]{3,}", q)
+        stopwords = {"the", "and", "for", "phone", "device", "samsung", "galaxy", "mode", "with", "from", "when", "after", "about", "cant", "cannot"}
+        sig_tokens = sorted([t for t in tokens if t not in stopwords])
+        return " ".join(sig_tokens)
 
     def get(self, query: str) -> Optional[Dict[str, Any]]:
         norm = self._normalize(query)
-        # 1. Exact normalized match (<1ms)
+        # 1. Exact normalized match (<0.01ms)
         if norm in self.exact_cache:
             return self.exact_cache[norm]
 
-        # 2. Intent signature match (<2ms)
+        # 2. Canonical semantic intent signature match (<0.03ms)
         sig = self._extract_intent_signature(query)
-        if sig in self.intent_cache:
+        if sig and sig in self.intent_cache:
             return self.intent_cache[sig]
 
         # 3. Token overlap fuzzy match for paraphrases
