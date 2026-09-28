@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Samsung Galaxy Theme 2 — Troubleshooting Playground</title>
+  <style>
+    :root {
+      --bg-primary: #0f1117;
+      --bg-secondary: #1a1d27;
+      --bg-card: #222634;
+      --bg-input: #151822;
+      --border-color: #2e3446;
+      --text-primary: #f0f2f5;
+      --text-secondary: #9ba3b8;
+      --accent-blue: #3b82f6;
+      --accent-blue-hover: #2563eb;
+      --accent-green: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-red: #ef4444;
+      --accent-purple: #8b5cf6;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      line-height: 1.5;
+      padding: 24px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 24px;
+    }
+
+    .logo-area h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-area p {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    .badge-env {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-green);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    /* Layout */
+    .grid-layout {
+      display: grid;
+      grid-template-columns: 460px 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 1024px) {
+      .grid-layout { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .card h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text-primary);
+    }
+
+    /* Forms & Inputs */
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus, textarea:focus {
+      border-color: var(--accent-blue);
+    }
+
+    textarea {
+      resize: vertical;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    /* Example Chips */
+    .chips-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .chip {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .chip:hover {
+      background: rgba(59, 130, 246, 0.15);
+      color: var(--accent-blue);
+      border-color: var(--accent-blue);
+    }
+
+    .button-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    button.btn-primary {
+      flex: 1;
+      background: var(--accent-blue);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.15s;
+    }
+
+    button.btn-primary:hover {
+      background: var(--accent-blue-hover);
+    }
+
+    button.btn-secondary {
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-color);
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    button.btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+    }
+
+    /* Pipeline Diagnostics Ribbons */
+    .ribbon-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 800px) {
+      .ribbon-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .stat-pill {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-size: 1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .badge-enable { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
+    .badge-disable { background: rgba(245, 158, 11, 0.2); color: var(--accent-amber); }
+    .badge-view { background: rgba(59, 130, 246, 0.2); color: var(--accent-blue); }
+    .badge-config { background: rgba(139, 92, 246, 0.2); color: var(--accent-purple); }
+    .badge-neutral { background: rgba(155, 163, 184, 0.2); color: var(--text-secondary); }
+
+    .badge-hit { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
+    .badge-miss { background: rgba(155, 163, 184, 0.2); color: var(--text-secondary); }
+    .badge-safety { background: rgba(239, 68, 68, 0.2); color: var(--accent-red); }
+
+    /* Candidates Table */
+    .table-container {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      text-align: left;
+    }
+
+    th {
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      font-weight: 600;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+    }
+
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(46, 52, 70, 0.6);
+      vertical-align: middle;
+    }
+
+    tr.selected-winner {
+      background: rgba(59, 130, 246, 0.12);
+      border-left: 3px solid var(--accent-blue);
+    }
+
+    .winner-tag {
+      font-size: 0.65rem;
+      font-weight: 700;
+      background: var(--accent-blue);
+      color: white;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 6px;
+    }
+
+    /* Catalog Resolution Card */
+    .uri-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: #93c5fd;
+      word-break: break-all;
+    }
+
+    /* JSON Box */
+    pre.json-box {
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 14px;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: #e2e8f0;
+      overflow-x: auto;
+      max-height: 400px;
+    }
+
+    .copy-btn {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+
+    .copy-btn:hover {
+      background: var(--bg-card);
+      color: var(--text-primary);
+    }
+
+    .latency-bar {
+      display: flex;
+      gap: 16px;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+    }
+
+    .latency-val {
+      color: var(--accent-green);
+      font-weight: 600;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Header -->
+  <header>
+    <div class="logo-area">
+      <h1>Samsung Galaxy Smart Guided Troubleshooting Engine</h1>
+      <p>Theme 2 Development Test Playground &amp; Real-Time Candidate Selection Inspector</p>
+    </div>
+    <div>
+      <span class="badge-env"><span class="status-dot"></span>THEME2_DEBUG ACTIVE (DEV MODE)</span>
+    </div>
+  </header>
+
+  <div class="grid-layout">
+    <!-- Left Column: Input Form -->
+    <div class="column-left">
+      <div class="card">
+        <h2>Input Parameters</h2>
+
+        <div class="form-group">
+          <label>Example Diagnostic Scenarios</label>
+          <div class="chips-container" id="example-chips"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="query-input">User Natural Language Query</label>
+          <input type="text" id="query-input" placeholder="e.g. Turn on Wi-Fi on my phone..." value="How do I turn on Wi-Fi on my Samsung Galaxy?">
+        </div>
+
+        <div class="form-group">
+          <label for="siis-title">SIIS Document Title</label>
+          <input type="text" id="siis-title" placeholder="e.g. Wi-Fi Management" value="Wi-Fi Management on Galaxy Device">
+        </div>
+
+        <div class="form-group">
+          <label for="siis-content">SIIS Response Body</label>
+          <textarea id="siis-content" rows="6" placeholder="Paste Samsung SIIS response text...">Navigate to Settings. Tap Connections and select Wi-Fi. Toggle the switch to On to connect to available wireless networks.</textarea>
+        </div>
+
+        <div class="button-row">
+          <button class="btn-primary" id="run-btn" onclick="executePlayground()">
+            <span id="btn-text">Run Diagnostic Test</span>
+          </button>
+          <button class="btn-secondary" onclick="clearInputs()">Clear</button>
+        </div>
+      </div>
+
+      <!-- Catalog Resolution Preview -->
+      <div class="card">
+        <h2>Catalog Resolution</h2>
+        <div style="margin-bottom: 12px;">
+          <label>Resolved Actionable Deeplink URI</label>
+          <div class="uri-box">
+            <span id="res-uri">bixby://masked/act/fdd7f62e24</span>
+            <button class="copy-btn" onclick="copyUri()">Copy</button>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
+          <span style="color: var(--text-secondary);">Catalog ID: <strong id="res-cat-id" style="color: var(--text-primary);">DL-0214</strong></span>
+          <span style="color: var(--text-secondary);">Validation: <strong id="res-valid" style="color: var(--accent-green);">✓ Verified Catalog URI</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Diagnostic Inspection -->
+    <div class="column-right">
+      <!-- Pipeline Summary Ribbon -->
+      <div class="ribbon-grid">
+        <div class="stat-pill">
+          <div class="stat-label">Polarity Classifier</div>
+          <div class="stat-value" id="val-polarity"><span class="badge badge-enable">ENABLE</span></div>
+        </div>
+        <div class="stat-pill">
+          <div class="stat-label">Two-Tier Cache</div>
+          <div class="stat-value" id="val-cache"><span class="badge badge-miss">MISS</span></div>
+        </div>
+        <div class="stat-pill">
+          <div class="stat-label">Selection Method</div>
+          <div class="stat-value" style="font-size: 0.85rem;" id="val-selection">Dense Rerank</div>
+        </div>
+        <div class="stat-pill">
+          <div class="stat-label">Total Execution</div>
+          <div class="stat-value" style="color: var(--accent-green);" id="val-latency">18.5 ms</div>
+        </div>
+      </div>
+
+      <!-- Top 5 Candidates Table -->
+      <div class="card">
+        <h2>
+          <span>Top 5 Candidate Settings (Catalog Retrieval)</span>
+          <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: normal;" id="cand-count">5 candidates retrieved</span>
+        </h2>
+        <div class="table-container">
+          <table id="cands-table">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>ID</th>
+                <th>Action Name</th>
+                <th>Final Score</th>
+                <th>BM25</th>
+                <th>Dense</th>
+                <th>Polarity</th>
+              </tr>
+            </thead>
+            <tbody id="cands-body">
+              <tr class="selected-winner">
+                <td>#1 <span class="winner-tag">WINNER</span></td>
+                <td><code>DL-0214</code></td>
+                <td><strong>Enable WiFi</strong></td>
+                <td>1.0864</td>
+                <td>0.8120</td>
+                <td>0.7600</td>
+                <td><span class="badge badge-enable">+0.20</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Final ContextDeeplinkResponse JSON -->
+      <div class="card">
+        <h2>
+          <span>Official ContextDeeplinkResponse JSON</span>
+          <button class="copy-btn" onclick="copyJson()">Copy Full JSON</button>
+        </h2>
+        <pre class="json-box" id="json-viewer">// Official response will render here...</pre>
+        <div class="latency-bar" style="margin-top: 12px;">
+          <span>Retrieval: <span class="latency-val" id="lat-ret">0.0 ms</span></span>
+          <span>Selection: <span class="latency-val" id="lat-sel">0.0 ms</span></span>
+          <span>Cache: <span class="latency-val" id="lat-cache">0.0 ms</span></span>
+          <span>Total: <span class="latency-val" id="lat-total">0.0 ms</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const EXAMPLES = [
+  {
+    name: "1. Normal",
+    query: "How do I turn on Wi-Fi on my Samsung Galaxy?",
+    title: "Wi-Fi Management on Galaxy Device",
+    content: "Open Settings. Tap Connections, then tap Wi-Fi. Turn on the Wi-Fi switch to scan for available networks."
+  },
+  {
+    name: "2. Paraphrase",
+    query: "Switch over to wireless internet",
+    title: "Wi-Fi Troubleshooting",
+    content: "Navigate to Settings. Select Connections and tap Wi-Fi. Switch Wi-Fi on to connect to wireless internet."
+  },
+  {
+    name: "3. Enable",
+    query: "Turn on battery saver mode",
+    title: "Battery Management on Galaxy Device",
+    content: "Go to Settings, tap Battery and device care, tap Battery, then enable Power saving mode."
+  },
+  {
+    name: "4. Disable",
+    query: "Disable Wi-Fi connection",
+    title: "Wi-Fi Settings",
+    content: "Open Settings, tap Connections, tap Wi-Fi, and turn the switch off to disconnect."
+  },
+  {
+    name: "5. Ambiguous",
+    query: "Save my data plan",
+    title: "Mobile Data Management",
+    content: "Open Settings, tap Connections, select Data usage, and configure data saving options or Wi-Fi connectivity."
+  },
+  {
+    name: "6. Typo",
+    query: "Disabel wi-fi conection",
+    title: "Wi-Fi Settings",
+    content: "Open Settings, tap Connections, tap Wi-Fi, and toggle the switch off to turn off wireless network."
+  },
+  {
+    name: "7. Short",
+    query: "wifi",
+    title: "Wi-Fi Support Guide",
+    content: "Open Settings on your Galaxy device to view and manage your Wi-Fi connections."
+  },
+  {
+    name: "8. Conversational",
+    query: "Hey my screen is keeping me awake at night, is there a dark wallpaper option?",
+    title: "Display Settings",
+    content: "Open Settings, tap Display, and select Dark mode or customize Wallpaper dimming options."
+  },
+  {
+    name: "9. Multi-Intent",
+    query: "Turn off Wi-Fi and switch on mobile data when signal drops",
+    title: "Intelligent Wi-Fi",
+    content: "In Settings, tap Connections, then Wi-Fi. Tap More options, select Intelligent Wi-Fi, and enable Switch to mobile data."
+  },
+  {
+    name: "10. Hardware Damage",
+    query: "My Galaxy phone screen is completely cracked and bleeding purple fluid",
+    title: "Physical Damage Report",
+    content: "Screen has sustained heavy impact. Liquid crystal bleeding observed. Do not use charger. Please visit a Samsung Authorized Service Center for hardware display replacement."
+  }
+];
+
+// Populate Example Chips
+const chipsContainer = document.getElementById("example-chips");
+EXAMPLES.forEach((ex, idx) => {
+  const btn = document.createElement("button");
+  btn.className = "chip";
+  btn.innerText = ex.name;
+  btn.onclick = () => loadExample(idx);
+  chipsContainer.appendChild(btn);
+});
+
+function loadExample(idx) {
+  const ex = EXAMPLES[idx];
+  document.getElementById("query-input").value = ex.query;
+  document.getElementById("siis-title").value = ex.title;
+  document.getElementById("siis-content").value = ex.content;
+  executePlayground();
+}
+
+function clearInputs() {
+  document.getElementById("query-input").value = "";
+  document.getElementById("siis-title").value = "";
+  document.getElementById("siis-content").value = "";
+}
+
+async function executePlayground() {
+  const query = document.getElementById("query-input").value.trim();
+  const title = document.getElementById("siis-title").value.trim();
+  const content = document.getElementById("siis-content").value.trim();
+
+  if (!query) {
+    alert("Please enter a user query.");
+    return;
+  }
+
+  const btn = document.getElementById("run-btn");
+  const btnText = document.getElementById("btn-text");
+  btn.disabled = true;
+  btnText.innerHTML = '<span class="spinner"></span> Running...';
+
+  try {
+    const payload = {
+      query: query,
+      siis_response: {
+        title: title || "Device Issue",
+        content: content || "Navigate to device Settings."
+      }
+    };
+
+    const res = await fetch("/dev/troubleshoot/debug", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) {
+      const err = await res.text();
+      throw new Error(`HTTP ${res.status}: ${err}`);
+    }
+
+    const data = await res.json();
+    renderDebugResults(data);
+  } catch (err) {
+    alert("Diagnostic execution error: " + err.message);
+  } finally {
+    btn.disabled = false;
+    btnText.innerText = "Run Diagnostic Test";
+  }
+}
+
+function renderDebugResults(data) {
+  const dbg = data.debug || {};
+  const resp = data.response || {};
+
+  // 1. Polarity Badge
+  const pol = (dbg.polarity?.detected || "NEUTRAL").toUpperCase();
+  let polClass = "badge-neutral";
+  if (pol === "ENABLE") polClass = "badge-enable";
+  else if (pol === "DISABLE") polClass = "badge-disable";
+  else if (pol === "VIEW") polClass = "badge-view";
+  else if (pol === "CONFIGURE") polClass = "badge-config";
+  document.getElementById("val-polarity").innerHTML = `<span class="badge ${polClass}">${pol}</span>`;
+
+  // 2. Cache Badge
+  const cStatus = dbg.cache?.status || "MISS";
+  const cTier = dbg.cache?.tier || "-";
+  const cBadge = cStatus === "HIT" ? "badge-hit" : "badge-miss";
+  document.getElementById("val-cache").innerHTML = `<span class="badge ${cBadge}">${cStatus}</span> <span style="font-size:0.7rem; color:var(--text-secondary);">${cTier.split(':')[0]}</span>`;
+
+  // 3. Selection Method
+  document.getElementById("val-selection").innerText = dbg.selection?.method || "Deterministic";
+
+  // 4. Latency
+  document.getElementById("val-latency").innerText = `${dbg.performance?.total_latency_ms || 0} ms`;
+  document.getElementById("lat-total").innerText = `${dbg.performance?.total_latency_ms || 0} ms`;
+  document.getElementById("lat-ret").innerText = `${dbg.performance?.retrieval_latency_ms || 0} ms`;
+  document.getElementById("lat-sel").innerText = `${dbg.performance?.selection_latency_ms || 0} ms`;
+  document.getElementById("lat-cache").innerText = `${dbg.performance?.cache_lookup_latency_ms || 0} ms`;
+
+  // 5. Catalog Resolution
+  const cat = dbg.catalog_resolution || {};
+  document.getElementById("res-uri").innerText = cat.uri || "None (Hardware Repair Manual Action)";
+  document.getElementById("res-cat-id").innerText = cat.catalog_id || "None";
+  document.getElementById("res-valid").innerHTML = cat.valid ? "✓ Verified Catalog URI" : "<span style='color:var(--accent-red)'>✗ Unverified</span>";
+
+  // 6. Candidates Table
+  const tbody = document.getElementById("cands-body");
+  tbody.innerHTML = "";
+  const candidates = dbg.retrieval?.candidates || [];
+  const selectedId = dbg.selection?.selected_catalog_id;
+
+  if (candidates.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:var(--text-secondary);">No catalog candidates retrieved (Hardware safety intercept triggered)</td></tr>`;
+  } else {
+    candidates.forEach((cand, idx) => {
+      const isWinner = (cand.catalog_id === selectedId) || (idx === 0 && !selectedId);
+      const tr = document.createElement("tr");
+      if (isWinner) tr.className = "selected-winner";
+
+      const polBadgeClass = cand.polarity === "enable" ? "badge-enable" : (cand.polarity === "disable" ? "badge-disable" : "badge-neutral");
+      
+      tr.innerHTML = `
+        <td>#${cand.rank || idx + 1} ${isWinner ? '<span class="winner-tag">SELECTED</span>' : ''}</td>
+        <td><code>${cand.catalog_id || 'N/A'}</code></td>
+        <td><strong>${cand.action || ''}</strong></td>
+        <td><strong>${cand.score?.toFixed(4) || '0.0000'}</strong></td>
+        <td style="color:var(--text-secondary);">${cand.bm25_score?.toFixed(4) || '0.0000'}</td>
+        <td style="color:var(--text-secondary);">${cand.dense_score?.toFixed(4) || '0.0000'}</td>
+        <td><span class="badge ${polBadgeClass}">${cand.polarity_alignment >= 0 ? '+' : ''}${cand.polarity_alignment?.toFixed(2) || '0.00'}</span></td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  // 7. Render JSON Viewer
+  document.getElementById("json-viewer").innerText = JSON.stringify(resp, null, 2);
+}
+
+function copyUri() {
+  const uri = document.getElementById("res-uri").innerText;
+  navigator.clipboard.writeText(uri).then(() => alert("Copied Deeplink URI to clipboard!"));
+}
+
+function copyJson() {
+  const jsonText = document.getElementById("json-viewer").innerText;
+  navigator.clipboard.writeText(jsonText).then(() => alert("Copied ContextDeeplinkResponse JSON to clipboard!"));
+}
+
+// Initial Run with Default Query on Page Load
+window.onload = () => {
+  executePlayground();
+};
+</script>
+
+</body>
+</html>

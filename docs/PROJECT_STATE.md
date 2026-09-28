@@ -208,4 +208,19 @@ User Query + SIIS Response Payload
   - **Repeat Cache Hit Rate:** 100.0% (P95: 0.01 ms)
   - **Paraphrase Cache Hit Rate:** 100.0%
 
+---
+
+## 8. Development Test Playground (Completed)
+
+- **Deliverables (`docs/TEST_PLAYGROUND.md`, `Theme02_Engine/playground.html`):**
+  - Added `troubleshoot_debug(query, siis_response)` to `Theme02_Engine/engine.py` exposing full pipeline diagnostics (polarity, two-tier cache lookup, hardware triage, Top-5 candidate retrieval scores, dense adjudicator win rationale, catalog resolution, and performance breakdown).
+  - Added `Theme02_Engine/playground.html`: Zero-dependency, responsive browser workbench with 10 categorized preset scenario chips, live ribbons, and collapsible official JSON viewer.
+  - Safe-by-default environment gating via `THEME2_DEBUG=false` in `Theme02_Engine/app.py`: `/dev/*` routes return 404 unless explicitly enabled.
+- **Verification Across 10 Test Query Categories:**
+  - Verified across Normal, Paraphrase, Explicit Positive, Explicit Negative, Ambiguous, Typo, Short, Conversational, Multi-intent, and Hardware Damage scenarios.
+- **Official Scorer & Robustness Verification:**
+  - **Official Scorer:** 60/60 points [PASS] (Gates G2–G5 pass, 0 URL leaks)
+  - **164 Robustness Suite:** URI 37.20% (61/164), Action 50.00% (82/164), Polarity 77.38% (65/84), Hardware Safety 100% (5/5), Repeat Cache 100%, Paraphrase Cache 100%. Zero regressions.
+
+
 

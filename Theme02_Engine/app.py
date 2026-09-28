@@ -6,8 +6,10 @@ Endpoints:
 """
 
 from __future__ import annotations
+import os
 from typing import Any, Dict
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 
 from engine import TroubleshootingEngine
@@ -19,6 +21,8 @@ app = FastAPI(
 )
 
 engine = TroubleshootingEngine()
+
+DEBUG_MODE = os.getenv("THEME2_DEBUG", "false").lower() in ("true", "1", "yes")
 
 
 class TroubleshootRequest(BaseModel):
@@ -41,6 +45,25 @@ async def troubleshoot(req: TroubleshootRequest):
         return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+if DEBUG_MODE:
+    @app.post("/dev/troubleshoot/debug")
+    async def troubleshoot_debug(req: TroubleshootRequest):
+        """Development-only debug endpoint: returns diagnostic trace + official response."""
+        try:
+            return engine.troubleshoot_debug(req.query, req.siis_response)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
+
+    @app.get("/dev/playground", response_class=HTMLResponse)
+    async def serve_playground():
+        """Development Test Playground Browser UI."""
+        playground_path = os.path.join(os.path.dirname(__file__), "playground.html")
+        if os.path.exists(playground_path):
+            with open(playground_path, "r", encoding="utf-8") as f:
+                return HTMLResponse(content=f.read())
+        return HTMLResponse(content="<h1>Playground UI file not found</h1>", status_code=404)
 
 
 if __name__ == "__main__":

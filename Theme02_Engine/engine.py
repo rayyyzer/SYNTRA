@@ -4,6 +4,7 @@ from __future__ import annotations
 import os
 import re
 import sys
+import time
 from typing import Any, Dict, List, Optional
 
 # Add student_kit to sys.path to import official Pydantic models
@@ -27,6 +28,7 @@ from normalizer import sanitize_text, format_goal, format_title, format_action_d
 from cache import QueryCache
 from safety_router import is_unsupported_hardware, get_hardware_repair_action
 from retrieval.hybrid_retriever import HybridRetriever
+from retrieval.polarity import detect_query_polarity
 from adjudicator import CandidateAdjudicator
 
 
@@ -205,3 +207,167 @@ class TroubleshootingEngine:
         # Store in cache
         self.cache.put(query, result_dict)
         return result_dict
+
+    def troubleshoot_debug(self, query: str, siis_response: Dict[str, Any]) -> Dict[str, Any]:
+        """Development-only debug execution returning full diagnostic trace + official response."""
+        t_total_0 = time.perf_counter()
+
+        # 1. Polarity Analysis
+        q_pol = detect_query_polarity(query)
+        intent_sig = self.cache._extract_intent_signature(query)
+        polarity_info = {
+            "detected": q_pol.value.upper(),
+            "detected_polarity": q_pol.value.upper(),
+            "signature": intent_sig,
+            "details": f"Query classified under '{q_pol.value.upper()}' polarity with intent signature '{intent_sig}'."
+        }
+
+        # 2. Cache Inspection
+        t_cache_0 = time.perf_counter()
+        norm_q = self.cache._normalize(query)
+        cache_status = "MISS"
+        cache_tier = "- (Cache Miss)"
+
+        if norm_q in self.cache.exact_cache:
+            cache_status = "HIT"
+            cache_tier = "Tier 1: Exact Normalized Query Hash (<0.01ms)"
+        elif intent_sig and intent_sig in self.cache.intent_cache:
+            cache_status = "HIT"
+            cache_tier = "Tier 2: Polarity-Safe Intent Signature (<0.03ms)"
+        else:
+            cached_check = self.cache.get(query)
+            if cached_check is not None:
+                cache_status = "HIT"
+                cache_tier = "Tier 3: Token Overlap Fuzzy Match with Polarity Guard (<0.05ms)"
+
+        t_cache_1 = time.perf_counter()
+        cache_latency_ms = (t_cache_1 - t_cache_0) * 1000.0
+
+        cache_info = {
+            "status": cache_status,
+            "tier": cache_tier,
+            "latency_ms": round(cache_latency_ms, 3),
+            "details": f"Cache lookup evaluated with status {cache_status}."
+        }
+
+        # 3. SIIS Extraction & Sanitization
+        siis_title = sanitize_text((siis_response or {}).get("title", "Device Issue"))
+        siis_content = sanitize_text((siis_response or {}).get("content", ""))
+
+        # 4. Hardware Safety Check
+        hw_triggered = is_unsupported_hardware(query, siis_content)
+        safety_info = {
+            "hardware_triggered": hw_triggered,
+            "safety_action": "Schedule Device Repair Service" if hw_triggered else None,
+            "triage_reason": "Physical crack, liquid exposure, or component failure detected" if hw_triggered else "Standard settings troubleshooting"
+        }
+
+        # 5. Hybrid Retrieval
+        t_ret_0 = time.perf_counter()
+        candidates = self.retriever.retrieve(query, top_k=5)
+        t_ret_1 = time.perf_counter()
+        retrieval_latency_ms = (t_ret_1 - t_ret_0) * 1000.0
+
+        formatted_cands = []
+        for c in candidates:
+            formatted_cands.append({
+                "rank": c.get("rank"),
+                "catalog_id": c.get("id"),
+                "action": c.get("message"),
+                "description": c.get("description"),
+                "uri": c.get("deeplink"),
+                "score": c.get("score"),
+                "bm25_score": c.get("bm25_score", 0.0),
+                "dense_score": c.get("dense_score", 0.0),
+                "polarity": c.get("polarity"),
+                "polarity_alignment": c.get("polarity_adjustment", 0.0)
+            })
+
+        retrieval_info = {
+            "method": "Hybrid BM25 + Dense (all-MiniLM-L6-v2) + Polarity Filter",
+            "latency_ms": round(retrieval_latency_ms, 3),
+            "candidate_count": len(candidates),
+            "candidates": formatted_cands
+        }
+
+        # 6. Adjudication / Selection
+        t_sel_0 = time.perf_counter()
+        if hw_triggered:
+            selection_info = {
+                "method": "Hardware Safety Router",
+                "selected_rank": None,
+                "selected_catalog_id": None,
+                "confidence": 1.0,
+                "latency_ms": 0.01
+            }
+            catalog_info = {
+                "catalog_id": None,
+                "action": "Schedule Device Repair Service",
+                "uri": None,
+                "valid": True,
+                "original_type": "manual_action"
+            }
+        else:
+            adj = self.adjudicator.adjudicate(
+                query=query,
+                siis_title=siis_title,
+                siis_content=siis_content,
+                candidates=candidates
+            )
+            t_sel_1 = time.perf_counter()
+            selection_latency_ms = (t_sel_1 - t_sel_0) * 1000.0
+
+            best = adj.get("selected_candidate") or (candidates[0] if candidates else None)
+            selected_catalog_id = best.get("id") if best else "DL-DUMMY"
+            selected_rank = None
+            for idx, c in enumerate(candidates, start=1):
+                if best and c.get("id") == best.get("id"):
+                    selected_rank = idx
+                    break
+
+            selection_info = {
+                "method": adj.get("source", "deterministic_dense_adjudicator"),
+                "selected_rank": selected_rank or 1,
+                "selected_catalog_id": selected_catalog_id,
+                "confidence": adj.get("confidence", 0.92),
+                "latency_ms": round(selection_latency_ms, 3)
+            }
+
+            act_dl = best.get("deeplink") if best else "bixby://dummy_positive"
+            valid_uris = {e["deeplink"] for e in self.retriever.bm25.entries}
+            valid_uris.add("bixby://dummy_positive")
+            is_valid = (act_dl in valid_uris) if act_dl else False
+
+            catalog_info = {
+                "catalog_id": selected_catalog_id,
+                "action": best.get("message") if best else "Open Relevant Settings Screen",
+                "uri": act_dl,
+                "valid": is_valid,
+                "original_type": best.get("originalType", "onClickURL") if best else "onClickURL"
+            }
+
+        # 7. Official Response
+        official_response = self.troubleshoot(query, siis_response)
+
+        # 8. Performance Summary
+        total_latency_ms = (time.perf_counter() - t_total_0) * 1000.0
+        perf_info = {
+            "total_latency_ms": round(total_latency_ms, 3),
+            "cache_lookup_latency_ms": round(cache_latency_ms, 3),
+            "retrieval_latency_ms": round(retrieval_latency_ms, 3) if not hw_triggered else 0.0,
+            "selection_latency_ms": selection_info.get("latency_ms", 0.0)
+        }
+
+        return {
+            "debug": {
+                "query": query,
+                "polarity": polarity_info,
+                "cache": cache_info,
+                "safety": safety_info,
+                "retrieval": retrieval_info,
+                "selection": selection_info,
+                "catalog_resolution": catalog_info,
+                "performance": perf_info
+            },
+            "response": official_response
+        }

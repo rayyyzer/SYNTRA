@@ -43,6 +43,7 @@ class HybridRetriever:
             return self.bm25.retrieve(query, top_k=top_k)
 
         fused_scores: Dict[int, float] = {}
+        comp_scores: Dict[int, Dict[str, float]] = {}
         for idx in candidate_indices:
             norm_bm25 = (bm25_scores.get(idx, 0.0) / max_bm25) if max_bm25 > 0 else 0.0
 
@@ -50,6 +51,7 @@ class HybridRetriever:
                 norm_dense = dense_scores[idx]
                 fused = (1.0 - self.alpha) * norm_bm25 + self.alpha * norm_dense
             else:
+                norm_dense = 0.0
                 fused = norm_bm25
 
             # Apply polarity adjustment
@@ -57,6 +59,11 @@ class HybridRetriever:
             e_polarity = get_entry_polarity(entry)
             pol_adj = compute_polarity_adjustment(q_polarity, e_polarity)
             fused_scores[idx] = fused + pol_adj
+            comp_scores[idx] = {
+                "bm25": round(norm_bm25, 4),
+                "dense": round(norm_dense, 4),
+                "pol_adj": round(pol_adj, 4)
+            }
 
         # 5. Rank and return top_k candidates
         ranked = sorted(fused_scores.items(), key=lambda x: x[1], reverse=True)[:top_k]
@@ -65,6 +72,7 @@ class HybridRetriever:
         for rank, (doc_idx, score) in enumerate(ranked, start=1):
             e = self.bm25.entries[doc_idx]
             e_pol = get_entry_polarity(e)
+            c_comp = comp_scores.get(doc_idx, {})
             results.append({
                 "rank": rank,
                 "id": e.get("id", f"DL-{doc_idx+1:04d}"),
@@ -77,6 +85,9 @@ class HybridRetriever:
                 "polarity": e_pol.value,
                 "validation": e.get("validation"),
                 "score": round(score, 4),
+                "bm25_score": c_comp.get("bm25", 0.0),
+                "dense_score": c_comp.get("dense", 0.0),
+                "polarity_adjustment": c_comp.get("pol_adj", 0.0),
                 "entry": e
             })
 
