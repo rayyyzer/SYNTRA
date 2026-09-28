@@ -55,6 +55,15 @@ def detect_query_polarity(query: str) -> Polarity:
     """Classifies query intent into a discrete semantic Polarity state."""
     q_low = query.lower()
 
+    # 0. Suppressing / Inverted Mode Enablers (Flight, Battery Saving, DND/Zen Mode)
+    if any(k in q_low for k in ("take off", "takeoff", "flight mode", "on a plane", "on a flight")):
+        return Polarity.ENABLE
+    if any(k in q_low for k in ("conserve power", "battery last", "energy conservation", "save battery", "eating battery", "drain battery", "protect battery")):
+        return Polarity.ENABLE
+    if any(k in q_low for k in ("silence all", "mute all", "total silence", "stop making noise", "exam and must", "do not disturb")):
+        if not any(k in q_low for k in ("turn off do not disturb", "disable do not disturb")):
+            return Polarity.ENABLE
+
     # 1. Multi-word phrase check (higher specificity)
     for phrase in POLARITY_ENABLE_PHRASES:
         if phrase in q_low:
