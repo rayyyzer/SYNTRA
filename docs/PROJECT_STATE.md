@@ -117,7 +117,22 @@ User Query + SIIS Response Payload
 
 ## 7. Current Project Phase
 - **Completed:** 
-  - **PHASE 0 — COMPLIANCE**
-  - **PHASE 1 — BASELINE**
-- **Current Phase:** **PHASE 2 — EVALUATOR REVERSE ENGINEERING**
-- **Next Step:** Perform deep reverse engineering of the official Theme 2 evaluator files and test harnesses to document the exact evaluation contract in `docs/EVALUATOR_SPEC.md`.
+  - **PHASE 0 — COMPLIANCE** (`docs/COMPLIANCE_MATRIX.md`, `docs/SUBMISSION_REQUIREMENTS.md`)
+  - **PHASE 1 — BASELINE** (`docs/BASELINE_REPORT.md`, Git tag `theme2-baseline-before-intelligence`)
+  - **PHASE 2 — EVALUATOR REVERSE ENGINEERING** (`docs/EVALUATOR_SPEC.md`, `scratch/generated/evaluator_spec.json`)
+  - **PHASE 3 — ROBUSTNESS DATASET & TESTING** (`tests/theme2/robustness_dataset.jsonl`, `tests/theme2/run_robustness.py`, `docs/ROBUSTNESS_BASELINE.md`, `scratch/generated/robustness_baseline_results.json`, `scratch/generated/robustness_dataset_stats.json`)
+  - **PHASE 4 — ARCHITECTURE & MODEL SELECTION** (`docs/ARCHITECTURE_PROPOSAL.md`, `scratch/generated/retrieval_benchmark.json`, `scratch/generated/model_selection.json`, `scratch/benchmark_retrievers.py`)
+- **Phase 4 Retrieval Benchmark Findings (on 164 Robustness Cases):**
+  - **Baseline Jaccard:** 15.85% Top-1, 15.85% Top-3, 26.19% Polarity, 5.62 ms latency
+  - **Pure Multi-Field BM25:** 16.46% Top-1, 38.41% Top-3, 33.33% Polarity, 1.25 ms latency
+  - **BM25 + Polarity Re-ranking:** 25.61% Top-1, 41.46% Top-3, 65.48% Polarity, 2.24 ms latency
+  - **Dense Embedding (all-MiniLM-L6-v2):** 30.49% Top-1, 53.05% Top-3, 46.43% Polarity, 25.0% Severe Paraphrase, 9.50 ms latency
+  - **Hybrid (Dense + BM25 + Polarity):** 32.93% Top-1, 48.78% Top-3, 71.43% Polarity, 29.2% Severe Paraphrase, 12.17 ms latency
+- **Selected Target Architecture:**
+  - **Hybrid Retrieval:** Multi-Field BM25 + all-MiniLM-L6-v2 + Polarity Re-ranker (<15ms)
+  - **Adjudication Engine:** Single Post-Retrieval LLM Call (`gemini-2.5-flash`) with Pydantic JSON schema & 2500ms timeout guard
+  - **Zero-Outage Resilience:** Top-1 candidate from Hybrid Retriever acts as automatic instant fallback if LLM is unavailable
+  - **Two-Tier Cache:** Tier 1 Exact Hash (<0.01ms) + Tier 2 Semantic Cosine Vector Cache (<2ms, threshold=0.88)
+  - **Safety Router:** Pre-retrieval hardware/physical damage triage routing to manual repair service
+- **Current Phase:** **PHASE 5 — IMPLEMENTATION (NEXT)**
+- **Next Step:** Execute Phase 5 implementation according to the 5-step roadmap: bind `/v1/troubleshoot`, integrate Hybrid Retriever + Polarity Re-ranker + Two-Tier Cache, integrate Gemini 2.5 Flash adjudicator with fallback, and regenerate `results.jsonl`.

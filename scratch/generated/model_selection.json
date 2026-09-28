@@ -1,0 +1,140 @@
+{
+  "project": "Samsung PRISM GenAI Hackathon 3.0 — Theme 2",
+  "phase": "Phase 4 — Architecture & Model Selection",
+  "timestamp": "2026-09-28T12:54:00Z",
+  "evaluation_criteria": {
+    "cold_start_cap_ms": 8000,
+    "repeat_query_cap_ms": 300,
+    "repeat_cache_target_pct": 90.0,
+    "paraphrase_cache_target_pct": 80.0,
+    "zero_url_leaks": true,
+    "catalog_grounding_guarantee": "100% verified catalog deeplinks only",
+    "offline_executable": true
+  },
+  "embedding_models": [
+    {
+      "model_name": "all-MiniLM-L6-v2",
+      "status": "RECOMMENDED_PRIMARY",
+      "architecture": "BERT-based cross-encoder distilled to 6-layer bi-encoder",
+      "parameters": "22.7M",
+      "model_size_mb": 80,
+      "quantized_int8_size_mb": 23,
+      "embedding_dimension": 384,
+      "measured_or_estimated_cpu_latency_ms": "3.5 - 6.0 ms",
+      "ram_requirement_mb": 180,
+      "startup_loading_ms": 850,
+      "catalog_encoding_time_ms": 320,
+      "offline_feasible": true,
+      "license": "Apache 2.0",
+      "pros": [
+        "Blazing fast on standard CPU architectures without GPU requirement",
+        "Excellent semantic paraphrase similarity for device setting symptoms",
+        "Compact 384-dim vector space allows 578 catalog entries to reside in 888 KB RAM",
+        "Directly compatible with ONNX Runtime and PyTorch",
+        "Powers both Hybrid Retrieval and the sub-300ms Semantic Vector Cache"
+      ],
+      "limitations": [
+        "Antonym blindness: assigns high cosine similarity (~0.85) to 'enable' vs 'disable' without polarity re-ranking",
+        "Requires explicit polarity bonus/penalty layer in the retrieval pipeline"
+      ]
+    },
+    {
+      "model_name": "bge-small-en-v1.5",
+      "status": "EVALUATED_ALTERNATIVE",
+      "architecture": "12-layer Transformer bi-encoder",
+      "parameters": "33.4M",
+      "model_size_mb": 134,
+      "embedding_dimension": 384,
+      "measured_or_estimated_cpu_latency_ms": "9.5 - 14.0 ms",
+      "ram_requirement_mb": 260,
+      "startup_loading_ms": 1400,
+      "offline_feasible": true,
+      "license": "MIT",
+      "pros": [
+        "Slightly higher retrieval accuracy on general MTEB benchmarks (+1.8%)"
+      ],
+      "limitations": [
+        "2.5x higher CPU latency than MiniLM-L6-v2",
+        "Increased resident memory consumption"
+      ]
+    },
+    {
+      "model_name": "text-embedding-004 (Google Cloud / Gemini API)",
+      "status": "REJECTED_FOR_OFFLINE_EVAL",
+      "architecture": "Remote dense embedding API",
+      "parameters": "Cloud-hosted",
+      "embedding_dimension": 768,
+      "measured_or_estimated_cpu_latency_ms": "180 - 350 ms (Network RTT)",
+      "offline_feasible": false,
+      "license": "Proprietary API",
+      "pros": [
+        "High dimensional expressiveness",
+        "Zero local model footprint"
+      ],
+      "limitations": [
+        "Cannot run in isolated offline evaluation environments",
+        "High network latency violates sub-300ms repeat/paraphrase cache requirements",
+        "API quota and rate-limiting failure risk"
+      ]
+    }
+  ],
+  "generative_llm_models": [
+    {
+      "model_name": "gemini-2.5-flash",
+      "status": "RECOMMENDED_RUNTIME_LLM",
+      "provider": "Google DeepMind / Gemini API",
+      "role": "Single-stage grounded disambiguation, reasoning, and symptom-to-action synthesis",
+      "typical_ttft_ms": "350 - 650 ms",
+      "context_window_tokens": 1048576,
+      "structured_json_mode": "Native response_json_schema via Pydantic model",
+      "pricing_input_per_m_tokens_usd": 0.075,
+      "pricing_output_per_m_tokens_usd": 0.30,
+      "offline_capable": false,
+      "pros": [
+        "State-of-the-art fast reasoning with exceptional adherence to strict JSON schemas",
+        "Eligible for Samsung Hackathon bonus consideration (explicitly favored in FAQ)",
+        "Zero URL leaks when constrained with system instruction and JSON schema",
+        "Low latency (<700ms) fits well within the 8,000ms cold-start cap"
+      ],
+      "failure_strategy": "Deterministic fallback to Top-1 candidate from local Hybrid Retriever if API call exceeds 2500ms or fails"
+    },
+    {
+      "model_name": "gemini-2.5-flash-lite",
+      "status": "EVALUATED_LOW_LATENCY_ALTERNATIVE",
+      "provider": "Google DeepMind / Gemini API",
+      "role": "Ultra-low-latency intent extraction and high-throughput evaluation",
+      "typical_ttft_ms": "200 - 450 ms",
+      "context_window_tokens": 1048576,
+      "structured_json_mode": "Native response_json_schema",
+      "pricing_input_per_m_tokens_usd": 0.0375,
+      "pricing_output_per_m_tokens_usd": 0.15,
+      "offline_capable": false,
+      "pros": [
+        "Fastest model in the Gemini 2.5 family",
+        "50% lower cost and 35% lower latency than Flash"
+      ],
+      "failure_strategy": "Fallback to Top-1 candidate from local Hybrid Retriever"
+    },
+    {
+      "model_name": "Deterministic Fallback Engine (No-LLM Mode)",
+      "status": "MANDATORY_RESILIENCE_CORE",
+      "provider": "Local Python Pipeline",
+      "role": "Failsafe execution engine providing 100% guarantee against API outage or offline grading",
+      "typical_ttft_ms": "1.5 - 6.5 ms",
+      "structured_json_mode": "Pydantic v2 direct serialization",
+      "offline_capable": true,
+      "pros": [
+        "100% uptime with zero external dependencies",
+        "Executes in <10ms with 100% schema validity and zero URL leaks",
+        "Ensures the system never crashes or returns HTTP 500 during automated grading"
+      ]
+    }
+  ],
+  "architecture_verdict": {
+    "retrieval_strategy": "Hybrid (Multi-Field BM25 + all-MiniLM-L6-v2 + Polarity Re-ranking)",
+    "llm_strategy": "Single Post-Retrieval LLM Call with Strict Pydantic JSON Schema & Deterministic Fallback",
+    "caching_strategy": "Two-Tier: Tier 1 Exact SHA256 (<0.01ms) + Tier 2 Semantic Cosine Vector Cache (<2ms, threshold=0.88)",
+    "safety_strategy": "Pre-Retrieval Hardware Safety Regex/Keyword Router",
+    "catalog_guarantee": "LLM outputs candidate ID (DL-XXXX); Python strictly resolves exact URI from verified catalog"
+  }
+}

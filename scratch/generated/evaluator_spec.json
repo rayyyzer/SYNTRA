@@ -1,0 +1,129 @@
+{
+  "categories": {
+    "A1": {
+      "name": "Schema & Formatting",
+      "max_points": 15,
+      "checks": [
+        "Pydantic ContextDeeplinkResponse validity",
+        "Goal regex: ^Follow these steps to perform this .* (Troubleshooting|Configuration)\\.$",
+        "Title word count strictly 2-3 words",
+        "Action description strictly 5-7 words starting with 'It will'",
+        "Score float in range [0.0, 1.0]",
+        "Zero URL leaks (http://, https://, www., .com, .html, markdown links)"
+      ],
+      "sub_point_formula": "NOT DETERMINABLE FROM AVAILABLE MATERIAL",
+      "source": "faq.txt lines 352-354"
+    },
+    "A2": {
+      "name": "Deeplink Validity & Auto-Action Coverage",
+      "max_points": 15,
+      "checks": [
+        "Deeplinks exist in catalog (deeplinks.json 578 entries)",
+        "Actions with category 'auto' must have non-null actionableDeeplink",
+        "Validation deeplink populated if catalog entry contains validation",
+        "DL-DUMMY (bixby://dummy_positive) used if no catalog match with custom 5-7 word message/description"
+      ],
+      "sub_point_formula": "NOT DETERMINABLE FROM AVAILABLE MATERIAL",
+      "source": "faq.txt lines 355-361"
+    },
+    "A3": {
+      "name": "Cache & Latency",
+      "max_points": 15,
+      "checks": [
+        "Cold-start latency p95 <= 8000 ms",
+        "Repeat query latency p95 <= 300 ms with >= 90% cache hit",
+        "Paraphrase query cache hit rate >= 80%"
+      ],
+      "sub_point_formula": "NOT DETERMINABLE FROM AVAILABLE MATERIAL",
+      "source": "faq.txt lines 362-364"
+    },
+    "A4": {
+      "name": "Generalization / Unseen Scenarios",
+      "max_points": 10,
+      "checks": [
+        "Unseen scenarios (not in 20-scenario kit) produce valid non-empty responses",
+        "Actions and steps derived from new SIIS response payload"
+      ],
+      "sub_point_formula": "NOT DETERMINABLE FROM AVAILABLE MATERIAL",
+      "source": "faq.txt lines 365-367, 374-379"
+    },
+    "A5": {
+      "name": "Query Variations Diversity",
+      "max_points": 5,
+      "checks": [
+        "Strictly 8-10 unique paraphrases per query in results.jsonl",
+        "Linguistic/lexical diversity across vocabulary, sentence structure, formality"
+      ],
+      "sub_point_formula": "NOT DETERMINABLE FROM AVAILABLE MATERIAL",
+      "source": "faq.txt lines 368-370, 403-408"
+    }
+  },
+  "gates": {
+    "G1": {
+      "condition": "NOT SPECIFIED IN OFFICIAL FAQ",
+      "threshold": null,
+      "source": "Omitted from FAQ lines 336-346"
+    },
+    "G2": {
+      "condition": "API /health endpoint returns HTTP 200 with {\"status\": \"ok\"}",
+      "threshold": "Exact JSON match",
+      "failure_consequence": "All live evaluation checks are skipped; automated score = 0",
+      "source": "faq.txt lines 340, 459"
+    },
+    "G3": {
+      "condition": "Test query coverage in results.jsonl",
+      "threshold": ">= 95% (at least 19/20 public scenarios)",
+      "failure_consequence": "Automated score does not count",
+      "source": "faq.txt line 342"
+    },
+    "G4": {
+      "condition": "Schema validity rate across all responses",
+      "threshold": ">= 90% valid Pydantic models",
+      "failure_consequence": "Automated score does not count",
+      "source": "faq.txt line 344"
+    },
+    "G5": {
+      "condition": "External URL leaks in output text",
+      "threshold": "Exactly 0 leaks",
+      "failure_consequence": "Direct gate failure; automated score does not count",
+      "source": "faq.txt lines 346, 427-429"
+    }
+  },
+  "thresholds": {
+    "cold_start_p95_ms": 8000.0,
+    "repeat_query_p95_ms": 300.0,
+    "repeat_cache_hit_ratio": 0.90,
+    "paraphrase_cache_hit_ratio": 0.80,
+    "schema_validity_ratio": 0.90,
+    "coverage_ratio": 0.95,
+    "query_variations_min": 8,
+    "query_variations_max": 10,
+    "url_leaks_allowed": 0
+  },
+  "endpoint": {
+    "required_health": "GET /health",
+    "required_troubleshoot": "POST /v1/troubleshoot",
+    "current_implemented_troubleshoot": "POST /troubleshoot",
+    "status": "MISMATCH_DETECTED",
+    "note": "Production app.py must expose /v1/troubleshoot (with /troubleshoot alias)"
+  },
+  "results_jsonl": {
+    "filename": "results.jsonl",
+    "line_format": "{\"query\": str, \"query_variations\": List[str], \"response\": ContextDeeplinkResponse}",
+    "role": "Pre-computed submission artifact evaluated against Gates G3, G4, G5 and Block A5",
+    "live_latency_included": false
+  },
+  "known_unknowns": [
+    "Identity and requirement of Gate G1 (omitted from official FAQ table)",
+    "Exact mathematical sub-point formula within Block A1 (15 pts)",
+    "Exact mathematical formula for Block A5 lexical diversity scoring",
+    "Exact number of test requests sent by judges during live evaluation window",
+    "Whether hidden scenarios use an extended deeplink catalog beyond the 578 entries"
+  ],
+  "baseline_risks": [
+    "Paraphrase cache hit rate is 0% in current exact-string cache (requirement >= 80%)",
+    "POST /v1/troubleshoot is missing from app.py (returns 404 to judges)",
+    "All 20 public scenarios emit 'Adjust Display Configuration' using only 4 of 578 deeplinks",
+    "No semantic reasoning or dynamic step extraction implemented yet"
+  ]
+}
