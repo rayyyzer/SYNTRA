@@ -1,0 +1,39 @@
+{
+  "readme": "Catalog of Galaxy Settings deeplinks for the hackathon. URIs are MASKED placeholders: match on description, message, qna_description and originalType, then copy the URI verbatim. bixby://dummy_positive is the only generic placeholder; see its entry.",
+  "declared_count": 578,
+  "actual_count": 578,
+  "unique_ids": 578,
+  "duplicate_ids": [],
+  "unique_uris": 578,
+  "duplicate_uris": [],
+  "missing_ids": 0,
+  "missing_uris": 0,
+  "missing_descriptions": 0,
+  "missing_messages": 0,
+  "missing_qna_descriptions": 10,
+  "original_type_counts": {
+    "onClickURL": 254,
+    "offURL": 138,
+    "onURL": 138,
+    "updateURL": 36,
+    "None": 11,
+    "placeholder": 1
+  },
+  "control_type_counts": {
+    "None": 264,
+    "2": 278,
+    "3": 21,
+    "5": 15
+  },
+  "with_validation": 570,
+  "without_validation": 8,
+  "dummy_entries": [
+    {
+      "id": "DL-DUMMY",
+      "deeplink": "bixby://dummy_positive",
+      "description": "Generic placeholder for a Settings screen that has no dedicated entry in this catalog",
+      "message": "Open the relevant Settings screen",
+      "originalType": "placeholder"
+    }
+  ]
+}

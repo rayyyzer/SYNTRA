@@ -1,0 +1,543 @@
+Samsung PRISM | Gen AI Hackathon 3.0
+Frequently Asked Questions
+2026-27 Edition
+Registration deadline: 16 September 2026, 11:59 PM  |  Final submission: 25 September 2026, 11:59 PM
+About this FAQ. 
+This document consolidates questions raised during the introduction session with the official launch material and organizer clarifications. Where detailed test cases are involved, the FAQ reflects the announced release date of 16 September.
+Team Formation & Eligibility
+Q1. What is the minimum team size?
+A. 
+The minimum team size is 1 member. Individual participation is allowed.
+Q2. What is the maximum team size?
+A. 
+A team can have a maximum of 4 members.
+Q3. Can I participate individually?
+A. 
+Yes. A single student can participate as a team of one.
+Q4. Do all team members need to be from the same college?
+A. 
+Yes. All members of a team must belong to the same college.
+Q5. Are there any restrictions on branch or degree?
+A. 
+No. There are no restrictions on branch or degree. Students from different branches may form a team, and UG/PG students are eligible.
+Q6. Can one team attempt more than one theme/problem statement?
+A. 
+No. One team can participate in one theme only.
+Q7. What if students want to participate in multiple themes?
+A. A separate team must be formed and registered for each theme. The same members may form a separate team for another theme, but the primary member (team leader) must be different. Each registered team is associated with only one theme.
+Registration
+Q8. When does team registration close?
+A. 
+Team registration closes on 16 September 2026 at 11:59 PM.
+Q9. Who should submit the registration form?
+A. 
+Only one member should register on behalf of the team.
+Q10. Should multiple members submit the form for the same team or idea?
+A. 
+No. Please do not make multiple submissions for the same team/idea.
+Q11. Is there any registration fee?
+A. 
+No monetary registration fee is required - only plenty of enthusiasm!
+Q12. What naming convention should we use for the team?
+A. 
+Use CollegeName_TeamName as the team naming convention.
+Course, Guidance & Problem Statements
+Q13. Will a course be shared that participants are supposed to complete?
+A. 
+The launch meeting is primarily an introduction to the hackathon. The official material describes a kick-off session and ongoing guidance/mentorship; it does not specify a mandatory course that participants must complete.
+Q14. When will detailed test cases and test suites be released?
+A. 
+Detailed test cases and test suites are planned to be released on 16 September 2026.
+Q15. What are the themes for the hackathon?
+A. 
+The five themes are: (1) Agentic Code Intelligence, (2) Guided Troubleshooting, (3) Teachable Voice Automation, (4) Streaming Live RAG, and (5) Interruptible Real-Time Agents.
+Q16. Do we need to submit only an idea first?
+A. 
+No. There is no separate ideation-only stage this year. Teams are expected to build and submit a working prototype in the build round.
+Submission
+Q17. What needs to be submitted?
+A. 
+The final submission includes working prototype code in a public or shared GitHub repository, a README with reproducible setup instructions and required Docker/other files, a demo video of up to 5 minutes, and a presentation file in PPT or PDF format.
+Q18. When is the final submission deadline?
+A. 
+The final submission deadline is 25 September 2026 at 11:59 PM.
+Q19. Is there a specific GitHub requirement?
+A. 
+Yes. For the final submission, create a release tag named PRISM_GENAI_HACKATHON_Y2026 on the final commit. The tagged commit is what will be judged, and all referenced submission material should be present in that tagged commit.
+Q20. How do we create the required Git release tag?
+A. Run the following commands from your Git repository after committing the final version:
+git tag -a PRISM_GENAI_HACKATHON_Y2026 -m "PRISM Gen AI Hackathon Y2026 Final Submission"
+git push origin PRISM_GENAI_HACKATHON_Y2026
+This tag must point to the final commit that you want evaluated. Make sure the required submission material referenced by your project is included as instructed before pushing the tag.
+Q21. Is there a presentation naming convention?
+A. 
+Use the prescribed CollegeName_TeamName naming convention for the presentation/submission files, following the submission instructions.
+Evaluation & Shortlisting
+Q22. How will the prototype be evaluated?
+A. 
+The published evaluation criteria are: Working prototype & functionality - 30%; Technical depth & feasibility - 25%; Innovation & originality - 20%; Relevance to theme - 15%; Presentation & documentation - 10%.
+Q23. Will prototypes be tested on unseen scenarios, or will evaluation mainly use the submitted results, demo video, and presentation?
+A. 
+The launch material confirms that the working prototype, functionality, technical approach, submission materials and documentation will be evaluated. Detailed test cases/test suites are planned for release on 16 September. The current material does not explicitly state whether additional unseen scenarios will be used beyond those evaluation inputs.
+Q24. Since the problem statements are specific, what can make one team stand out to the jury?
+A. 
+Teams should differentiate themselves on the published evaluation dimensions: a prototype that actually works, technical depth and feasibility, innovation/originality, strong relevance to the chosen theme, and clear presentation/documentation. For the final demo, the jury will also consider whether the approach is sound, useful to a real user, and capable of being taken further as a PRISM worklet.
+Q25. How many teams will be shortlisted for the final demo?
+A. 
+The Top 15 teams are planned to be announced on 9 October 2026 and invited to the final demo round.
+Q26. What happens in the final demo round?
+A. 
+Shortlisted teams present their idea and solution live, walk the jury through the working prototype, and answer questions on design decisions and trade-offs. The final demo is scheduled for 15 October 2026.
+Timeline, Benefits & Support
+Q27. What are the key dates?
+A. 
+Launch: 11 September 2026. Registration closes: 16 September 2026, 11:59 PM. Final submission: 25 September 2026, 11:59 PM. Top 15 announcement: 9 October 2026. Final demo: 15 October 2026. Final results: 24 October 2026. The overall timeline is tentative and may shift slightly.
+Q28. What do participants get from the hackathon?
+A. 
+The launch material highlights opportunities including Samsung R&D summer internships for selected students, opportunities for winning teams to work on a PRISM worklet with a Samsung mentor (subject to availability), certificates for shortlisted teams, merit certificates for winners, publication opportunities, mentorship, and prizes for top teams worth INR 1.5 lakh.
+Q29. Where should participants send additional queries?
+A. 
+Please send hackathon-related queries to prism@samsung.com.
+Note: 
+Participants should follow the latest official communication if any timeline, test-suite, registration, or submission instruction is updated.
+Theme Specific FAQs
+Theme 1
+Q30. The PPT mentions a 
+Javascript
+ codebase but the dataset is in Python. Will there be an additional dataset shared?
+A. 
+No. 
+We would be using the APPS dataset (Python) as mentioned in the theme guideline document throughout the hackathon. Please ignore the 
+Javascript
+ codebase mentioned in the PPT.
+Q31. Can I use XYZ method during retrieval/pre/post processing?
+We have no restrictions on specific methods to be used during any stage. However, please keep in mind that as the PPT and theme guidelines document indicates: the resource usage (running time, GPU requirement, model size, etc.) would be factored in during the evaluation of a submission.
+Theme 
+2
+1. What is the Smart Guided Troubleshooting Engine hackathon?
+Teams build an API (POST /v1/troubleshoot) that takes a user query and a raw SIIS (Samsung Internal Knowledge Store) response and converts it into a structured, 
+deeplink
+-enriched troubleshooting guide. The output must follow a strict schema (
+ContextDeeplin
+kResponse
+) containing Goals 
+→
+ Actions 
+→
+ 
+StepGroups
+, each with appropriate Galaxy Settings 
+deeplinks
+.
+2. What inputs does my API receive?
+Your POST /v1/troubleshoot endpoint receives a JSON body with:
+Field
+Type
+Description
+query
+string
+The
+ user's natural-language troubleshooting question (e.g., "My Galaxy S24 screen is completely black and won't turn on")
+siis_response
+object
+Pre-cleaned SIIS payload with title and content (no URLs or images). This is the raw knowledge-
+base
+ text you must derive actions and steps from.
+You may also receive 
+query_variations
+ in the offline results file (8–10 paraphrases per query).
+3. What must my API return?
+A 
+ContextDeeplinkResponse
+ object:
+ContextDeeplinkResponse
+└──
+ contexts: 
+List[
+Goal]
+    
+└──
+ Goal
+        
+├──
+ goal: str       
+   (
+must match regex: "Follow these steps to perform this <Name> Troubleshooting/Configuration.")
+        
+├──
+ title: str      
+   (
+2
+–
+3 words)
+        
+├──
+ score: float     
+   (
+0.0
+–
+1.0)
+        
+└──
+ actions: 
+List[
+Action]
+            
+└──
+ Action
+                
+├──
+ 
+actionName
+: str
+                
+├──
+ description: str
+   (
+5
+–
+7 words, must start with "It will")
+                
+├──
+ category: 
+enum
+  
+   (
+auto | manual | critical)
+                
+└──
+ 
+stepGroups
+: 
+List[
+StepGroup
+]
+                    
+└──
+ 
+StepGroup
+                        
+├──
+ steps: List[str]
+                        
+├──
+ 
+actionableDeeplink
+: 
+Deeplink
+ | null
+                        
+└──
+ 
+validationDeeplink
+: 
+ValidationDeepLink
+ | null
+4. What are 
+deeplinks
+ and why are they masked?
+Deeplinks
+ are URIs that open specific Galaxy Settings screens (e.g., 
+bixby
+://
+com.android.settings
+/
+SettingsControl
+/...). For the hackathon, real Samsung URIs are masked (e.g., bixby://masked/act/b3ed3ed663) so teams cannot reverse-engineer them. You must match 
+deeplinks
+ by semantic description, message, and 
+qna_description
+ — not by URI.
+The catalog (
+deeplinks.json
+) contains 578 masked 
+deeplinks
+. There is also a generic placeholder bixby://dummy_positive for Settings screens with no dedicated catalog entry.
+5. How do I match a step group to the right 
+deeplink
+?
+Read the step text and understand what Settings screen or action it refers to.
+Search the 
+deeplinks.json
+ catalog by matching keywords in description, message, 
+qna_description
+, and 
+originalType
+.
+Copy the masked URI verbatim into your output's 
+actionableDeeplink.deeplink
+ field.
+If the catalog entry has a validation object, copy that into 
+validationDeeplink
+ (including key, 
+resultType
+, condition, value).
+If no catalog entry matches, use bixby://dummy_positive and write your own 5–
+7 word
+ description and message.
+6. What are the formatting rules I must follow?
+Rule
+Requirement
+Goal format
+Must match: Follow these steps to perform this <Name> Troubleshooting. or ...Configuration.
+Title
+2–3 words
+Action description
+5–7 words, must start with "It will"
+Score
+Float between 0.0 and 1.0
+No URLs
+No http://, www., .com, .html, markdown images, or link tags anywhere in the output
+Steps
+Must be non-empty; derived from SIIS text — do not invent steps
+Query variations
+8–10 unique paraphrases per query (for offline results file)
+7. What is the difference between auto, manual, and critical action categories?
+Category
+Meaning
+Deeplink
+ requirement
+auto
+Action can be performed automatically via a 
+deeplink
+Must have an 
+actionableDeeplink
+manual
+Action requires user to manually follow steps
+Deeplink
+ is optional
+critical
+Action is critical/safety-related
+Treated like manual for 
+deeplink
+ purposes
+Scoring checks that auto actions always have an actionable 
+deeplink
+ — missing 
+deeplinks
+ on auto actions lose points.
+8. What is the 
+validationDeeplink
+?
+A validation 
+deeplink
+ checks whether an action was successfully applied. For example, after enabling "Back up data (Samsung Cloud)", the validation 
+deeplink
+ reads the setting value and checks if it equals True. It includes:
+deeplink
+: masked URI to read the setting
+key: the setting name (e.g., "Back up data (Samsung Cloud)")
+resultType
+: 
+boolean
+, integer, str, or float
+condition: greater, equal, or less
+value: the expected value (e.g., "True")
+9. What are the scoring gates (must-pass)?
+Gate
+Requirement
+G2
+API /health endpoint returns {"status": "ok"}
+G3
+≥95% of test queries are covered in your results file
+G4
+≥90% of responses are schema-valid
+G5
+Zero URL leaks in the entire output
+All gates must pass for the automated score to count.
+10. How is the automated score calculated (60 points)?
+Block
+Max Points
+What's checked
+A1: Schema & formatting
+15
+Schema validity, format rules (goal regex, title word count, description rule), no URL leaks, score in range
+A2: 
+Deeplink
+ validity & coverage
+15
+Deeplinks
+ exist in catalog, auto actions have 
+deeplinks
+A3: Cache & latency
+15
+Repeat query p95 ≤300ms with ≥90% cache hit; paraphrase cache hit ≥80%; cold-start p95 ≤8s
+A4: Generalization
+10
+Unseen scenarios (not in kit) produce valid non-empty responses
+A5: Query variations
+5
+8–10 unique variations per query with good diversity
+11. How does caching work and why is it important?
+The scorer sends the same query twice — first call is "cold" (no cache), second call should be a "cache hit" (fast, ≤300ms p95). Paraphrases of the original query should also hit the cache (semantic matching). This tests whether your system recognizes that different phrasings map to the same troubleshooting scenario.
+Implementation tip: Cache by normalized query intent, not exact string match. Use embedding similarity or keyword overlap to match paraphrases to cached entries.
+12. What are "unseen scenarios" in the generalization probe?
+Judges have hidden test queries not in the 20-scenario student kit. These are sent with a new 
+siis_response
+ payload. Your API must produce a valid, non-empty 
+ContextDeeplinkResponse
+ for these unseen scenarios. This tests whether your system generalizes beyond memorized examples.
+13. What files are in the student kit?
+File
+Purpose
+schema.py
+Pydantic
+ models defining the response schema — validate your output against this
+siis_
+responses.json
+20 pre-cleaned SIIS responses with original queries — your training/test data
+deeplinks.json
+578 masked Galaxy Settings 
+deeplinks
+ with descriptions — match by semantics, copy URI verbatim
+14. Can I invent steps that aren't in the SIIS text?
+No. The SIIS response is your source of truth. You must derive all actions and steps from the text provided. Inventing steps not present in the SIIS content will be penalized. You can rephrase and restructure, but the semantic content must come from the SIIS text.
+15. What if no 
+deeplink
+ in the catalog matches my step?
+Use bixby://dummy_positive as the actionable 
+deeplink
+. You must then write your own description (5–7 words) and message that name the concrete Settings screen from the steps. Do not leave the 
+deeplink
+ field empty for auto actions.
+16. What is the 
+query_variations
+ field and why do I need it?
+For the offline results file (
+results.jsonl
+), each line must include 8–10 unique paraphrases of the original query. These test your system's ability to handle different phrasings of the same problem. Variations should be diverse (different vocabulary, sentence structure, formality level) — the scorer measures lexical diversity.
+17. What is the output format for submission?
+Submit a 
+results.jsonl
+ file — one JSON object per line. Each line contains:
+{
+  "query": "original query text",
+  "
+query
+_variations
+": ["paraphrase 1", "paraphrase 2", ...],
+  "response": 
+{ ...
+ 
+ContextDeeplinkResponse
+ object ... }
+}
+18. What are common mistakes to avoid?
+❌
+ Including real URLs in any text field 
+→
+ fails G5 gate (zero URL leaks allowed)
+❌
+ Auto actions without 
+deeplinks
+ 
+→
+ lose A2 points
+❌
+ Goal doesn't match the regex 
+→
+ lose A1 points
+❌
+ Title not 2–3 words 
+→
+ lose A1 points
+❌
+ Description not 5–7 words starting with "It will" 
+→
+ lose A1 points
+❌
+ Inventing steps not in SIIS text 
+→
+ penalized in manual review
+❌
+ No caching 
+→
+ A3 score will be 0 (repeat queries too slow)
+❌
+ No /health endpoint 
+→
+ fails G2 gate, all live checks skipped
+❌
+ Fewer than 8 or more than 10 query variations 
+→
+ lose A5 points
+19. What technology stack should I use?
+Language: Python 3.10+ (required for schema validation)
+Framework: 
+FastAPI
+, Flask, or any web framework that exposes a REST API
+LLM: Any LLM API (Gemini and Mistral will have bonus points) for query understanding and response generation
+Caching: In-memory cache (Redis, or even a Python 
+dict
+) for repeat/paraphrase matching
+Schema validation: 
+Pydantic
+ v2 (same as schema.py)
+21. What happens during the live demo?
+Judges will:
+Call your /health endpoint to confirm the API is up
+Send canonical queries from the kit and measure cold-start latency
+Repeat the same query to test cache hit and latency
+Send paraphrases to test semantic cache matching
+Send unseen scenarios with new SIIS payloads to test generalization
+Your API must be running and accessible during the evaluation window.
+22. Do I need an API key? Is one provided?
+No API key is provided by the hackathon organizers. The student kit (schema.py, 
+siis_
+responses.json
+, 
+deeplinks.json
+) and the judge tools contain no API keys or authentication credentials. Teams are responsible for bringing their own LLM API keys (
+OpenAI
+, Anthropic, Google, etc.) for query understanding and response generation.
+Key points:
+No API key is shipped in the student kit or judge tools — do not expect one.
+Bring your own keys for any external LLM service you use (
+OpenAI
+, Anthropic, Gemini, etc.).
+Store keys securely in environment variables or a .env file (never hardcode or commit them).
+The scorer does not require an API key — it only calls your /health and /v1/troubleshoot endpoints.
+Your API should not require authentication for the judges — the scorer calls your endpoints without API keys or headers. Keep your API open (no auth middleware) during evaluation.
+23. Where can I find example data?
+20 sample queries: hackathon/
+student_kit
+/
+siis_responses.json
+ 
+→
+ 
+responses[
+].
+original_query
+578 
+deeplinks
+: hackathon/
+student_kit
+/
+deeplinks.json
+ 
+→
+ 
+deeplinks
+[
+]
+Response schema: hackathon/student_kit/schema.py
+Sample output: 
+sample_
+output.json
+ (in project root) — shows a properly formatted response with masked 
+deeplinks
+Theme 5
+Q31: 
+ What is the minimum VRAM / GPU architecture available?
+A:  You are guaranteed a single GPU with 48 GB VRAM (A6000 class). I would recommend to size your models for 48 GB and not assume more. We encourage frugal-compute solutions, and the scenarios are deliberately kept short, so peak memory is dominated by what you load at setup, not by conversation length
+Q32: 
+Is the environment air gapped? 
+A: 
+ You can fetch dependencies from publicly available and reliably safe sources like pypi.org and huggingface.co, so public checkpoints or your own weights pushed to Hugging Face can work. Some domains are blocked by the firewall. If you need an additional domain, request it in advance and, if approved, it will be 
+allowlisted
+ for all teams.
+ Q33: Is the 120s wall clock cap strict?
+A: We can relaxing the per-scenario wall-clock cap from 120 seconds to 300 
+seconds.It
+ acts as hang kill switch so the evaluations  remain sane, the responsiveness is scored, so a slow agent loses points long before the cap matters.

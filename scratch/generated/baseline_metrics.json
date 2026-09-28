@@ -1,0 +1,91 @@
+{
+  "cold_start": {
+    "engine_init": {
+      "min": 0.992,
+      "median": 1.156,
+      "p95": 1.294,
+      "max": 1.294
+    },
+    "first_request": {
+      "min": 5.372,
+      "median": 6.138,
+      "p95": 6.627,
+      "max": 6.627
+    }
+  },
+  "warm_latency": {
+    "repeat_cached": {
+      "min": 0.003,
+      "p50": 0.003,
+      "p95": 0.003,
+      "p99": 0.004,
+      "max": 0.004
+    },
+    "cold_compute": {
+      "min": 4.467,
+      "p50": 5.367,
+      "p95": 8.966,
+      "p99": 8.966,
+      "max": 8.966
+    }
+  },
+  "cache_behavior": [
+    {
+      "case": "A. Exact same query repeated",
+      "query": "1. My Samsung A115G tablet screen flashes and then goes comp...",
+      "cache_hit": true,
+      "latency_ms": 0.004,
+      "has_response": true
+    },
+    {
+      "case": "B. Exact same query + same SIIS repeated",
+      "query": "1. My Samsung A115G tablet screen flashes and then goes comp...",
+      "cache_hit": true,
+      "latency_ms": 0.003,
+      "has_response": true
+    },
+    {
+      "case": "C. Same query with different capitalization",
+      "query": "1. MY SAMSUNG A115G TABLET SCREEN FLASHES AND THEN GOES COMP...",
+      "cache_hit": true,
+      "latency_ms": 0.003,
+      "has_response": true
+    },
+    {
+      "case": "D. Same query with extra whitespace",
+      "query": "  1. My Samsung A115G tablet screen flashes and then goes co...",
+      "cache_hit": true,
+      "latency_ms": 0.003,
+      "has_response": true
+    },
+    {
+      "case": "E. Same semantic intent with different wording",
+      "query": "My tablet screen blinks and becomes black when opening an em...",
+      "cache_hit": false,
+      "latency_ms": 5.216,
+      "has_response": true
+    },
+    {
+      "case": "F. Same semantic intent + different wording + same SIIS",
+      "query": "Tablet screen goes completely dark whenever Gmail is opened...",
+      "cache_hit": false,
+      "latency_ms": 5.182,
+      "has_response": true
+    }
+  ],
+  "integrity": {
+    "total_actions": 40,
+    "valid_actionable_uris": 20,
+    "invalid_actionable_uris": 0,
+    "valid_validation_uris": 17,
+    "invalid_validation_uris": 0,
+    "url_leaks": 0,
+    "distinct_actionable_uris_emitted": 4,
+    "distinct_uris_list": [
+      "bixby://masked/act/6ffc54f50d",
+      "bixby://masked/act/98efd3ab4c",
+      "bixby://masked/act/be0a067b61",
+      "bixby://masked/act/fd2b86fdd3"
+    ]
+  }
+}

@@ -1,0 +1,79 @@
+AI
+ Usage
+ DISCLOSURE FORM
+1. 
+Team Details
+Team Name:
+ _______________
+Project / Product Name:
+ ____________________
+Organization / Institution (if any):
+ ____________________
+Submission Date:
+ _______________________
+2. 
+AI Usage Declaration
+Did your team use
+ any
+ Artificial Intelligence (AI) in developing this project?
+  
+Yes / No
+_______________________________
+3. 
+Purpose of AI Usage
+ 
+( 
+B
+rief
+ Details)
+Idea generation / 
+brainstorming
+  _
+_________________
+Code generation or assistance
+ ________________
+UI / UX design
+ ________________
+Content creation
+ ________________
+Data analysis
+ _______________
+Testing / debugging
+ ______________
+Other
+ ________________________
+4. 
+Feature Origin Classification
+ 
+( Please
+ add/delete based on the number of the feature)
+1. Feature Name ____________________
+2.  Self-Generated/AI-Generated/Both ___________________
+3. Description 
+( include
+  AI tools/platform Used, prompt used , Output Summary, Modification)   ______________________________________________________
+1. Feature Name ____________________
+2.  Self-Generated/AI-Generated/Both ___________________
+3. Description 
+(
+include
+  AI
+ tools/platform Used, prompt used , Output Summary, Modification)   ______________________________________________________
+…
+5
+. 
+Ethical & Compliance Confirmation
+AI usage complies with guidelines and policies.
+  
+Yes
+No proprietary or copyrighted data misused.
+ 
+I 
+Agree
+6
+. 
+Declaration & Sign-Off
+Name of Team Representative:
+Role:
+Signature:
+Date:
