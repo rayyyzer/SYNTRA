@@ -156,6 +156,11 @@ User Query + SIIS Response Payload
 
 ---
 
+- **Completed Phases:** Phase 0, 1, 2, 3, 4, 5, 6A, 6B, 6C
+- **Current Phase:** **PHASE 6C — CANDIDATE RANKING & REAL ADJUDICATION (COMPLETE)**
+
+---
+
 ## 6. Phase 6A Audit & Phase 6B Implementation (Completed)
 
 - **Phase 6A Audit Findings (`docs/PHASE_6_AUDIT.md`, `docs/PHASE_6_FAILURE_ANALYSIS.md`):**
@@ -176,4 +181,31 @@ User Query + SIIS Response Payload
   - **Distinct Action Names:** 78 (peak 82 under Change 1)
   - **Repeat Cache Hit Rate:** 100.0% (P95: 0.01 ms)
   - **Paraphrase Cache Hit Rate:** 100.0%
+
+---
+
+## 7. Phase 6C Candidate Ranking & Adjudication (Completed)
+
+- **Top-5 Recall Analysis (`scratch/generated/top5_ranking_analysis.json`):**
+  - **Top-5 Recall:** 90 / 164 (54.88%)
+  - **Recoverable in Top-5 (Ranks 2-5):** 32 cases (19.51%)
+- **Conditional SIIS Experiments (`scratch/experiment_conditional_siis.py`):**
+  - Proved that Query Only is strictly superior to appending SIIS Title. High-level knowledge base titles add lexical noise on specific queries. Restored pure query retrieval at line 105 in `engine.py`.
+- **Adjudicator Architecture & Offline Hardening (`docs/PHASE_6C_IMPLEMENTATION.md`):**
+  - `GEMINI_API_KEY` is not present in the offline environment.
+  - Upgraded `CandidateAdjudicator` with `_deterministic_adjudicate`: uses precomputed `message_embeddings.npy` to compute query-to-message dense cosine similarity + polarity alignment.
+- **Phase 6C Final Benchmark Results (164 Scenarios):**
+  - **Official Scorer:** 60/60 points [PASS]
+  - **Schema Validity:** 100.0% (164/164)
+  - **URI Exact Match Rate:** **37.20% (61/164)** — up from 34.76% in Phase 6B
+  - **Action Match Rate:** **50.00% (82/164)** — up from 42.07% in Phase 6B
+  - **Polarity Match Rate:** **77.38% (65/84)** — up from 76.19% in Phase 6B
+  - **Hardware Safety:** 100.0% (5/5)
+  - **Distinct Actionable URIs:** 83
+  - **Distinct Action Names:** 78
+  - **Cold-Start Response Latency:** 76.24 ms
+  - **P95 Latency:** 37.19 ms
+  - **Repeat Cache Hit Rate:** 100.0% (P95: 0.01 ms)
+  - **Paraphrase Cache Hit Rate:** 100.0%
+
 

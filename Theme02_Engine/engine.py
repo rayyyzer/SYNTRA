@@ -33,7 +33,7 @@ from adjudicator import CandidateAdjudicator
 class TroubleshootingEngine:
     def __init__(self):
         self.retriever = HybridRetriever()
-        self.adjudicator = CandidateAdjudicator()
+        self.adjudicator = CandidateAdjudicator(dense=self.retriever.dense)
         self.cache = QueryCache()
 
     def troubleshoot(self, query: str, siis_response: Dict[str, Any]) -> Dict[str, Any]:
@@ -102,8 +102,7 @@ class TroubleshootingEngine:
             manual_steps = raw_sentences[1:]
 
         # 5. Hybrid Retrieval (<25ms) + Candidate Adjudication
-        retrieval_query = f"{query} {siis_title}".strip() if siis_title else query
-        candidates = self.retriever.retrieve(retrieval_query, top_k=5)
+        candidates = self.retriever.retrieve(query, top_k=5)
 
         if candidates and candidates[0]["score"] >= 0.20:
             adj = self.adjudicator.adjudicate(
