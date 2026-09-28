@@ -134,8 +134,8 @@ User Query + SIIS Response Payload
   - **Zero-Outage Resilience:** Top-1 candidate from Hybrid Retriever acts as automatic instant fallback if LLM is unavailable
   - **Two-Tier Cache:** Tier 1 Exact Hash (<0.01ms) + Tier 2 Semantic Cosine Vector Cache (<2ms, threshold=0.88)
   - **Safety Router:** Pre-retrieval hardware/physical damage triage routing to manual repair service
-- **Current Phase:** **PHASE 5 — IMPLEMENTATION (NEXT)**
-- **Next Step:** Execute Phase 5 implementation according to the 5-step roadmap: bind `/v1/troubleshoot`, integrate Hybrid Retriever + Polarity Re-ranker + Two-Tier Cache, integrate Gemini 2.5 Flash adjudicator with fallback, and regenerate `results.jsonl`.
+- **Completed Phases:** Phase 0, 1, 2, 3, 4, 5, 6A, 6B
+- **Current Phase:** **PHASE 6B — CONTROLLED IMPLEMENTATION (COMPLETE)**
 
 ---
 
@@ -153,3 +153,27 @@ User Query + SIIS Response Payload
   - **Cold-Start Response Latency:** 74.36 ms (sub-8000ms cap passed)
   - **Emitted Deeplink Diversity:** 87 distinct URIs (collapse warning eliminated)
 - **Detailed Report:** See `docs/PHASE_5_IMPLEMENTATION_REPORT.md`
+
+---
+
+## 6. Phase 6A Audit & Phase 6B Implementation (Completed)
+
+- **Phase 6A Audit Findings (`docs/PHASE_6_AUDIT.md`, `docs/PHASE_6_FAILURE_ANALYSIS.md`):**
+  - Discovered 16 sequential cache cross-talk collisions in Tier 3 token overlap lacking polarity checks.
+  - Confirmed adjudicator zero-outage fallback active (0 LLM calls made).
+  - Categorized 112 mismatches across 9 mutually exclusive failure root causes.
+- **Phase 6B Implementations (`docs/PHASE_6B_IMPLEMENTATION.md`):**
+  - **Change 1 (Polarity-Safe Cache):** Added `_detect_polarity()` and polarity isolation to `cache.py`. Completely eliminated all 16 opposite-polarity cache collisions.
+  - **Change 2 (SIIS-Aware Retrieval):** Enriched retrieval query with `siis_title` in `engine.py`.
+- **Phase 6B Benchmark Results (164 Scenarios):**
+  - **Official Scorer:** 60/60 points [PASS]
+  - **Schema Validity:** 100.0% (164/164)
+  - **URI Exact Match Rate:** 34.76% (57/164) — peak 35.37% (58/164) under Change 1
+  - **Action Match Rate:** 42.07% (69/164) — peak 44.51% (73/164) under Change 1
+  - **Polarity Match Rate:** **76.19% (64/84)** — up from 64.29% in Phase 5
+  - **Hardware Safety:** 100.0% (5/5)
+  - **Distinct Actionable URIs:** 89 (peak 90 under Change 1)
+  - **Distinct Action Names:** 78 (peak 82 under Change 1)
+  - **Repeat Cache Hit Rate:** 100.0% (P95: 0.01 ms)
+  - **Paraphrase Cache Hit Rate:** 100.0%
+

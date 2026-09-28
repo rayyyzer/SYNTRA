@@ -102,7 +102,8 @@ class TroubleshootingEngine:
             manual_steps = raw_sentences[1:]
 
         # 5. Hybrid Retrieval (<25ms) + Candidate Adjudication
-        candidates = self.retriever.retrieve(query, top_k=5)
+        retrieval_query = f"{query} {siis_title}".strip() if siis_title else query
+        candidates = self.retriever.retrieve(retrieval_query, top_k=5)
 
         if candidates and candidates[0]["score"] >= 0.20:
             adj = self.adjudicator.adjudicate(
