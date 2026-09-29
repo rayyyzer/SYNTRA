@@ -70,9 +70,14 @@ async def troubleshoot(req: TroubleshootRequest):
         )
 
 
+class TroubleshootDebugRequest(TroubleshootRequest):
+    mode: str = Field(default="gemini-targeted", description="Diagnostic mode")
+    top_k: int = Field(default=10, ge=1, le=25, description="Candidate pool size")
+
+
 if DEBUG_MODE:
     @app.post("/dev/troubleshoot/debug")
-    async def troubleshoot_debug(req: TroubleshootRequest):
+    async def troubleshoot_debug(req: TroubleshootDebugRequest):
         """Development-only debug endpoint: returns diagnostic trace + official response."""
         try:
             siis_dict = req.siis_response.model_dump()

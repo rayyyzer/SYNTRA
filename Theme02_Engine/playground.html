@@ -461,12 +461,12 @@
           <div class="stat-value" id="val-cache"><span class="badge badge-miss">MISS</span></div>
         </div>
         <div class="stat-pill">
-          <div class="stat-label">Selection Method</div>
-          <div class="stat-value" style="font-size: 0.85rem;" id="val-selection">Dense Rerank</div>
+          <div class="stat-label">Deterministic Pick</div>
+          <div class="stat-value" style="font-size: 0.85rem;" id="val-selection">Dense Adjudicator</div>
         </div>
         <div class="stat-pill">
-          <div class="stat-label">Gemini Verifier</div>
-          <div class="stat-value" id="val-gemini"><span class="badge badge-neutral">SKIPPED</span></div>
+          <div class="stat-label">Targeted Gemini (Phase 20.1)</div>
+          <div class="stat-value" id="val-gemini-targeted"><span class="badge badge-neutral">UNTRIGGERED</span></div>
         </div>
         <div class="stat-pill">
           <div class="stat-label">Total Execution</div>
@@ -474,62 +474,80 @@
         </div>
       </div>
 
-      <!-- Top 5 Candidates Table -->
+      <!-- Top Candidates Table -->
       <div class="card">
         <h2>
-          <span>Top 5 Candidate Settings (Catalog Retrieval)</span>
-          <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: normal;" id="cand-count">5 candidates retrieved</span>
+          <span>Top Candidate Settings (Catalog Retrieval)</span>
+          <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: normal;" id="cand-count">candidates retrieved</span>
         </h2>
         <div class="table-container">
           <table id="cands-table">
             <thead>
               <tr>
                 <th>Rank</th>
-                <th>ID</th>
+                <th>Internal ID</th>
+                <th>Catalog ID</th>
                 <th>Action Name</th>
-                <th>Final Score</th>
+                <th>Score</th>
                 <th>BM25</th>
                 <th>Dense</th>
                 <th>Polarity</th>
+                <th>Status</th>
               </tr>
             </thead>
             <tbody id="cands-body">
-              <tr class="selected-winner">
-                <td>#1 <span class="winner-tag">WINNER</span></td>
-                <td><code>DL-0214</code></td>
-                <td><strong>Enable WiFi</strong></td>
-                <td>1.0864</td>
-                <td>0.8120</td>
-                <td>0.7600</td>
-                <td><span class="badge badge-enable">+0.20</span></td>
-              </tr>
             </tbody>
           </table>
         </div>
       </div>
 
-      <!-- Gemini Semantic Verifier Layer -->
+      <!-- Gemini Targeted Semantic Selection & Clone Disambiguation (Phase 20.1) -->
       <div class="card" id="gemini-card">
         <h2>
-          <span>Gemini Semantic Verification Layer</span>
-          <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: normal;" id="gemini-model-badge">gemini-2.5-flash (selective)</span>
+          <span>Gemini Targeted Candidate Selection &amp; Clone Disambiguation (Phase 20.1)</span>
+          <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: normal;" id="gemini-model-badge">gemini-3.5-flash-lite (targeted)</span>
         </h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 12px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 12px;">
           <div>
-            <label>Verifier Decision</label>
-            <div id="gemini-decision"><span class="badge badge-neutral">SKIPPED</span></div>
+            <label>Decision</label>
+            <div id="gemini-decision"><span class="badge badge-neutral">UNTRIGGERED</span></div>
+          </div>
+          <div>
+            <label>Correction Status</label>
+            <div id="gemini-status"><span class="badge badge-neutral">NO_CHANGE</span></div>
           </div>
           <div>
             <label>Reason Code</label>
-            <div id="gemini-reason" style="font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">DETERMINISTIC_PASS</div>
+            <div id="gemini-reason" style="font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">DIRECT_FEATURE_MATCH</div>
+          </div>
+          <div>
+            <label>Confidence</label>
+            <div id="gemini-confidence" style="font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">0.95</div>
           </div>
           <div>
             <label>LLM Latency</label>
             <div id="gemini-latency" style="font-size: 0.85rem; font-family: var(--font-mono); color: var(--accent-green);">0.0 ms</div>
           </div>
         </div>
+
+        <!-- Disambiguation Comparison Box -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; background: var(--bg-input); padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);">
+          <div>
+            <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--accent-amber); font-weight: 700; margin-bottom: 4px;">Deterministic Draft</div>
+            <div id="det-choice-display" style="font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">-</div>
+          </div>
+          <div>
+            <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--accent-purple); font-weight: 700; margin-bottom: 4px;">Gemini Selection</div>
+            <div id="gem-choice-display" style="font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">-</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 8px;">
+          <label>Ambiguity Trigger Signals</label>
+          <div id="gemini-triggers" style="font-size: 0.8rem; color: var(--accent-amber); font-family: var(--font-mono);">No ambiguity detected; deterministic winner accepted.</div>
+        </div>
         <div>
-          <label>Audit Explanation</label>
+          <label>Technical Audit Justification</label>
           <div id="gemini-explanation" style="font-size: 0.8rem; color: var(--text-secondary); background: var(--bg-input); padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); font-family: var(--font-mono);">Deterministic selection accepted without LLM override.</div>
         </div>
       </div>
@@ -613,6 +631,24 @@ const EXAMPLES = [
     query: "My Galaxy phone screen is completely cracked and bleeding purple fluid",
     title: "Physical Damage Report",
     content: "Screen has sustained heavy impact. Liquid crystal bleeding observed. Do not use charger. Please visit a Samsung Authorized Service Center for hardware display replacement."
+  },
+  {
+    name: "11. Hotspot 2.0 Clone",
+    query: "Turn on Hotspot 2.0",
+    title: "Wi-Fi Settings",
+    content: "Open Settings, tap Connections, tap Wi-Fi, tap Advanced and turn on Hotspot 2.0."
+  },
+  {
+    name: "12. Mobile Data Switch Clone",
+    query: "Turn off Wi-Fi and switch to mobile data when connection is unstable",
+    title: "Intelligent Wi-Fi",
+    content: "Open Settings, tap Connections, select Wi-Fi, tap More options, Intelligent Wi-Fi, and enable Switch to mobile data."
+  },
+  {
+    name: "13. Dual Clock Clone",
+    query: "Show dual clock on always on display",
+    title: "Lock Screen and AOD Settings",
+    content: "Open Settings, tap Lock screen and AOD, and enable Dual clock to view roaming time."
   }
 ];
 
@@ -661,7 +697,9 @@ async function executePlayground() {
       siis_response: {
         title: title || "Device Issue",
         content: content || "Navigate to device Settings."
-      }
+      },
+      mode: "gemini-targeted",
+      top_k: 10
     };
 
     const res = await fetch("/dev/troubleshoot/debug", {
@@ -704,56 +742,99 @@ function renderDebugResults(data) {
   const cBadge = cStatus === "HIT" ? "badge-hit" : "badge-miss";
   document.getElementById("val-cache").innerHTML = `<span class="badge ${cBadge}">${cStatus}</span> <span style="font-size:0.7rem; color:var(--text-secondary);">${cTier.split(':')[0]}</span>`;
 
-  // 3. Selection Method
-  document.getElementById("val-selection").innerText = dbg.selection?.method || "Deterministic";
+  // 3. Deterministic Pick Ribbon
+  const det = dbg.deterministic_choice || {};
+  document.getElementById("val-selection").innerText = det.action ? `${det.action.slice(0, 18)}...` : "Dense Adjudicator";
 
-  // 3b. Gemini Verifier Ribbon & Card
-  const g = dbg.gemini_verification || {};
-  const gDec = (g.decision || "SKIPPED").toUpperCase();
-  let gBadgeClass = "badge-neutral";
-  if (gDec === "ACCEPT") gBadgeClass = "badge-hit";
-  else if (gDec === "CORRECT") gBadgeClass = "badge-config";
-  else if (gDec === "FALLBACK") gBadgeClass = "badge-miss";
+  // 4. Gemini Targeted Selection Ribbon & Card (Phase 20.1)
+  const gt = dbg.gemini_targeted || {};
+  const gtDec = (gt.decision || "UNTRIGGERED").toUpperCase();
+  let gtBadgeClass = "badge-neutral";
+  if (gtDec === "SELECT") gtBadgeClass = "badge-hit";
+  else if (gtDec === "AMBIGUOUS") gtBadgeClass = "badge-miss";
 
-  const valGemini = document.getElementById("val-gemini");
-  if (valGemini) {
-    valGemini.innerHTML = `<span class="badge ${gBadgeClass}">${gDec}</span>`;
+  const valGemTargeted = document.getElementById("val-gemini-targeted");
+  if (valGemTargeted) {
+    const isOverride = gt.is_override;
+    valGemTargeted.innerHTML = `<span class="badge ${gtBadgeClass}">${gtDec}</span> ${isOverride ? '<span class="winner-tag" style="background:var(--accent-purple); color:white; margin-left:4px;">OVERRIDE</span>' : ''}`;
   }
+
   const gDecEl = document.getElementById("gemini-decision");
   if (gDecEl) {
-    gDecEl.innerHTML = `<span class="badge ${gBadgeClass}">${gDec}</span> ${g.is_override ? '<span class="winner-tag" style="background:var(--accent-purple); color:white; margin-left:4px;">OVERRIDE</span>' : ''}`;
+    gDecEl.innerHTML = `<span class="badge ${gtBadgeClass}">${gtDec}</span>`;
   }
+
+  const gStatEl = document.getElementById("gemini-status");
+  if (gStatEl) {
+    const stat = (gt.correction_status || "NO_CHANGE").toUpperCase();
+    let sClass = "badge-neutral";
+    if (stat === "TRUE_CORRECTION" || stat === "OVERRIDE") sClass = "badge-config";
+    else if (stat === "NO_CHANGE") sClass = "badge-view";
+    else if (stat === "AMBIGUOUS") sClass = "badge-miss";
+    gStatEl.innerHTML = `<span class="badge ${sClass}">${stat}</span>`;
+  }
+
   const gReasonEl = document.getElementById("gemini-reason");
   if (gReasonEl) {
-    gReasonEl.innerText = g.reason_code || "-";
+    gReasonEl.innerText = gt.reason_code || "-";
   }
+
+  const gConfEl = document.getElementById("gemini-confidence");
+  if (gConfEl) {
+    gConfEl.innerText = gt.confidence !== undefined && gt.confidence !== null ? Number(gt.confidence).toFixed(2) : "-";
+  }
+
   const gLatEl = document.getElementById("gemini-latency");
   if (gLatEl) {
-    gLatEl.innerText = `${g.latency_ms || 0} ms`;
+    gLatEl.innerText = `${gt.latency_ms || 0} ms`;
   }
+
   const gBadgeEl = document.getElementById("gemini-model-badge");
   if (gBadgeEl) {
-    gBadgeEl.innerText = `${g.model || "gemini-2.5-flash"} (${g.mode || "selective"})`;
+    gBadgeEl.innerText = `${gt.model || "gemini-3.5-flash-lite"} (${gt.source || "targeted"})`;
   }
+
+  // Comparison Boxes
+  const detDisplay = document.getElementById("det-choice-display");
+  if (detDisplay) {
+    detDisplay.innerHTML = `<code>${det.catalog_id || 'None'}</code> — <strong>${escapeHtml(det.action || 'None')}</strong>`;
+  }
+
+  const gemDisplay = document.getElementById("gem-choice-display");
+  if (gemDisplay) {
+    if (gt.selected_catalog_id) {
+      gemDisplay.innerHTML = `<code>${gt.selected_catalog_id}</code> (${gt.selected_internal_id || 'cand'}) — <strong>${escapeHtml(gt.selected_action || 'Selected')}</strong>`;
+    } else {
+      gemDisplay.innerHTML = `<span style="color:var(--text-secondary);">(No LLM override; accepted deterministic choice)</span>`;
+    }
+  }
+
+  const gTrigEl = document.getElementById("gemini-triggers");
+  if (gTrigEl) {
+    const trigs = gt.trigger_reasons || [];
+    gTrigEl.innerText = trigs.length > 0 ? trigs.join(" • ") : "No ambiguity detected; deterministic selection confident.";
+  }
+
   const gExpEl = document.getElementById("gemini-explanation");
   if (gExpEl) {
-    gExpEl.innerText = g.explanation || (gDec === "ACCEPT" ? "Deterministic draft verified and accepted." : "No semantic verification performed.");
+    gExpEl.innerText = gt.explanation || "Deterministic selection accepted without LLM override.";
   }
 
-  // 4. Latency
-  document.getElementById("val-latency").innerText = `${dbg.performance?.total_latency_ms || 0} ms`;
-  document.getElementById("lat-total").innerText = `${dbg.performance?.total_latency_ms || 0} ms`;
-  document.getElementById("lat-ret").innerText = `${dbg.performance?.retrieval_latency_ms || 0} ms`;
-  document.getElementById("lat-sel").innerText = `${dbg.performance?.selection_latency_ms || 0} ms`;
-  document.getElementById("lat-cache").innerText = `${dbg.performance?.cache_lookup_latency_ms || 0} ms`;
+  // 5. Latency Bar
+  const perf = dbg.performance || {};
+  document.getElementById("val-latency").innerText = `${perf.total_latency_ms || 0} ms`;
+  document.getElementById("lat-total").innerText = `${perf.total_latency_ms || 0} ms`;
+  document.getElementById("lat-ret").innerText = `${perf.retrieval_latency_ms || 0} ms`;
+  document.getElementById("lat-sel").innerText = `${perf.selection_latency_ms || 0} ms`;
+  document.getElementById("lat-cache").innerText = `${perf.cache_lookup_latency_ms || 0} ms`;
 
-  // 5. Catalog Resolution
+  // 6. Catalog Resolution
   const cat = dbg.catalog_resolution || {};
   document.getElementById("res-uri").innerText = cat.uri || "None (Hardware Repair Manual Action)";
   document.getElementById("res-cat-id").innerText = cat.catalog_id || "None";
   document.getElementById("res-valid").innerHTML = cat.valid ? "✓ Verified Catalog URI" : "<span style='color:var(--accent-red)'>✗ Unverified</span>";
 
-  // 6. Candidates Table
+  // 7. Candidates Table
   const tbody = document.getElementById("cands-body");
   tbody.innerHTML = "";
   const candidates = dbg.retrieval?.candidates || [];
@@ -769,30 +850,48 @@ function renderDebugResults(data) {
       .replace(/'/g, "&#039;");
   }
 
+  document.getElementById("cand-count").innerText = `${candidates.length} candidates retrieved`;
+
   if (candidates.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:var(--text-secondary);">No catalog candidates retrieved (Hardware safety intercept triggered)</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; color:var(--text-secondary);">No catalog candidates retrieved (Hardware safety intercept triggered)</td></tr>`;
   } else {
     candidates.forEach((cand, idx) => {
-      const isWinner = (cand.catalog_id === selectedId) || (idx === 0 && !selectedId);
+      const isFinalWinner = cand.is_final_winner || (cand.catalog_id === selectedId) || (idx === 0 && !selectedId);
+      const isDetWinner = cand.is_deterministic_winner;
+      const isGemWinner = cand.is_gemini_winner;
+
       const tr = document.createElement("tr");
-      if (isWinner) tr.className = "selected-winner";
+      if (isFinalWinner) tr.className = "selected-winner";
 
       const polBadgeClass = cand.polarity === "enable" ? "badge-enable" : (cand.polarity === "disable" ? "badge-disable" : "badge-neutral");
       
+      let statusTag = "-";
+      if (isDetWinner && isGemWinner) {
+        statusTag = '<span class="winner-tag" style="background:var(--accent-green); color:white;">AGREED WINNER</span>';
+      } else if (isGemWinner) {
+        statusTag = '<span class="winner-tag" style="background:var(--accent-purple); color:white;">GEMINI PICK</span>';
+      } else if (isDetWinner) {
+        statusTag = '<span class="winner-tag" style="background:var(--accent-amber); color:black;">DET DRAFT</span>';
+      } else if (isFinalWinner) {
+        statusTag = '<span class="winner-tag">WINNER</span>';
+      }
+
       tr.innerHTML = `
-        <td>#${escapeHtml(cand.rank || idx + 1)} ${isWinner ? '<span class="winner-tag">SELECTED</span>' : ''}</td>
+        <td>#${escapeHtml(cand.rank || idx + 1)}</td>
+        <td><code>${escapeHtml(cand.internal_id || 'cand_' + (idx + 1))}</code></td>
         <td><code>${escapeHtml(cand.catalog_id || 'N/A')}</code></td>
         <td><strong>${escapeHtml(cand.action || '')}</strong></td>
         <td><strong>${cand.score?.toFixed(4) || '0.0000'}</strong></td>
         <td style="color:var(--text-secondary);">${cand.bm25_score?.toFixed(4) || '0.0000'}</td>
         <td style="color:var(--text-secondary);">${cand.dense_score?.toFixed(4) || '0.0000'}</td>
         <td><span class="badge ${polBadgeClass}">${cand.polarity_alignment >= 0 ? '+' : ''}${cand.polarity_alignment?.toFixed(2) || '0.00'}</span></td>
+        <td>${statusTag}</td>
       `;
       tbody.appendChild(tr);
     });
   }
 
-  // 7. Render JSON Viewer
+  // 8. Render JSON Viewer
   document.getElementById("json-viewer").innerText = JSON.stringify(resp, null, 2);
 }
 

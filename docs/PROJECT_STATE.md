@@ -466,6 +466,42 @@ User Query + SIIS Response Payload
   - **Anti-Hardcoding Audit:** **100% CLEAN** (0 benchmark tokens in `Theme02_Engine/`).
 - **Promotion Status:** **PROMOTED TO PRODUCTION (Commit `main`). Phase 20 is fully complete.**
 
+---
+
+## 18. Phase 20.1 — Targeted Gemini Candidate Selection & Clone Disambiguation (Completed)
+
+- **Deliverables (`docs/PHASE_20_1_TARGETED_GEMINI_SELECTION.md`):**
+  - **Action Failure Taxonomy & Candidate Availability Audit (`scratch/phase20_1_action_failure_classification.json`, `scratch/targeted_gemini_dataset.json`):**
+    - Audited all 76 action failures from the 164-case robustness benchmark.
+    - 34 cases (44.7%) classified as `SYNTHETIC_EXPECTATION` (non-catalog actions, unreachable without violating catalog authority).
+    - 42 cases (55.3%) classified as catalog-grounded solvable failures (theoretical ceiling: 79.27% / 130 cases).
+    - Established 28-case targeted candidate pool available in Top-15 (Top-5: 71.4%, Top-8: 82.1%, Top-10: 89.3%, Top-15: 100.0%).
+  - **Gemini Candidate Selection Architecture (`gemini_reasoner.py`, `engine.py`):**
+    - Implemented `select_targeted_candidate` using `GeminiTargetedSelectionOutput` schema with opaque internal IDs (`candidate_1` .. `candidate_K`).
+    - Enforced zero-URI prompt sandboxing, catalog-only resolution, polarity contradiction guards, and candidate whitelist validation.
+    - Implemented domain-general ambiguity trigger signals in `should_trigger_targeted_gemini` (confidence < 0.40, margin < 0.08, clone candidates in Top-8, opposing polarities).
+    - Integrated persistent disk cache (`scratch/gemini_targeted_cache.json`) enabling zero-quota instant (0.5 ms) offline replay.
+  - **Developer Tools & Diagnostics Integration:**
+    - Updated `troubleshoot_debug` in `engine.py` and `/dev/troubleshoot/debug` in `app.py` to return complete diagnostic data: query, SIIS, top candidates, deterministic choice, Gemini choice, correction status, latencies, confidence, reason code.
+    - Enhanced `playground.html` with side-by-side deterministic vs. Gemini comparison, color-coded correction badges, and interactive clone disambiguation test cases.
+- **Robustness Benchmark Results (164 Cases):**
+  - **Action Accuracy Rate:** **58.54% (96 / 164)** — **+4.88% absolute gain (+8 net cases solved)** vs Phase 20 baseline (53.66%).
+  - **URI Exact Match Rate:** **57.93% (95 / 164)** — **+4.88% absolute gain (+8 net cases solved)** vs Phase 20 baseline (53.05%).
+  - **Polarity Accuracy Rate:** **86.90% (73 / 84)** — **100% maintained, zero regressions**.
+  - **Hardware Safety Pass Rate:** **100.0% (5 / 5)** — **100% maintained, zero regressions**.
+  - **Gemini Invocations:** 94 selective calls | **True Corrections:** **8** | **False Corrections:** **0** (**100% Precision on Changes**).
+  - **Schema Validity:** **100.0% (164 / 164)**.
+- **Held-Out Generalization Evaluation (30 Cases):**
+  - **Action Match Accuracy:** **83.33% (25 / 30)** — **100% maintained, zero regressions**.
+  - **Hardware Safety:** **100.0% (3 / 3)** — **100% maintained, zero regressions**.
+- **Compliance Suites & Gates:**
+  - **Official Evaluator (`test_suite.py`):** **60 / 60 points [PASS]**, Gates G3, G4, G5: **ALL PASS (0 URL leaks)**.
+  - **Security Regression Suite (`test_security_remediation.py`):** **100% PASS (27 / 27)**.
+  - **Gemini Integration Suite (`test_gemini_integration.py`):** **100% PASS (16 / 16)**.
+  - **Anti-Hardcoding Audit:** **100% CLEAN** (0 benchmark IDs, 0 query-specific strings in `Theme02_Engine/`).
+- **Promotion Status:** **PROMOTED TO PRODUCTION (Commit `main`). Phase 20.1 is fully complete.**
+
+
 
 
 

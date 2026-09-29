@@ -1,0 +1,26 @@
+{
+  "heldout": {
+    "dataset": "held_out_generalization_dataset.jsonl",
+    "total_cases": 30,
+    "uri_matches": 3,
+    "uri_accuracy": 10.0,
+    "action_matches": 25,
+    "action_accuracy": 83.33,
+    "polarity_matches": 21,
+    "polarity_total": 24,
+    "polarity_accuracy": 87.5,
+    "hardware_matches": 3,
+    "hardware_total": 3,
+    "hardware_safety": 100.0,
+    "gemini_calls": 20,
+    "gemini_corrections": 0,
+    "gemini_true_corrections": 0,
+    "gemini_false_corrections": 0,
+    "gemini_no_change": 8,
+    "gemini_fallbacks": 12,
+    "cold_start_ms": 468.55,
+    "avg_latency_ms": 601.86,
+    "p50_latency_ms": 333.94,
+    "p95_latency_ms": 1442.25
+  }
+}

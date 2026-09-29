@@ -148,17 +148,29 @@ def run_benchmark_on_dataset(
                     p2 = (candidates[1].get("polarity") or "neutral").lower()
                     if (p1 == "enable" and p2 == "disable") or (p1 == "disable" and p2 == "enable"):
                         should_rerank = True
+            elif mode == "gemini-targeted":
+                if reasoner.should_trigger_targeted_gemini(q, candidates, det_best):
+                    should_rerank = True
 
             if should_rerank:
                 gemini_calls += 1
-                res = reasoner.rerank_candidates(
-                    query=q,
-                    siis_title=siis_title,
-                    siis_content=siis_content,
-                    candidate_pool=candidates,
-                    deterministic_draft=det_best,
-                    extracted_intent=intent_out
-                )
+                if mode == "gemini-targeted":
+                    res = reasoner.select_targeted_candidate(
+                        query=q,
+                        siis_title=siis_title,
+                        siis_content=siis_content,
+                        candidate_pool=candidates,
+                        deterministic_draft=det_best
+                    )
+                else:
+                    res = reasoner.rerank_candidates(
+                        query=q,
+                        siis_title=siis_title,
+                        siis_content=siis_content,
+                        candidate_pool=candidates,
+                        deterministic_draft=det_best,
+                        extracted_intent=intent_out
+                    )
                 cand_map = {c.get("id"): c for c in candidates if c.get("id")}
                 if res.decision == "SELECT" and res.selected_candidate_id in cand_map:
                     chosen = cand_map[res.selected_candidate_id]
@@ -244,16 +256,159 @@ def run_benchmark_on_dataset(
     }
 
 
+def run_targeted_experiment(
+    targeted_dataset_path: str,
+    engine: TroubleshootingEngine,
+    reasoner: GeminiSemanticReasoner,
+    top_k: int = 10,
+) -> Dict[str, Any]:
+    with open(targeted_dataset_path, "r", encoding="utf-8") as f:
+        cases = json.load(f)
+
+    total_cases = len(cases)
+    available_in_k = 0
+    deterministic_matches = 0
+    gemini_matches = 0
+
+    true_corrections = 0
+    false_corrections = 0
+    no_change = 0
+    ambiguous_count = 0
+    invalid_fallback = 0
+
+    latencies = []
+    case_evaluations = []
+
+    for c in cases:
+        cid = c["id"]
+        q = c["query"]
+        s_resp = c.get("siis") or {}
+        siis_title = str(s_resp.get("title", "")) if s_resp.get("title") else ""
+        siis_content = str(s_resp.get("content", "")) if s_resp.get("content") else ""
+        exp_act = (c.get("expected_action") or "").strip().lower()
+        exp_uri = c.get("expected_uri")
+
+        t0 = time.perf_counter()
+
+        # Retrieve candidates sliced to top_k
+        candidates = engine.retriever.retrieve(
+            query=q,
+            top_k=top_k,
+            siis_title=siis_title,
+            siis_content=siis_content
+        )
+
+        is_available = any((cand.get("message") or "").strip().lower() == exp_act for cand in candidates)
+        if is_available:
+            available_in_k += 1
+
+        det_adj = engine.adjudicator.adjudicate(
+            query=q,
+            siis_title=siis_title,
+            siis_content=siis_content,
+            candidates=candidates
+        )
+        det_best = det_adj.get("selected_candidate") or (candidates[0] if candidates else None)
+        det_act = (det_best.get("message") or "").strip().lower() if det_best else ""
+        det_is_match = (det_act == exp_act)
+        if det_is_match:
+            deterministic_matches += 1
+
+        res = reasoner.select_targeted_candidate(
+            query=q,
+            siis_title=siis_title,
+            siis_content=siis_content,
+            candidate_pool=candidates,
+            deterministic_draft=det_best
+        )
+
+        # Pace live requests to respect 15 req/min quota
+        if res.source not in ("gemini_targeted_cache", "deterministic_fallback"):
+            time.sleep(4.1)
+
+        elapsed_ms = (time.perf_counter() - t0) * 1000.0
+        latencies.append(elapsed_ms)
+
+        cand_map = {c.get("id"): c for c in candidates if c.get("id")}
+        chosen = None
+        if res.decision == "SELECT" and res.selected_candidate_id in cand_map:
+            chosen = cand_map[res.selected_candidate_id]
+
+        final_best = chosen or det_best
+        final_act = (final_best.get("message") or "").strip().lower() if final_best else ""
+        final_is_match = (final_act == exp_act)
+
+        if final_is_match:
+            gemini_matches += 1
+
+        if res.decision == "AMBIGUOUS":
+            ambiguous_count += 1
+            transition = "AMBIGUOUS"
+        elif res.decision != "SELECT" or not chosen:
+            invalid_fallback += 1
+            transition = "INVALID"
+        elif chosen.get("id") == (det_best.get("id") if det_best else None):
+            no_change += 1
+            transition = "NO_CHANGE"
+        elif final_is_match and not det_is_match:
+            true_corrections += 1
+            transition = "TRUE_CORRECTION"
+        elif det_is_match and not final_is_match:
+            false_corrections += 1
+            transition = "FALSE_CORRECTION"
+        else:
+            transition = "NO_CHANGE"
+
+        case_evaluations.append({
+            "id": cid,
+            "query": q,
+            "expected_action": exp_act,
+            "expected_candidate_in_top_k": is_available,
+            "deterministic_action": det_act,
+            "deterministic_match": det_is_match,
+            "gemini_action": final_act,
+            "gemini_decision": res.decision,
+            "gemini_match": final_is_match,
+            "transition": transition,
+            "reason_code": res.reason_code,
+            "explanation": res.explanation,
+            "latency_ms": round(res.latency_ms, 2)
+        })
+
+    avg_lat = sum(latencies) / len(latencies) if latencies else 0.0
+    p95_lat = sorted(latencies)[int(len(latencies) * 0.95)] if latencies else 0.0
+
+    return {
+        "dataset": "targeted_gemini_dataset.json",
+        "top_k": top_k,
+        "total_target_cases": total_cases,
+        "expected_candidate_available": available_in_k,
+        "availability_pct": round(available_in_k / total_cases * 100.0, 2),
+        "deterministic_action_matches": deterministic_matches,
+        "deterministic_accuracy": round(deterministic_matches / total_cases * 100.0, 2),
+        "gemini_action_matches": gemini_matches,
+        "gemini_accuracy": round(gemini_matches / total_cases * 100.0, 2),
+        "true_corrections": true_corrections,
+        "false_corrections": false_corrections,
+        "no_change": no_change,
+        "ambiguous": ambiguous_count,
+        "invalid_fallback": invalid_fallback,
+        "avg_latency_ms": round(avg_lat, 2),
+        "p95_latency_ms": round(p95_lat, 2),
+        "case_evaluations": case_evaluations
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(description="Phase 20 Gemini Semantic Experiment Runner")
     parser.add_argument(
         "--mode",
-        choices=["deterministic", "gemini-rerank", "gemini-intent", "gemini-intent-rerank", "gemini-selective"],
+        choices=["deterministic", "gemini-rerank", "gemini-intent", "gemini-intent-rerank", "gemini-selective", "gemini-targeted"],
         default="deterministic",
         help="Evaluation decision mode"
     )
     parser.add_argument("--top-k", type=int, default=10, help="Candidate pool size (5, 8, 10, 15)")
-    parser.add_argument("--dataset", choices=["robustness", "heldout", "all"], default="all", help="Dataset to evaluate")
+    parser.add_argument("--dataset", choices=["robustness", "heldout", "targeted", "all"], default="all", help="Dataset to evaluate")
     parser.add_argument("--output", type=str, default="", help="Optional JSON output file path")
     args = parser.parse_args()
 
@@ -261,11 +416,27 @@ def main():
     reasoner = GeminiSemanticReasoner(mode=args.mode)
 
     print("=" * 80)
-    print(f"PHASE 20 EXPERIMENT RUNNER — MODE: {args.mode.upper()} (Top-K = {args.top_k})")
+    print(f"PHASE 20.1 EXPERIMENT RUNNER — MODE: {args.mode.upper()} (Top-K = {args.top_k})")
     print(f"Gemini Reasoner Enabled: {reasoner.is_enabled()} (Model: {reasoner.model_name})")
     print("=" * 80)
 
     results = {}
+
+    if args.dataset in ("targeted", "all"):
+        targeted_path = os.path.join(PROJECT_ROOT, "scratch", "targeted_gemini_dataset.json")
+        if os.path.exists(targeted_path):
+            print(f"\nEvaluating Targeted Candidate Population (Top-K = {args.top_k})...")
+            tgt_res = run_targeted_experiment(targeted_path, engine, reasoner, top_k=args.top_k)
+            results["targeted"] = tgt_res
+            print(f"  Target Cases:             {tgt_res['total_target_cases']}")
+            print(f"  Expected Available @ K:   {tgt_res['expected_candidate_available']}/{tgt_res['total_target_cases']} ({tgt_res['availability_pct']}%)")
+            print(f"  Deterministic Matches:    {tgt_res['deterministic_action_matches']}/{tgt_res['total_target_cases']} ({tgt_res['deterministic_accuracy']}%)")
+            print(f"  Gemini Matches:           {tgt_res['gemini_action_matches']}/{tgt_res['total_target_cases']} ({tgt_res['gemini_accuracy']}%)")
+            print(f"  True Corrections:         {tgt_res['true_corrections']}")
+            print(f"  False Corrections:        {tgt_res['false_corrections']}")
+            print(f"  No Change:                {tgt_res['no_change']}")
+            print(f"  Ambiguous / Fallbacks:    {tgt_res['ambiguous'] + tgt_res['invalid_fallback']}")
+            print(f"  Latency (Avg/P95):        {tgt_res['avg_latency_ms']} ms / {tgt_res['p95_latency_ms']} ms")
 
     if args.dataset in ("robustness", "all"):
         print("\nEvaluating Robustness Dataset (164 cases)...")

@@ -31,6 +31,7 @@ from retrieval.hybrid_retriever import HybridRetriever
 from retrieval.polarity import detect_query_polarity
 from adjudicator import CandidateAdjudicator
 from gemini_verifier import GeminiSemanticVerifier, GeminiVerificationResult
+from gemini_reasoner import GeminiSemanticReasoner, GeminiReasonerResult
 
 
 class TroubleshootingEngine:
@@ -38,6 +39,7 @@ class TroubleshootingEngine:
         self.retriever = HybridRetriever()
         self.adjudicator = CandidateAdjudicator(dense=self.retriever.dense)
         self.verifier = GeminiSemanticVerifier()
+        self.reasoner = GeminiSemanticReasoner()
         self.cache = QueryCache()
 
     def troubleshoot(
@@ -155,10 +157,27 @@ class TroubleshootingEngine:
             )
             selection_ms = (time.perf_counter() - t_sel_0) * 1000.0
             best = adj.get("selected_candidate") or candidates[0]
+            det_best = best
+
+            # Phase 20.1: Targeted Gemini Semantic Candidate Selection & Clone Disambiguation
+            # Operates strictly over verified candidate pool when ambiguity signals are detected
+            targeted_res: Optional[GeminiReasonerResult] = None
+            if self.reasoner.is_enabled() and self.reasoner.should_trigger_targeted_gemini(query, candidates, adj):
+                targeted_res = self.reasoner.select_targeted_candidate(
+                    query=query,
+                    siis_title=siis_title,
+                    siis_content=siis_content,
+                    candidate_pool=candidates,
+                    deterministic_draft=det_best
+                )
+                if targeted_res and targeted_res.decision == "SELECT" and targeted_res.selected_candidate_id:
+                    cand_map = {c["id"]: c for c in candidates if "id" in c}
+                    if targeted_res.selected_candidate_id in cand_map:
+                        best = cand_map[targeted_res.selected_candidate_id]
 
             # Phase 17: Native Gemini Final Semantic Verification Layer
-            # Runs as final post-retrieval verification/correction layer
-            if self.verifier.should_verify(adj, candidates):
+            # Runs as secondary verification if targeted reasoner did not run
+            if targeted_res is None and self.verifier.should_verify(adj, candidates):
                 verifier_res = self.verifier.verify(
                     query=query,
                     siis_title=siis_title,
@@ -267,6 +286,8 @@ class TroubleshootingEngine:
         if _debug_trace is not None:
             _debug_trace["candidates"] = candidates
             _debug_trace["adjudication"] = adj
+            _debug_trace["det_best"] = det_best
+            _debug_trace["targeted_res"] = targeted_res
             _debug_trace["verifier_res"] = verifier_res
             _debug_trace["best"] = best
             _debug_trace["retrieval_ms"] = retrieval_ms
@@ -360,10 +381,20 @@ class TroubleshootingEngine:
 
         retrieval_latency_ms = trace.get("retrieval_ms", 0.0)
 
+        det_best = trace.get("det_best")
+        targeted_res: Optional[GeminiReasonerResult] = trace.get("targeted_res")
+        verifier_res: Optional[GeminiVerificationResult] = trace.get("verifier_res")
+        best = trace.get("best")
+
         formatted_cands = []
-        for c in candidates:
+        for idx, c in enumerate(candidates, start=1):
+            c_int_id = f"candidate_{idx}"
+            is_det = bool(det_best and c.get("id") == det_best.get("id"))
+            is_gem = bool(targeted_res and c.get("id") == targeted_res.selected_candidate_id)
+            is_fin = bool(best and c.get("id") == best.get("id"))
             formatted_cands.append({
-                "rank": c.get("rank"),
+                "rank": c.get("rank", idx),
+                "internal_id": c_int_id,
                 "catalog_id": c.get("id"),
                 "action": c.get("message"),
                 "description": c.get("description"),
@@ -372,7 +403,10 @@ class TroubleshootingEngine:
                 "bm25_score": c.get("bm25_score", 0.0),
                 "dense_score": c.get("dense_score", 0.0),
                 "polarity": c.get("polarity"),
-                "polarity_alignment": c.get("polarity_adjustment", 0.0)
+                "polarity_alignment": c.get("polarity_adjustment", 0.0),
+                "is_deterministic_winner": is_det,
+                "is_gemini_winner": is_gem,
+                "is_final_winner": is_fin,
             })
 
         retrieval_info = {
@@ -392,11 +426,11 @@ class TroubleshootingEngine:
                 candidates=candidates
             )
 
-        best = trace.get("best")
-        if best is None and adj:
-            best = adj.get("selected_candidate") or (candidates[0] if candidates else None)
+        if det_best is None and adj:
+            det_best = adj.get("selected_candidate") or (candidates[0] if candidates else None)
 
-        verifier_res: Optional[GeminiVerificationResult] = trace.get("verifier_res")
+        if best is None:
+            best = det_best
 
         if hw_triggered:
             selection_info = {
@@ -405,6 +439,31 @@ class TroubleshootingEngine:
                 "selected_catalog_id": None,
                 "confidence": 1.0,
                 "latency_ms": 0.01
+            }
+            det_choice = {
+                "catalog_id": None,
+                "action": "Schedule Device Repair Service",
+                "uri": None,
+                "score": 1.0,
+                "confidence": 1.0
+            }
+            targeted_info = {
+                "enabled": self.reasoner.is_enabled(),
+                "mode": "gemini-targeted",
+                "model": self.reasoner.model_name,
+                "triggered": False,
+                "trigger_reasons": ["Hardware Safety Intercept Triggered"],
+                "decision": "SKIPPED",
+                "selected_internal_id": None,
+                "selected_catalog_id": None,
+                "selected_action": None,
+                "confidence": 1.0,
+                "reason_code": "SAFETY_INTERCEPT",
+                "explanation": "Hardware safety router intercepted query prior to candidate adjudication and LLM verification.",
+                "correction_status": "SKIPPED",
+                "is_override": False,
+                "latency_ms": 0.0,
+                "source": "hardware_safety"
             }
             gemini_info = {
                 "enabled": self.verifier.is_enabled(),
@@ -434,11 +493,86 @@ class TroubleshootingEngine:
                     break
 
             selection_info = {
-                "method": (adj or {}).get("source", "deterministic_dense_adjudicator"),
+                "method": "Gemini Targeted Selection (Phase 20.1)" if (targeted_res and targeted_res.decision == "SELECT") else (adj or {}).get("source", "deterministic_dense_adjudicator"),
                 "selected_rank": selected_rank or 1,
                 "selected_catalog_id": selected_catalog_id,
-                "confidence": (adj or {}).get("confidence", 0.92),
+                "confidence": (targeted_res.confidence if (targeted_res and targeted_res.decision == "SELECT") else (adj or {}).get("confidence", 0.92)),
                 "latency_ms": round(trace.get("selection_ms", 0.0), 3)
+            }
+
+            det_choice = {
+                "catalog_id": det_best.get("id") if det_best else "DL-DUMMY",
+                "action": det_best.get("message") if det_best else "Open Relevant Settings Screen",
+                "uri": det_best.get("deeplink") if det_best else "bixby://dummy_positive",
+                "score": round(det_best.get("score", 0.0), 4) if det_best else 0.0,
+                "confidence": round((adj or {}).get("confidence", 0.90), 4) if adj else 0.90
+            }
+
+            # Phase 20.1 Targeted Gemini Diagnostics
+            trigger_reasons = []
+            conf = (adj or {}).get("confidence", 1.0)
+            if conf < 0.40:
+                trigger_reasons.append(f"Low deterministic confidence ({conf:.2f} < 0.40)")
+            margin = (adj or {}).get("margin", 1.0)
+            if margin < 0.08:
+                trigger_reasons.append(f"Small score margin between Top-1 and Top-2 ({margin:.3f} < 0.08)")
+            seen_acts = set()
+            for c in candidates[:8]:
+                act_msg = (c.get("message") or "").strip().lower()
+                if act_msg in seen_acts:
+                    trigger_reasons.append(f"Clone candidates detected in Top-8 (e.g. '{act_msg}')")
+                    break
+                seen_acts.add(act_msg)
+            if len(candidates) >= 2:
+                p1 = (candidates[0].get("polarity") or "neutral").lower()
+                p2 = (candidates[1].get("polarity") or "neutral").lower()
+                if (p1 == "enable" and p2 == "disable") or (p1 == "disable" and p2 == "enable"):
+                    trigger_reasons.append(f"Opposing polarities in Top-2 candidates ({p1} vs {p2})")
+
+            is_triggered = (targeted_res is not None)
+            is_override = False
+            corr_status = "UNTRIGGERED"
+            sel_internal_id = None
+            sel_cat_id = None
+            sel_act = None
+
+            if targeted_res:
+                sel_cat_id = targeted_res.selected_candidate_id
+                for idx, c in enumerate(candidates, start=1):
+                    if c.get("id") == sel_cat_id:
+                        sel_internal_id = f"candidate_{idx}"
+                        sel_act = c.get("message")
+                        break
+                if targeted_res.decision == "SELECT" and sel_cat_id:
+                    if det_best and sel_cat_id != det_best.get("id"):
+                        is_override = True
+                        corr_status = "TRUE_CORRECTION"
+                    else:
+                        corr_status = "NO_CHANGE"
+                elif targeted_res.decision == "AMBIGUOUS":
+                    corr_status = "AMBIGUOUS"
+                else:
+                    corr_status = "FALLBACK"
+            elif not self.reasoner.is_enabled():
+                corr_status = "DISABLED"
+
+            targeted_info = {
+                "enabled": self.reasoner.is_enabled(),
+                "mode": "gemini-targeted",
+                "model": self.reasoner.model_name,
+                "triggered": is_triggered,
+                "trigger_reasons": trigger_reasons if is_triggered else (trigger_reasons or ["Deterministic confidence was sufficient; no ambiguity detected"]),
+                "decision": targeted_res.decision if targeted_res else ("DISABLED" if not self.reasoner.is_enabled() else "UNTRIGGERED"),
+                "selected_internal_id": sel_internal_id or ("candidate_1" if det_best else None),
+                "selected_catalog_id": sel_cat_id or (det_best.get("id") if det_best else None),
+                "selected_action": sel_act or (det_best.get("message") if det_best else None),
+                "confidence": targeted_res.confidence if targeted_res else round((adj or {}).get("confidence", 0.90), 4),
+                "reason_code": targeted_res.reason_code if targeted_res else "DETERMINISTIC_PASS",
+                "explanation": targeted_res.explanation if targeted_res else "Deterministic selection accepted without targeted Gemini override.",
+                "correction_status": corr_status,
+                "is_override": is_override,
+                "latency_ms": round(targeted_res.latency_ms, 3) if targeted_res else 0.0,
+                "source": targeted_res.source if targeted_res else "deterministic"
             }
 
             gemini_info = {
@@ -474,17 +608,24 @@ class TroubleshootingEngine:
             "cache_lookup_latency_ms": round(cache_latency_ms, 3),
             "retrieval_latency_ms": round(retrieval_latency_ms, 3) if not hw_triggered else 0.0,
             "selection_latency_ms": selection_info.get("latency_ms", 0.0),
+            "gemini_targeted_latency_ms": round(targeted_res.latency_ms, 3) if targeted_res else 0.0,
             "gemini_latency_ms": round(verifier_res.latency_ms, 3) if verifier_res else 0.0
         }
 
         return {
             "debug": {
                 "query": query,
+                "siis": {
+                    "title": siis_title,
+                    "content": siis_content
+                },
                 "polarity": polarity_info,
                 "cache": cache_info,
                 "safety": safety_info,
                 "retrieval": retrieval_info,
                 "selection": selection_info,
+                "deterministic_choice": det_choice,
+                "gemini_targeted": targeted_info,
                 "gemini_verification": gemini_info,
                 "catalog_resolution": catalog_info,
                 "performance": perf_info

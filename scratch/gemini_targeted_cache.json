@@ -1,0 +1,758 @@
+{
+  "connect automatically to secure public wi-fi networks__k3": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_2",
+    "confidence": 0.95,
+    "reason_code": "SIIS_GROUNDED",
+    "explanation": "The SIIS context explicitly recommends Hotspot 2.0 settings to automatically connect to secure public networks, making candidate_2 the most specific and direct match."
+  },
+  "connect automatically to secure public wi-fi networks__k5": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_5",
+    "confidence": 0.95,
+    "reason_code": "SIIS_GROUNDED",
+    "explanation": "The user query asks to connect automatically to secure public Wi-Fi networks. The SIIS context explicitly specifies using Hotspot 2.0 for this feature. Candidate 5 corresponds directly to opening the Hotspot 2.0 settings page."
+  },
+  "switch to mobile data when wi-fi signal is weak__k5": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.95,
+    "reason_code": "SIIS_GROUNDED",
+    "explanation": "The user query and SIIS context explicitly point to enabling the feature to switch to mobile data when Wi-Fi is weak. Candidate 1 directly targets the corresponding settings page for this feature."
+  },
+  "open volume settings to turn up media sound__k5": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_2",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to open volume settings, which directly corresponds to candidate_2 (View Volume Settings) that opens the volume settings page in device Settings."
+  },
+  "enable system vibration feedback for typing and taps__k5": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_2",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to enable system vibration feedback for typing and taps, which directly matches candidate_2 (Enable Touch interactions) for enabling touch vibration."
+  },
+  "turn off system vibration tactile feedback__k5": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_3",
+    "confidence": 0.95,
+    "reason_code": "POLARITY_ALIGNMENT",
+    "explanation": "The user requested to turn off system vibration tactile feedback, which corresponds to touch vibration. Candidate 3 explicitly disables touch interactions with matching polarity."
+  },
+  "mute calls and messages during sleep with do not disturb__k5": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_2",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to mute calls and messages using Do Not Disturb. Candidate 2 directly enables Do Not Disturb."
+  },
+  "reduce screen brightness level__k5": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_3",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user explicitly requests to reduce screen brightness level, which corresponds directly to the adjust brightness configuration action."
+  },
+  "switch over to wireless internet__k5": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_2",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to switch over to wireless internet, which aligns directly with enabling Wi-Fi."
+  },
+  "turn off auto dim screen on my phone__k5": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_3",
+    "confidence": 1.0,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user explicitly requested to turn off 'Auto dim screen', which directly matches candidate_3 (Disable Auto dim screen)."
+  },
+  "screen is too bright to read comfortably__k5": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user states the screen is too bright and SIIS guides to the manual brightness settings, making candidate_1 (View Adjust Brightness) the most appropriate direct action."
+  },
+  "my device is acting sluggish__k5": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_5",
+    "confidence": 0.92,
+    "reason_code": "SIIS_GROUNDED",
+    "explanation": "The user reported that their device is acting sluggish. Based on the SIIS context providing device slowdown troubleshooting and performance optimization, candidate_5 (Optimize Device Performance) is the most direct match to clean memory and improve overall responsiveness."
+  },
+  "whenever i am typing text messages in a quiet library environment, the loud haptic vibration buzzes loudly against the desk, so i would like to disable tactile vibration feedback immediately.__k5": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_3",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user wants to disable tactile vibration feedback while typing text messages, which corresponds directly to disabling touch/haptic vibration interactions on the device."
+  },
+  "hey, my screen is keeping me awake at night, is there a dark wallpaper option?__k5": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.85,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user is asking for a dark wallpaper option to help with screen brightness at night, which directly matches the feature and action for viewing the dim wallpaper when Dark mode is on."
+  },
+  "is there an option to limit battery charging so the battery doesn't degrade?__k5": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_2",
+    "confidence": 0.95,
+    "reason_code": "POLARITY_ALIGNMENT",
+    "explanation": "The user wants an option to limit battery charging to prevent degradation, which directly aligns with enabling battery protection according to both the SIIS context and candidate_2's description."
+  },
+  "turn off wi-fi and switch on mobile data when signal drops__k5": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_4",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to switch to mobile data when signal drops, and the SIIS context and candidate_4 specifically target the 'switch to mobile data on poor Wi-Fi settings page'."
+  },
+  "how do i turn on high contrast keyboard?__k5": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 1.0,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user explicitly asked to turn on high contrast keyboard, and candidate_1 directly enables the high contrast keyboard feature matching the query and SIIS context."
+  },
+  "enable haptic feedback on keypress__k5": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_4",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to enable haptic feedback on keypress, which corresponds specifically to enabling Samsung Keyboard vibration."
+  },
+  "turn on eye protection shield to block blue light__k5": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 1.0,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user explicitly requested to turn on eye protection shield to block blue light, which directly matches candidate_1 for enabling the Eye Comfort Shield."
+  },
+  "can you help me make the text on my keyboard much easier to read?__k5": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.98,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to make the keyboard text easier to read, and the SIIS context and candidate_1 directly support enabling the High Contrast keyboard feature for key visibility."
+  },
+  "connect automatically to secure public wi-fi networks__k8": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_5",
+    "confidence": 0.95,
+    "reason_code": "SIIS_GROUNDED",
+    "explanation": "The user query asks to automatically connect to secure public Wi-Fi networks, and the SIIS context specifically directs to enable Hotspot 2.0 for this exact purpose, which corresponds to candidate_5."
+  },
+  "switch to mobile data when wi-fi signal is weak__k8": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "Candidate 1 directly matches the specific feature requested to switch to mobile data when Wi-Fi signal is weak, as referenced in both the user query and SIIS context."
+  },
+  "open volume settings to turn up media sound__k8": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_2",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to open volume settings, which directly corresponds to viewing the volume settings page."
+  },
+  "mute calls and messages during sleep with do not disturb__k8": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_2",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to mute calls and messages using Do Not Disturb during sleep, which corresponds directly to enabling Do Not Disturb."
+  },
+  "open samsung keyboard settings page__k8": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_6",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to open the Samsung keyboard settings page, and candidate_6 corresponds to viewing the general keyboard settings page."
+  },
+  "i'm traveling and won't have a charger all afternoon__k8": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_6",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user states they are traveling without a charger, and the SIIS context recommends enabling Power saving mode to maximize battery longevity under such conditions. Candidate 6 directly matches enabling power saving."
+  },
+  "my screen is shining too bright at night__k8": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_8",
+    "confidence": 0.9,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user states the screen is shining too bright, which directly matches candidate_8 to disable adaptive display and extra brightness."
+  },
+  "reduce screen brightness level__k8": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_3",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to reduce screen brightness, which directly matches the 'Adjust Brightness' configuration action."
+  },
+  "switch over to wireless internet__k8": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_2",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to switch over to wireless internet, which corresponds to enabling Wi-Fi."
+  },
+  "turn off auto dim screen on my phone__k8": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_3",
+    "confidence": 1.0,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user explicitly requested to turn off auto dim screen, which directly matches candidate_3 to disable auto dim screen."
+  },
+  "screen is too bright to read comfortably__k8": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.9,
+    "reason_code": "SIIS_GROUNDED",
+    "explanation": "The user query mentions the screen being too bright, and the SIIS context guides to the manual brightness slider settings. Candidate_1 opens the screen brightness settings page in device Settings."
+  },
+  "my device is acting sluggish__k8": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_5",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user reported a sluggish device, and candidate_5 corresponds directly to optimizing device performance by cleaning memory and closing background apps to resolve slowness."
+  },
+  "hey, my screen is keeping me awake at night, is there a dark wallpaper option?__k8": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user is asking for a dark wallpaper option because their screen is keeping them awake at night. Candidate 1 directly matches viewing the dim wallpaper setting when Dark mode is on."
+  },
+  "is there an option to limit battery charging so the battery doesn't degrade?__k8": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_2",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user wants to limit battery charging to prevent degradation, which directly aligns with enabling Battery protection as supported by the SIIS context and candidate_2's description."
+  },
+  "turn off wi-fi and switch on mobile data when signal drops__k8": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.9,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to switch on mobile data when signal drops, which matches candidate_1 to enable mobile data."
+  },
+  "i was watching a movie and the buzzing startled my cat, please disable vibration feedback__k8": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.9,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to disable vibration feedback generally, which matches candidate_1 (Disable Vibrations)."
+  },
+  "how do i turn on high contrast keyboard?__k8": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.98,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to turn on the high contrast keyboard, matching candidate_1 which enables high contrast keyboard."
+  },
+  "enable haptic feedback on keypress__k8": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_4",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested haptic feedback on keypress, which corresponds specifically to enabling vibration for the Samsung Keyboard."
+  },
+  "turn on eye protection shield to block blue light__k8": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 1.0,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user explicitly requested to turn on the eye protection shield to block blue light, which directly matches candidate_1 to Enable Eye Comfort Shield (blue light filter)."
+  },
+  "can you help me make the text on my keyboard much easier to read?__k8": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user wants to make keyboard text easier to read, and the SIIS context explicitly recommends enabling the high contrast keyboard setting."
+  },
+  "connect automatically to secure public wi-fi networks__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_5",
+    "confidence": 0.95,
+    "reason_code": "SIIS_GROUNDED",
+    "explanation": "The user query and SIIS context specify connecting automatically to secure public networks, which corresponds to Hotspot 2.0. Candidate 5 opens the Hotspot 2.0 settings page."
+  },
+  "switch to mobile data when wi-fi signal is weak__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "Candidate 1 directly matches the specific setting for switching to mobile data when Wi-Fi signal is weak, as supported by both the user query and the SIIS context."
+  },
+  "open volume settings to turn up media sound__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_2",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to open volume settings to turn up media sound, and candidate_2 directly matches the action of viewing the volume settings page."
+  },
+  "turn off system vibration tactile feedback__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_3",
+    "confidence": 0.85,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to turn off system vibration tactile feedback, which corresponds to disabling touch vibration interactions."
+  },
+  "mute calls and messages during sleep with do not disturb__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_2",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user wants to mute calls and messages during sleep using Do Not Disturb, and candidate_2 enables Do Not Disturb directly with matching polarity."
+  },
+  "open samsung keyboard settings page__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_6",
+    "confidence": 0.85,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to open the Samsung keyboard settings page, and candidate_6 corresponds to opening the general keyboard settings page."
+  },
+  "i'm traveling and won't have a charger all afternoon__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_6",
+    "confidence": 0.95,
+    "reason_code": "SIIS_GROUNDED",
+    "explanation": "The user states they are traveling without a charger and need to conserve battery, which matches the SIIS troubleshooting recommendation to enable Power saving mode."
+  },
+  "reduce screen brightness level__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_3",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user explicitly requested to reduce the screen brightness level, and candidate_3 ('Adjust Brightness') directly matches the configuration action to update the screen brightness."
+  },
+  "switch over to wireless internet__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_2",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to switch over to wireless internet, which corresponds to enabling Wi-Fi (candidate_2)."
+  },
+  "turn off auto dim screen on my phone__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_3",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to turn off auto dim screen, which directly matches candidate_3 to disable auto dim screen."
+  },
+  "screen is too bright to read comfortably__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.9,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user states the screen is too bright and SIIS context suggests the manual brightness slider in Settings. Candidate 1 opens the screen brightness settings page."
+  },
+  "my device is acting sluggish__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_5",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user reported that their device is acting sluggish, and candidate_5 ('Optimize Device Performance') directly addresses device slowness by cleaning memory, closing background apps, and improving overall performance."
+  },
+  "whenever i am typing text messages in a quiet library environment, the loud haptic vibration buzzes loudly against the desk, so i would like to disable tactile vibration feedback immediately.__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_6",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user explicitly wants to disable tactile vibration feedback while typing text messages, which corresponds directly to disabling Samsung Keyboard vibration."
+  },
+  "hey, my screen is keeping me awake at night, is there a dark wallpaper option?__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user is asking about a dark wallpaper option because their screen is keeping them awake, which directly corresponds to viewing the dim wallpaper setting when Dark mode is active."
+  },
+  "is there an option to limit battery charging so the battery doesn't degrade?__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_2",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user asks to limit battery charging to prevent degradation, and the SIIS context and candidate pool specifically support enabling Battery protection to cap maximum charge."
+  },
+  "turn off wi-fi and switch on mobile data when signal drops__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.85,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to switch on mobile data when signal drops, which matches candidate_1 to enable mobile data."
+  },
+  "i was watching a movie and the buzzing startled my cat, please disable vibration feedback__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.85,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user explicitly requested to disable vibration feedback while watching a movie, which directly matches the general vibration disabling action of candidate_1."
+  },
+  "how do i turn on high contrast keyboard?__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 1.0,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to turn on the high contrast keyboard. Candidate 1 directly matches the feature and polarity (enable)."
+  },
+  "enable haptic feedback on keypress__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_4",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested haptic feedback on keypress, which directly matches the Samsung Keyboard vibration setting."
+  },
+  "turn on eye protection shield to block blue light__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 1.0,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "Candidate 1 directly matches the user's explicit request to turn on the eye protection shield to block blue light (Eye Comfort Shield)."
+  },
+  "can you help me make the text on my keyboard much easier to read?__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.95,
+    "reason_code": "SIIS_GROUNDED",
+    "explanation": "The user wants to make keyboard text easier to read. The SIIS context explicitly recommends enabling the High contrast keyboard for improved key visibility, which maps directly to candidate_1."
+  },
+  "connect automatically to secure public wi-fi networks__k15": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_5",
+    "confidence": 0.95,
+    "reason_code": "SIIS_GROUNDED",
+    "explanation": "The user query and SIIS context specifically refer to connecting automatically to secure public networks using Hotspot 2.0, which corresponds to candidate_5."
+  },
+  "switch to mobile data when wi-fi signal is weak__k15": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "Candidate 1 directly matches the specific feature setting requested to switch to mobile data when Wi-Fi signal is weak, as supported by the SIIS context."
+  },
+  "open volume settings to turn up media sound__k15": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_2",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to open volume settings, which directly corresponds to candidate_2 (View Volume Settings) that opens the volume settings page."
+  },
+  "turn off system vibration tactile feedback__k15": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_3",
+    "confidence": 0.95,
+    "reason_code": "POLARITY_ALIGNMENT",
+    "explanation": "The user wants to turn off system vibration tactile feedback. Candidate 3 specifically disables touch interaction/tactile feedback vibration with the correct disable polarity."
+  },
+  "mute calls and messages during sleep with do not disturb__k15": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_2",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to mute calls and messages using Do Not Disturb during sleep, which maps directly to enabling Do Not Disturb."
+  },
+  "open samsung keyboard settings page__k15": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_6",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to open the Samsung keyboard settings page. Candidate 6 specifically opens the main keyboard settings page in device settings as supported by the SIIS context."
+  },
+  "i'm traveling and won't have a charger all afternoon__k15": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_6",
+    "confidence": 0.95,
+    "reason_code": "SIIS_GROUNDED",
+    "explanation": "The user states they are traveling and won't have a charger all afternoon, indicating a need to conserve battery. The SIIS context explicitly recommends enabling Power saving mode to limit background network usage and reduce CPU performance, which corresponds to candidate_6."
+  },
+  "reduce screen brightness level__k15": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_3",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to reduce screen brightness, which directly matches adjusting the brightness value in candidate_3."
+  },
+  "switch over to wireless internet__k15": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_2",
+    "confidence": 0.95,
+    "reason_code": "POLARITY_ALIGNMENT",
+    "explanation": "The user requested to switch over to wireless internet, which means turning on Wi-Fi. Candidate 2 enables Wi-Fi, aligning with the requested feature and positive polarity."
+  },
+  "turn off auto dim screen on my phone__k15": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_3",
+    "confidence": 1.0,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user explicitly requested to turn off 'Auto dim screen', which directly matches candidate_3 (Disable Auto dim screen) with correct polarity."
+  },
+  "screen is too bright to read comfortably__k15": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.95,
+    "reason_code": "SIIS_GROUNDED",
+    "explanation": "The user states the screen is too bright to read comfortably. The SIIS context provides guidance on adjusting the manual brightness slider via the display settings. Candidate 1 opens the screen brightness settings page, matching the SIIS recommendation."
+  },
+  "my device is acting sluggish__k15": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_13",
+    "confidence": 0.95,
+    "reason_code": "SIIS_GROUNDED",
+    "explanation": "The SIIS context explicitly recommends enabling Power saving mode to resolve device slowdown issues, which corresponds directly to candidate_13."
+  },
+  "whenever i am typing text messages in a quiet library environment, the loud haptic vibration buzzes loudly against the desk, so i would like to disable tactile vibration feedback immediately.__k15": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_6",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user explicitly stated they are typing text messages and want to disable tactile vibration feedback, which corresponds directly to disabling Samsung Keyboard vibration."
+  },
+  "hey, my screen is keeping me awake at night, is there a dark wallpaper option?__k15": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user is asking about a dark wallpaper option to help with screen brightness at night, which directly matches the action of viewing the dim wallpaper setting when Dark mode is on."
+  },
+  "is there an option to limit battery charging so the battery doesn't degrade?__k15": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_2",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user is asking how to limit battery charging to prevent degradation. The SIIS context and query point directly to enabling battery protection, which corresponds to candidate_2."
+  },
+  "turn off wi-fi and switch on mobile data when signal drops__k15": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_4",
+    "confidence": 0.95,
+    "reason_code": "SIIS_GROUNDED",
+    "explanation": "The user query and SIIS context specifically mention switching to mobile data when signal drops, matching candidate_4 which opens the switch to mobile data on poor Wi-Fi settings page."
+  },
+  "i was watching a movie and the buzzing startled my cat, please disable vibration feedback__k15": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_11",
+    "confidence": 0.85,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user wants to disable vibration feedback based on the SIIS context mentioning System vibration, and candidate_11 is the most direct view/configure option for system vibration settings."
+  },
+  "how do i turn on high contrast keyboard?__k15": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.98,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "Candidate 1 directly enables the high contrast keyboard as requested by the user and supported by the SIIS context."
+  },
+  "enable haptic feedback on keypress__k15": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_4",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "Candidate 4 specifically enables Samsung Keyboard vibration, which directly matches the user's request for haptic feedback on keypress."
+  },
+  "turn on eye protection shield to block blue light__k15": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 1.0,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user explicitly requested to turn on eye protection shield to block blue light, which directly matches candidate_1 (Enable Eye Comfort Shield)."
+  },
+  "can you help me make the text on my keyboard much easier to read?__k15": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.98,
+    "reason_code": "SIIS_GROUNDED",
+    "explanation": "The user wants to make the text on their keyboard easier to read. The SIIS context explicitly recommends enabling the High contrast keyboard for improved key visibility, which corresponds to candidate_1."
+  },
+  "my samsung s***** ultra screen flashes extremely quickly (in milliseconds) whenever i plug in a charger, making the display unusable for a short period.__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_2",
+    "confidence": 0.85,
+    "reason_code": "POLARITY_ALIGNMENT",
+    "explanation": "The user reports that the screen flashes briefly when plugging in a charger, pointing directly to the screen flash notification setting which can be disabled."
+  },
+  "my galaxy s22 screen inputs are delayed and the touch responsiveness is laggy, causing a noticeable delay when i try to interact with the phone.__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_3",
+    "confidence": 0.85,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user is reporting touch responsiveness and delay issues on their Galaxy S22 screen, which directly relates to touch sensitivity settings. Enabling touch sensitivity is the standard troubleshooting action for screen responsiveness problems when using screen protectors as referenced in the SIIS context."
+  },
+  "how do i turn on wi-fi on my samsung galaxy?__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_2",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user explicitly asked how to turn on Wi-Fi, and candidate_2 directly matches the feature and enable polarity."
+  },
+  "disable wi-fi connection__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user explicitly requested to disable Wi-Fi. Candidate 1 directly matches the action of disabling Wi-Fi settings."
+  },
+  "enable bluetooth on my galaxy phone__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 1.0,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to enable Bluetooth on their Galaxy phone without mentioning any specialized sub-features, making candidate_1 the direct match for the general Bluetooth enabling action."
+  },
+  "turn off bluetooth completely__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.98,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to turn off Bluetooth completely. Candidate 1 directly matches the action to disable Bluetooth."
+  },
+  "share my phone internet via bluetooth tethering__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user explicitly requested to share phone internet via Bluetooth tethering, which matches candidate_1 to view Bluetooth tethering settings."
+  },
+  "turn on bluetooth background scanning for location__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to turn on Bluetooth background scanning for location, which directly matches candidate_1 for enabling Bluetooth scanning."
+  },
+  "turn on power saving mode to extend battery life__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 1.0,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user explicitly requested to turn on power saving mode, which directly matches candidate_1 (Enable Power saving) with correct enable polarity."
+  },
+  "disable power saving mode to get full performance__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 1.0,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user explicitly requested to disable power saving mode, which directly matches candidate_1 (Disable Power saving)."
+  },
+  "turn off battery protection charging limit__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 1.0,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user explicitly requested to turn off battery protection, which directly corresponds to candidate_1 (Disable Battery protection)."
+  },
+  "back up my personal phone data to samsung cloud__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 1.0,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user explicitly wants to back up personal phone data to Samsung Cloud, which directly matches candidate_1 (Enable Back up data (Samsung Cloud)) with the correct enable polarity."
+  },
+  "switch to 24-hour military time format__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.99,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "Candidate 1 directly matches the user's request to switch to 24-hour time format by opening the corresponding settings page."
+  },
+  "disable 24-hour format and use standard 12-hour am/pm__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "Candidate 1 matches the user's request to configure time format settings to 12-hour AM/PM based on the SIIS context."
+  },
+  "turn on airplane mode before flight__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 1.0,
+    "reason_code": "POLARITY_ALIGNMENT",
+    "explanation": "The user explicitly requested to turn on Airplane mode, matching candidate_1 which enables Airplane mode with matching enable polarity."
+  },
+  "i need to conserve power because my charge is almost gone__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 1.0,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user wants to conserve power because their charge is almost gone. The SIIS context explicitly recommends enabling Power saving mode to limit background network usage and reduce CPU performance, matching candidate_1."
+  },
+  "how do i activate energy conservation on this device?__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.99,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to activate energy conservation, which directly corresponds to enabling power saving mode as recommended in the SIIS context and matched by candidate_1."
+  },
+  "turn on wireless networking on my galaxy__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_2",
+    "confidence": 0.95,
+    "reason_code": "POLARITY_ALIGNMENT",
+    "explanation": "The user explicitly requested to turn on wireless networking (Wi-Fi), and candidate_2 directly enables Wi-Fi with matching enable polarity."
+  },
+  "double tap the glass to wake up the screen__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 1.0,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to double tap the glass to wake up the screen, which matches candidate_1 to enable Double tap to turn on screen."
+  },
+  "show number of unread messages on app icons__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_3",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user wants to see the number of unread messages on app icons, which corresponds to viewing App icon badges as supported by the SIIS context and candidate_3."
+  },
+  "pair my wireless earbuds with bluetooth__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user wants to pair wireless earbuds with bluetooth, and the SIIS context guides the user to navigate to Bluetooth settings. Candidate 1 directly matches viewing and accessing the Bluetooth settings page."
+  },
+  "switch the clock from twelve hour to twenty four hour military time__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 1.0,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "Candidate 1 directly matches the user's intent to switch the clock format to 24-hour time, supported by the SIIS context."
+  },
+  "my battery is draining extremely fast today, help me diagnose it__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.95,
+    "reason_code": "SIIS_GROUNDED",
+    "explanation": "Candidate 1 directly matches the user's request to diagnose fast battery drain, aligning with the SIIS context for checking battery usage details."
+  },
+  "make the screen stay awake as long as i am looking at it__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_2",
+    "confidence": 1.0,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to make the screen stay awake while looking at it, which matches the SIIS context for 'Keep screen on while viewing' and aligns with candidate_2 to enable this feature."
+  },
+  "stop using mobile data when wi-fi is working fine__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to stop using mobile data when Wi-Fi is working, which aligns with disabling mobile data to prevent automatic fallback."
+  },
+  "how do i turn on wi-fi?__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_2",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user explicitly asked how to turn on Wi-Fi, and candidate_2 directly enables Wi-Fi with matching polarity and general feature scope."
+  }
+}

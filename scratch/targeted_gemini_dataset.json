@@ -1,0 +1,4846 @@
+[
+  {
+    "id": "ROB-0023",
+    "class": "B_cross_topic_generalization",
+    "query": "Connect automatically to secure public Wi-Fi networks",
+    "siis": {
+      "title": "Wi-Fi Management on Galaxy Device",
+      "content": "Wi-Fi connectivity guide for Galaxy devices. If you experience connection drops, go to Settings > Connections > Wi-Fi. Turn on Wi-Fi or toggle it off and on. Enable Hotspot 2.0 to automatically connect to secure public networks without login. If signal is poor, enable Switch to mobile data."
+    },
+    "expected_action": "view wifi settings",
+    "expected_uri": "bixby://masked/act/d4fe051e94",
+    "expected_polarity": "enable",
+    "expected_rank": 1,
+    "expected_candidate_in_top5": true,
+    "expected_candidate_in_top8": true,
+    "expected_candidate_in_top10": true,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "disable wifi",
+    "deterministic_selected_uri": "bixby://masked/act/2efbdb2164",
+    "deterministic_confidence": 0.5127,
+    "deterministic_margin": 0.0304,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0492",
+        "rank": 1,
+        "action": "View WiFi Settings",
+        "description": "Opens the automatic Wi-Fi turn on settings page in device Settings on the device.",
+        "score": 0.7327,
+        "polarity": "enable",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0573",
+        "rank": 2,
+        "action": "Disable WiFi",
+        "description": "Disables wifi settings via device Settings on the device.",
+        "score": 0.6927,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0313",
+        "rank": 3,
+        "action": "View WiFi Settings",
+        "description": "Opens the Wi-Fi settings page in device Settings on the device.",
+        "score": 0.6904,
+        "polarity": "view",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0574",
+        "rank": 4,
+        "action": "Enable WiFi",
+        "description": "Enables wifi settings via device Settings on the device.",
+        "score": 0.6702,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0571",
+        "rank": 5,
+        "action": "View WiFi Settings",
+        "description": "Opens the Hotspot 2.0 settings page in device Settings on the device.",
+        "score": 0.6139,
+        "polarity": "view",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0513",
+        "rank": 6,
+        "action": "View WiFi Settings",
+        "description": "Opens the Intelligent Wi-Fi settings page in device Settings on the device.",
+        "score": 0.6057,
+        "polarity": "view",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0536",
+        "rank": 7,
+        "action": "View Notification Settings",
+        "description": "Opens the Wi-Fi network notifications settings page in device Settings on the device.",
+        "score": 0.6043,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0572",
+        "rank": 8,
+        "action": "View WiFi Settings",
+        "description": "Opens the switch to mobile data on poor Wi-Fi settings page in device Settings on the device.",
+        "score": 0.5447,
+        "polarity": "view",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0081",
+        "rank": 9,
+        "action": "Disable Mobile data",
+        "description": "Disables mobile data via device Settings on the device.",
+        "score": 0.5387,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0082",
+        "rank": 10,
+        "action": "Enable Mobile data",
+        "description": "Enables mobile data via device Settings on the device.",
+        "score": 0.526,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0310",
+        "rank": 11,
+        "action": "Enable WiFi",
+        "description": "Enables Wi-Fi scanning via device Settings on the device.",
+        "score": 0.5224,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0309",
+        "rank": 12,
+        "action": "Disable WiFi",
+        "description": "Disables Wi-Fi scanning via device Settings on the device.",
+        "score": 0.5129,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0308",
+        "rank": 13,
+        "action": "View WiFi Settings",
+        "description": "Opens the Wi-Fi scanning settings page in device Settings on the device.",
+        "score": 0.4855,
+        "polarity": "view",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0530",
+        "rank": 14,
+        "action": "View Detect suspicious networks",
+        "description": "Opens the suspicious network detection settings page in device Settings on the device.",
+        "score": 0.4551,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0529",
+        "rank": 15,
+        "action": "View Mobile networks",
+        "description": "Opens the mobile network settings settings page in device Settings on the device.",
+        "score": 0.4149,
+        "polarity": "view",
+        "is_expected": false
+      }
+    ]
+  },
+  {
+    "id": "ROB-0024",
+    "class": "B_cross_topic_generalization",
+    "query": "Switch to mobile data when Wi-Fi signal is weak",
+    "siis": {
+      "title": "Wi-Fi Management on Galaxy Device",
+      "content": "Wi-Fi connectivity guide for Galaxy devices. If you experience connection drops, go to Settings > Connections > Wi-Fi. Turn on Wi-Fi or toggle it off and on. Enable Hotspot 2.0 to automatically connect to secure public networks without login. If signal is poor, enable Switch to mobile data."
+    },
+    "expected_action": "view wifi settings",
+    "expected_uri": "bixby://masked/act/a9b84a4800",
+    "expected_polarity": "enable",
+    "expected_rank": 1,
+    "expected_candidate_in_top5": true,
+    "expected_candidate_in_top8": true,
+    "expected_candidate_in_top10": true,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "enable mobile data",
+    "deterministic_selected_uri": "bixby://masked/act/149697728c",
+    "deterministic_confidence": 0.5375,
+    "deterministic_margin": 0.0044,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0572",
+        "rank": 1,
+        "action": "View WiFi Settings",
+        "description": "Opens the switch to mobile data on poor Wi-Fi settings page in device Settings on the device.",
+        "score": 0.8198,
+        "polarity": "view",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0081",
+        "rank": 2,
+        "action": "Disable Mobile data",
+        "description": "Disables mobile data via device Settings on the device.",
+        "score": 0.6774,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0573",
+        "rank": 3,
+        "action": "Disable WiFi",
+        "description": "Disables wifi settings via device Settings on the device.",
+        "score": 0.6649,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0082",
+        "rank": 4,
+        "action": "Enable Mobile data",
+        "description": "Enables mobile data via device Settings on the device.",
+        "score": 0.6597,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0574",
+        "rank": 5,
+        "action": "Enable WiFi",
+        "description": "Enables wifi settings via device Settings on the device.",
+        "score": 0.6313,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0513",
+        "rank": 6,
+        "action": "View WiFi Settings",
+        "description": "Opens the Intelligent Wi-Fi settings page in device Settings on the device.",
+        "score": 0.6063,
+        "polarity": "view",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0313",
+        "rank": 7,
+        "action": "View WiFi Settings",
+        "description": "Opens the Wi-Fi settings page in device Settings on the device.",
+        "score": 0.6028,
+        "polarity": "view",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0492",
+        "rank": 8,
+        "action": "View WiFi Settings",
+        "description": "Opens the automatic Wi-Fi turn on settings page in device Settings on the device.",
+        "score": 0.5339,
+        "polarity": "enable",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0274",
+        "rank": 9,
+        "action": "Disable Airplane mode",
+        "description": "Disables airplane mode via device Settings on the device.",
+        "score": 0.4807,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0309",
+        "rank": 10,
+        "action": "Disable WiFi",
+        "description": "Disables Wi-Fi scanning via device Settings on the device.",
+        "score": 0.474,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0079",
+        "rank": 11,
+        "action": "Disable Turn on now",
+        "description": "Disables Data Saver via device Settings on the device.",
+        "score": 0.4678,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0275",
+        "rank": 12,
+        "action": "Enable Airplane mode",
+        "description": "Enables airplane mode via device Settings on the device.",
+        "score": 0.4639,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0080",
+        "rank": 13,
+        "action": "Enable Turn on now",
+        "description": "Enables Data Saver via device Settings on the device.",
+        "score": 0.4555,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0310",
+        "rank": 14,
+        "action": "Enable WiFi",
+        "description": "Enables Wi-Fi scanning via device Settings on the device.",
+        "score": 0.4529,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0237",
+        "rank": 15,
+        "action": "Disable Set data warning",
+        "description": "Disables data warning via device Settings on the device.",
+        "score": 0.4487,
+        "polarity": "disable",
+        "is_expected": false
+      }
+    ]
+  },
+  {
+    "id": "ROB-0029",
+    "class": "B_cross_topic_generalization",
+    "query": "Open volume settings to turn up media sound",
+    "siis": {
+      "title": "Sound Management on Galaxy Device",
+      "content": "Sound and vibration configuration guide. Open Settings, tap Sounds and vibration. Adjust volume levels for ringtone, media, notifications, and system. Enable System vibration to provide tactile confirmation on touch. To prevent sound interruptions during meetings, configure Do Not Disturb."
+    },
+    "expected_action": "view volume settings",
+    "expected_uri": "bixby://masked/act/63ed0e1cc0",
+    "expected_polarity": "neutral",
+    "expected_rank": 2,
+    "expected_candidate_in_top5": true,
+    "expected_candidate_in_top8": true,
+    "expected_candidate_in_top10": true,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "enable use volume buttons for media",
+    "deterministic_selected_uri": "bixby://masked/act/3f6d0e79f8",
+    "deterministic_confidence": 0.6579,
+    "deterministic_margin": 0.0543,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0305",
+        "rank": 1,
+        "action": "Enable Use Volume buttons for media",
+        "description": "Enables volume buttons for media control via device Settings on the device.",
+        "score": 0.931,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0570",
+        "rank": 2,
+        "action": "View Volume Settings",
+        "description": "Opens the volume settings settings page in device Settings on the device.",
+        "score": 0.8902,
+        "polarity": "view",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0161",
+        "rank": 3,
+        "action": "Increase Media Volume",
+        "description": "Updates the media volume to a specified value via device Settings on the device.",
+        "score": 0.7852,
+        "polarity": "configure",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0260",
+        "rank": 4,
+        "action": "Adjust Volume",
+        "description": "Updates the sound mode to a specified value via device Settings on the device.",
+        "score": 0.743,
+        "polarity": "configure",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0535",
+        "rank": 5,
+        "action": "Adjust Volume",
+        "description": "Updates the notification sound to a specified value via device Settings on the device.",
+        "score": 0.7017,
+        "polarity": "configure",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0321",
+        "rank": 6,
+        "action": "View Sound Settings",
+        "description": "Opens the media sound in Do Not Disturb settings page in device Settings on the device.",
+        "score": 0.6893,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0342",
+        "rank": 7,
+        "action": "View Sound Settings",
+        "description": "Opens the TalkBack sound feedback volume settings page in device Settings on the device.",
+        "score": 0.6708,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0291",
+        "rank": 8,
+        "action": "Enable Touch interactions",
+        "description": "Enables touch interaction sounds via device Settings on the device.",
+        "score": 0.6568,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0208",
+        "rank": 9,
+        "action": "Adjust Ringtone",
+        "description": "Updates the ringtone volume to a specified value via device Settings on the device.",
+        "score": 0.6563,
+        "polarity": "configure",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0556",
+        "rank": 10,
+        "action": "View Sound Settings",
+        "description": "Opens the sound quality and effects settings page in device Settings on the device.",
+        "score": 0.6526,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0166",
+        "rank": 11,
+        "action": "View Sound Settings",
+        "description": "Opens the separate app sound settings page in device Settings on the device.",
+        "score": 0.6481,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0160",
+        "rank": 12,
+        "action": "Increase Media Volume",
+        "description": "Updates the media vibration to a specified value via device Settings on the device.",
+        "score": 0.6479,
+        "polarity": "configure",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0557",
+        "rank": 13,
+        "action": "View Sound Settings",
+        "description": "Opens the sound mode settings page in device Settings on the device.",
+        "score": 0.6466,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0065",
+        "rank": 14,
+        "action": "View Sound Settings",
+        "description": "Opens the amplify ambient sound shortcut settings in device Settings on the device.",
+        "score": 0.6426,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0185",
+        "rank": 15,
+        "action": "Adjust Notifications",
+        "description": "Updates the notification volume to a specified value via device Settings on the device.",
+        "score": 0.6425,
+        "polarity": "configure",
+        "is_expected": false
+      }
+    ]
+  },
+  {
+    "id": "ROB-0030",
+    "class": "B_cross_topic_generalization",
+    "query": "Enable system vibration feedback for typing and taps",
+    "siis": {
+      "title": "Sound Management on Galaxy Device",
+      "content": "Sound and vibration configuration guide. Open Settings, tap Sounds and vibration. Adjust volume levels for ringtone, media, notifications, and system. Enable System vibration to provide tactile confirmation on touch. To prevent sound interruptions during meetings, configure Do Not Disturb."
+    },
+    "expected_action": "view system vibration",
+    "expected_uri": "bixby://masked/act/3d8fd23e82",
+    "expected_polarity": "enable",
+    "expected_rank": 3,
+    "expected_candidate_in_top5": true,
+    "expected_candidate_in_top8": true,
+    "expected_candidate_in_top10": true,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "enable vibrations",
+    "deterministic_selected_uri": "bixby://masked/act/7389df9cee",
+    "deterministic_confidence": 0.7055,
+    "deterministic_margin": 0.1182,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0443",
+        "rank": 1,
+        "action": "Enable Vibrations",
+        "description": "Enables Air command vibrations via device Settings on the device.",
+        "score": 0.9205,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0298",
+        "rank": 2,
+        "action": "Enable Touch interactions",
+        "description": "Enables touch vibration via device Settings on the device.",
+        "score": 0.8699,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0564",
+        "rank": 3,
+        "action": "View System vibration",
+        "description": "Opens the system vibration settings page in device Settings on the device.",
+        "score": 0.8455,
+        "polarity": "view",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0054",
+        "rank": 4,
+        "action": "Enable Camera Feedback",
+        "description": "Enables camera feedback vibration via device Settings on the device.",
+        "score": 0.8298,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0171",
+        "rank": 5,
+        "action": "Enable Gesture Controls",
+        "description": "Enables navigation gestures vibration via device Settings on the device.",
+        "score": 0.8263,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0302",
+        "rank": 6,
+        "action": "Enable Sound Amplification",
+        "description": "Enables vibration sound for incoming calls via device Settings on the device.",
+        "score": 0.7983,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0291",
+        "rank": 7,
+        "action": "Enable Touch interactions",
+        "description": "Enables touch interaction sounds via device Settings on the device.",
+        "score": 0.7895,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0145",
+        "rank": 8,
+        "action": "Enable Samsung Keyboard",
+        "description": "Enables Samsung Keyboard vibration via device Settings on the device.",
+        "score": 0.7889,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0087",
+        "rank": 9,
+        "action": "Enable Dialing keypad",
+        "description": "Enables dialing keypad vibration via device Settings on the device.",
+        "score": 0.7365,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0272",
+        "rank": 10,
+        "action": "Adjust System",
+        "description": "Updates the system vibration to a specified value via device Settings on the device.",
+        "score": 0.7284,
+        "polarity": "configure",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0300",
+        "rank": 11,
+        "action": "Enable Vibrate while ringing",
+        "description": "Enables vibrate while ringing via device Settings on the device.",
+        "score": 0.7222,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0376",
+        "rank": 12,
+        "action": "Enable Show taps and touches",
+        "description": "Enables show taps and touches in recordings via device Settings on the device.",
+        "score": 0.7035,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0059",
+        "rank": 13,
+        "action": "Enable Charging",
+        "description": "Enables charging feedback vibration via device Settings on the device.",
+        "score": 0.6968,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0563",
+        "rank": 14,
+        "action": "Adjust Vibration intensity",
+        "description": "Updates the vibration intensity to a specified value via device Settings on the device.",
+        "score": 0.6891,
+        "polarity": "configure",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0256",
+        "rank": 15,
+        "action": "Enable Alert when phone picked up",
+        "description": "Enables alert when phone picked up via device Settings on the device.",
+        "score": 0.6543,
+        "polarity": "enable",
+        "is_expected": false
+      }
+    ]
+  },
+  {
+    "id": "ROB-0031",
+    "class": "B_cross_topic_generalization",
+    "query": "Turn off system vibration tactile feedback",
+    "siis": {
+      "title": "Sound Management on Galaxy Device",
+      "content": "Sound and vibration configuration guide. Open Settings, tap Sounds and vibration. Adjust volume levels for ringtone, media, notifications, and system. Enable System vibration to provide tactile confirmation on touch. To prevent sound interruptions during meetings, configure Do Not Disturb."
+    },
+    "expected_action": "view system vibration",
+    "expected_uri": "bixby://masked/act/3d8fd23e82",
+    "expected_polarity": "disable",
+    "expected_rank": 2,
+    "expected_candidate_in_top5": true,
+    "expected_candidate_in_top8": true,
+    "expected_candidate_in_top10": true,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "disable vibrations",
+    "deterministic_selected_uri": "bixby://masked/act/70dc4b64a1",
+    "deterministic_confidence": 0.6759,
+    "deterministic_margin": 0.1172,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0442",
+        "rank": 1,
+        "action": "Disable Vibrations",
+        "description": "Disables Air command vibrations via device Settings on the device.",
+        "score": 0.9243,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0564",
+        "rank": 2,
+        "action": "View System vibration",
+        "description": "Opens the system vibration settings page in device Settings on the device.",
+        "score": 0.9004,
+        "polarity": "view",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0297",
+        "rank": 3,
+        "action": "Disable Touch interactions",
+        "description": "Disables touch vibration via device Settings on the device.",
+        "score": 0.8604,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0053",
+        "rank": 4,
+        "action": "Disable Camera Feedback",
+        "description": "Disables camera feedback vibration via device Settings on the device.",
+        "score": 0.8576,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0301",
+        "rank": 5,
+        "action": "Disable Sound Amplification",
+        "description": "Disables vibration sound for incoming calls via device Settings on the device.",
+        "score": 0.774,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0170",
+        "rank": 6,
+        "action": "Disable Gesture Controls",
+        "description": "Disables navigation gestures vibration via device Settings on the device.",
+        "score": 0.7352,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0086",
+        "rank": 7,
+        "action": "Disable Dialing keypad",
+        "description": "Disables dialing keypad vibration via device Settings on the device.",
+        "score": 0.7261,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0144",
+        "rank": 8,
+        "action": "Disable Samsung Keyboard",
+        "description": "Disables Samsung Keyboard vibration via device Settings on the device.",
+        "score": 0.7011,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0299",
+        "rank": 9,
+        "action": "Disable Vibrate while ringing",
+        "description": "Disables vibrate while ringing via device Settings on the device.",
+        "score": 0.7007,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0272",
+        "rank": 10,
+        "action": "Adjust System",
+        "description": "Updates the system vibration to a specified value via device Settings on the device.",
+        "score": 0.691,
+        "polarity": "configure",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0091",
+        "rank": 11,
+        "action": "Enable Double tap to turn off screen",
+        "description": "Enables double tap to turn off screen via device Settings on the device.",
+        "score": 0.6787,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0058",
+        "rank": 12,
+        "action": "Disable Charging",
+        "description": "Disables charging feedback vibration via device Settings on the device.",
+        "score": 0.6682,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0290",
+        "rank": 13,
+        "action": "Disable Touch interactions",
+        "description": "Disables touch interaction sounds via device Settings on the device.",
+        "score": 0.6654,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0090",
+        "rank": 14,
+        "action": "Disable Double tap to turn off screen",
+        "description": "Disables double tap to turn off screen via device Settings on the device.",
+        "score": 0.6543,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0189",
+        "rank": 15,
+        "action": "Enable Palm touch to turn off screen",
+        "description": "Enables palm touch to turn off screen via device Settings on the device.",
+        "score": 0.6433,
+        "polarity": "disable",
+        "is_expected": false
+      }
+    ]
+  },
+  {
+    "id": "ROB-0032",
+    "class": "B_cross_topic_generalization",
+    "query": "Mute calls and messages during sleep with Do Not Disturb",
+    "siis": {
+      "title": "Sound Management on Galaxy Device",
+      "content": "Sound and vibration configuration guide. Open Settings, tap Sounds and vibration. Adjust volume levels for ringtone, media, notifications, and system. Enable System vibration to provide tactile confirmation on touch. To prevent sound interruptions during meetings, configure Do Not Disturb."
+    },
+    "expected_action": "enable zen mode",
+    "expected_uri": "bixby://masked/act/19e9cc30db",
+    "expected_polarity": "enable",
+    "expected_rank": 1,
+    "expected_candidate_in_top5": true,
+    "expected_candidate_in_top8": true,
+    "expected_candidate_in_top10": true,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "enable do not disturb",
+    "deterministic_selected_uri": "bixby://masked/act/29a1aae57d",
+    "deterministic_confidence": 0.556,
+    "deterministic_margin": 0.0289,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0575",
+        "rank": 1,
+        "action": "Enable Zen Mode",
+        "description": "Updates the calls and messages in Do Not Disturb to a specified value via device Settings on the device.",
+        "score": 0.8733,
+        "polarity": "enable",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0506",
+        "rank": 2,
+        "action": "Enable Do not disturb",
+        "description": "Enables enable now via device Settings on the device.",
+        "score": 0.7972,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0300",
+        "rank": 3,
+        "action": "Enable Vibrate while ringing",
+        "description": "Enables vibrate while ringing via device Settings on the device.",
+        "score": 0.7013,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0324",
+        "rank": 4,
+        "action": "View Sound Settings",
+        "description": "Opens the touch sounds in Do Not Disturb settings page in device Settings on the device.",
+        "score": 0.6835,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0321",
+        "rank": 5,
+        "action": "View Sound Settings",
+        "description": "Opens the media sound in Do Not Disturb settings page in device Settings on the device.",
+        "score": 0.6442,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0302",
+        "rank": 6,
+        "action": "Enable Sound Amplification",
+        "description": "Enables vibration sound for incoming calls via device Settings on the device.",
+        "score": 0.6296,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0305",
+        "rank": 7,
+        "action": "Enable Use Volume buttons for media",
+        "description": "Enables volume buttons for media control via device Settings on the device.",
+        "score": 0.6029,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0443",
+        "rank": 8,
+        "action": "Enable Vibrations",
+        "description": "Enables Air command vibrations via device Settings on the device.",
+        "score": 0.5788,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0260",
+        "rank": 9,
+        "action": "Adjust Volume",
+        "description": "Updates the sound mode to a specified value via device Settings on the device.",
+        "score": 0.575,
+        "polarity": "configure",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0101",
+        "rank": 10,
+        "action": "View Do not disturb",
+        "description": "Opens the Do Not Disturb settings page in device Settings on the device.",
+        "score": 0.5723,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0256",
+        "rank": 11,
+        "action": "Enable Alert when phone picked up",
+        "description": "Enables alert when phone picked up via device Settings on the device.",
+        "score": 0.5668,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0085",
+        "rank": 12,
+        "action": "Enable Dialing keypad",
+        "description": "Enables dialing keypad tones via device Settings on the device.",
+        "score": 0.5544,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0087",
+        "rank": 13,
+        "action": "Enable Dialing keypad",
+        "description": "Enables dialing keypad vibration via device Settings on the device.",
+        "score": 0.5518,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0535",
+        "rank": 14,
+        "action": "Adjust Volume",
+        "description": "Updates the notification sound to a specified value via device Settings on the device.",
+        "score": 0.5456,
+        "polarity": "configure",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0557",
+        "rank": 15,
+        "action": "View Sound Settings",
+        "description": "Opens the sound mode settings page in device Settings on the device.",
+        "score": 0.5443,
+        "polarity": "view",
+        "is_expected": false
+      }
+    ]
+  },
+  {
+    "id": "ROB-0043",
+    "class": "B_cross_topic_generalization",
+    "query": "Open Samsung keyboard settings page",
+    "siis": {
+      "title": "Keyboard Management on Galaxy Device",
+      "content": "Samsung on-screen keyboard customization. Navigate to Settings > General management > Samsung Keyboard settings. Enable High contrast keyboard to improve key visibility, or adjust keyboard layout and input languages."
+    },
+    "expected_action": "view magnification settings",
+    "expected_uri": "bixby://masked/act/2422d48c35",
+    "expected_polarity": "neutral",
+    "expected_rank": 2,
+    "expected_candidate_in_top5": true,
+    "expected_candidate_in_top8": true,
+    "expected_candidate_in_top10": true,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "enable samsung keyboard",
+    "deterministic_selected_uri": "bixby://masked/act/5010d4834b",
+    "deterministic_confidence": 0.5385,
+    "deterministic_margin": 0.0312,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0385",
+        "rank": 1,
+        "action": "View Number keys",
+        "description": "Opens the number keys on Samsung Keyboard settings page in device Settings on the device.",
+        "score": 0.6717,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0396",
+        "rank": 2,
+        "action": "View Magnification Settings",
+        "description": "Opens the keyboard toolbar settings page in device Settings on the device.",
+        "score": 0.6588,
+        "polarity": "view",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0387",
+        "rank": 3,
+        "action": "View Magnification Settings",
+        "description": "Opens the high contrast keyboard settings page in device Settings on the device.",
+        "score": 0.6482,
+        "polarity": "view",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0143",
+        "rank": 4,
+        "action": "Enable Samsung Keyboard",
+        "description": "Enables Samsung Keyboard sound via device Settings on the device.",
+        "score": 0.6436,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0394",
+        "rank": 5,
+        "action": "View Magnification Settings",
+        "description": "Opens the keyboard touch and hold delay settings page in device Settings on the device.",
+        "score": 0.6413,
+        "polarity": "view",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0565",
+        "rank": 6,
+        "action": "View Magnification Settings",
+        "description": "Opens the keyboard settings settings page in device Settings on the device.",
+        "score": 0.6362,
+        "polarity": "view",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0388",
+        "rank": 7,
+        "action": "View Magnification Settings",
+        "description": "Opens the keyboard swipe controls settings page in device Settings on the device.",
+        "score": 0.62,
+        "polarity": "view",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0120",
+        "rank": 8,
+        "action": "Enable High Contrast",
+        "description": "Enables high contrast keyboard via device Settings on the device.",
+        "score": 0.6185,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0386",
+        "rank": 9,
+        "action": "View Alternative characters",
+        "description": "Opens the alternative characters on Samsung Keyboard settings page in device Settings on the device.",
+        "score": 0.6115,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0142",
+        "rank": 10,
+        "action": "Disable Samsung Keyboard",
+        "description": "Disables Samsung Keyboard sound via device Settings on the device.",
+        "score": 0.6103,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0381",
+        "rank": 11,
+        "action": "View Suggest stickers",
+        "description": "Opens the sticker suggestions on Samsung Keyboard settings page in device Settings on the device.",
+        "score": 0.6058,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0145",
+        "rank": 12,
+        "action": "Enable Samsung Keyboard",
+        "description": "Enables Samsung Keyboard vibration via device Settings on the device.",
+        "score": 0.6054,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0119",
+        "rank": 13,
+        "action": "Disable High Contrast",
+        "description": "Disables high contrast keyboard via device Settings on the device.",
+        "score": 0.6004,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0252",
+        "rank": 14,
+        "action": "View Magnification Settings",
+        "description": "Opens the on-screen keyboard settings page in device Settings on the device.",
+        "score": 0.5943,
+        "polarity": "view",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0144",
+        "rank": 15,
+        "action": "Disable Samsung Keyboard",
+        "description": "Disables Samsung Keyboard vibration via device Settings on the device.",
+        "score": 0.5908,
+        "polarity": "disable",
+        "is_expected": false
+      }
+    ]
+  },
+  {
+    "id": "ROB-0050",
+    "class": "C_severe_paraphrase",
+    "query": "I'm traveling and won't have a charger all afternoon",
+    "siis": {
+      "title": "Battery Troubleshooting",
+      "content": "Battery and device care troubleshooting for Samsung Galaxy devices. To maximize battery longevity, open Settings and navigate to Battery. Enable Power saving mode to limit background network usage and reduce CPU performance. You can also enable Battery protection to cap maximum charge at 85 percent."
+    },
+    "expected_action": "enable power saving",
+    "expected_uri": "bixby://masked/act/75cb6916fd",
+    "expected_polarity": "enable",
+    "expected_rank": 6,
+    "expected_candidate_in_top5": false,
+    "expected_candidate_in_top8": true,
+    "expected_candidate_in_top10": true,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "enable charging",
+    "deterministic_selected_uri": "bixby://masked/act/238c026357",
+    "deterministic_confidence": 0.5483,
+    "deterministic_margin": 0.0111,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0061",
+        "rank": 1,
+        "action": "Enable Charging",
+        "description": "Enables charging sounds via device Settings on the device.",
+        "score": 0.779,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0244",
+        "rank": 2,
+        "action": "Enable Show charging information",
+        "description": "Enables charging information via device Settings on the device.",
+        "score": 0.77,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0059",
+        "rank": 3,
+        "action": "Enable Charging",
+        "description": "Enables charging feedback vibration via device Settings on the device.",
+        "score": 0.7348,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0404",
+        "rank": 4,
+        "action": "Enable Fast charging",
+        "description": "Enables fast cable charging via device Settings on the device.",
+        "score": 0.7321,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0406",
+        "rank": 5,
+        "action": "Enable Fast wireless charging",
+        "description": "Enables fast wireless charging via device Settings on the device.",
+        "score": 0.7163,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0412",
+        "rank": 6,
+        "action": "Enable Power saving",
+        "description": "Enables power saving mode via device Settings on the device.",
+        "score": 0.6544,
+        "polarity": "enable",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0275",
+        "rank": 7,
+        "action": "Enable Airplane mode",
+        "description": "Enables airplane mode via device Settings on the device.",
+        "score": 0.6364,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0098",
+        "rank": 8,
+        "action": "Enable Roaming clock",
+        "description": "Enables roaming clock on lock screen via device Settings on the device.",
+        "score": 0.6341,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0408",
+        "rank": 9,
+        "action": "Enable Always On Display",
+        "description": "Enables charging information on Always On Display via device Settings on the device.",
+        "score": 0.6319,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0410",
+        "rank": 10,
+        "action": "Enable Battery protection",
+        "description": "Enables battery protection via device Settings on the device.",
+        "score": 0.6088,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0414",
+        "rank": 11,
+        "action": "Enable Wireless power sharing",
+        "description": "Enables wireless power sharing via device Settings on the device.",
+        "score": 0.5875,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0034",
+        "rank": 12,
+        "action": "Enable Auto Time",
+        "description": "Enables automatic time zone via device Settings on the device.",
+        "score": 0.5555,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0242",
+        "rank": 13,
+        "action": "Enable Background Limit",
+        "description": "Enables battery background display via device Settings on the device.",
+        "score": 0.5218,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0515",
+        "rank": 14,
+        "action": "Check Battery Performance",
+        "description": "Opens the fast wireless charging settings page in device Settings on the device.",
+        "score": 0.5176,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0168",
+        "rank": 15,
+        "action": "Enable Multi window for all apps",
+        "description": "Enables multi window for all apps via device Settings on the device.",
+        "score": 0.5006,
+        "polarity": "enable",
+        "is_expected": false
+      }
+    ]
+  },
+  {
+    "id": "ROB-0054",
+    "class": "C_severe_paraphrase",
+    "query": "My screen is shining too bright at night",
+    "siis": {
+      "title": "Display Troubleshooting",
+      "content": "Smartphone,Others Mobile,Mobile Accessories,Tablet Email server not responding on Samsung phone or tablet ( Smartphone,Others Mobile,Mobile Accessories,Tablet): # Troubleshooting Email Connection Issues on Your Samsung Phone\nIf you're having trouble accessing your email on your Samsung phone, here are some steps you can take to resolve the issue.\n## Step 1: Check Email Access on a PC\nFirst, try accessing your email on a personal computer. This helps determine if the problem is with your phone's connection or your email account itself. If you can sign in and access your email on a PC, your phone might not be connected to Wi-Fi or mobile data.\n## Step 2: Verify Your Phone's Internet Connection\nEnsure your phone is connected to a stable Wi-Fi or mobile data network.\nSwipe down from the top of your phone's screen to open the Quick settings panel.\nTouch and hold the Wi-Fi icon to check your connection status.\nAlternatively, go to Settings, tap Connections, and then tap Wi-Fi. To confirm your internet connection is working, try loading a webpage or performing a quick search.\n## Step 3: Review Your Email Account Settings\nSometimes, changes made by your email provider on their server can cause connection problems. In such cases, you may need to remove and re-add your email account to your phone to apply the new configuration.\nYou can find instructions on how to remove your account and add it again at the provided links.\nBefore proceeding, make sure you have your email account's username and password readily available.\nRemember that passwords are case-sensitive. Entering the password incorrectly will prevent your phone from connecting to your email server.\n## Step 4: Clear the Email App's Cache and Data\nClearing the cache and data for your email app can resolve temporary glitches.\nTo clear the app's cache:\nNavigate to Settings.\nTap Apps.\nSelect your email app.\nTap Storage.\nTap Clear cache.\nTo clear the app's data:\nNavigate to Settings.\nTap Apps.\nSelect your email app.\nTap Storage.\nTap Clear data, and then tap OK.\nClearing the app's data will reset it to its original settings, effectively wiping it clean.\n## Step 5: Restart Your Phone in Safe Mode\nUsing Safe mode helps identify if a third-party app, including your email app, is causing conflicts with your phone's performance.\nPress and hold the Power button or Side button.\nIf your phone doesn't have a dedicated Power button, swipe down from the top of the screen to open Quick settings, and then tap the Power icon.\nTouch and hold the Power off icon.\nTap Safe mode when it appears on the screen.\nYour phone will restart, and \"Safe mode\" will be displayed in the bottom left corner of the screen. While in Safe mode, check if your email app is still experiencing issues. If the problem is resolved, it indicates that another app might be causing the conflict. You can also uninstall the email app if necessary while in Safe mode.\nTo exit Safe mode, simply restart your phone normally.\n## Step 6: Contact Your Email Service Provider\nIf you have followed all the above steps and are still experiencing difficulties with your email connection, it is recommended to contact your email service provider directly for further assistance."
+    },
+    "expected_action": "adjust brightness",
+    "expected_uri": "bixby://masked/act/e26224271b",
+    "expected_polarity": "neutral",
+    "expected_rank": 13,
+    "expected_candidate_in_top5": false,
+    "expected_candidate_in_top8": false,
+    "expected_candidate_in_top10": false,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "enable double tap to turn off screen",
+    "deterministic_selected_uri": "bixby://masked/act/c5ea7aac21",
+    "deterministic_confidence": 0.4106,
+    "deterministic_margin": 0.0017,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0258",
+        "rank": 1,
+        "action": "Disable Keep screen on while viewing",
+        "description": "Disables keep screen on while viewing via device Settings on the device.",
+        "score": 0.5407,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0090",
+        "rank": 2,
+        "action": "Disable Double tap to turn off screen",
+        "description": "Disables double tap to turn off screen via device Settings on the device.",
+        "score": 0.5407,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0091",
+        "rank": 3,
+        "action": "Enable Double tap to turn off screen",
+        "description": "Enables double tap to turn off screen via device Settings on the device.",
+        "score": 0.5404,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0088",
+        "rank": 4,
+        "action": "Disable Double tap to turn on screen",
+        "description": "Disables double tap to wake screen via device Settings on the device.",
+        "score": 0.5372,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0259",
+        "rank": 5,
+        "action": "Enable Keep screen on while viewing",
+        "description": "Enables keep screen on while viewing via device Settings on the device.",
+        "score": 0.5288,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0089",
+        "rank": 6,
+        "action": "Enable Double tap to turn on screen",
+        "description": "Enables double tap to wake screen via device Settings on the device.",
+        "score": 0.5229,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0225",
+        "rank": 7,
+        "action": "View Turn on as scheduled",
+        "description": "Opens the Dark mode schedule settings page in device Settings on the device.",
+        "score": 0.5204,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0104",
+        "rank": 8,
+        "action": "Disable Adaptive Display",
+        "description": "Disables extra brightness via device Settings on the device.",
+        "score": 0.5167,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0050",
+        "rank": 9,
+        "action": "View Show brief pop-ups even while screen is off",
+        "description": "Opens the show brief pop-ups even while screen is off settings in device Settings on the device.",
+        "score": 0.5117,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0215",
+        "rank": 10,
+        "action": "View Screen mode",
+        "description": "Opens the screen mode settings page in device Settings on the device.",
+        "score": 0.5081,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0482",
+        "rank": 11,
+        "action": "Disable Always On Display",
+        "description": "Disables always on screen via device Settings on the device.",
+        "score": 0.5065,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0190",
+        "rank": 12,
+        "action": "Disable Maximum privacy protection",
+        "description": "Disables extra dim (maximum privacy protection) via device Settings on the device.",
+        "score": 0.5053,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0232",
+        "rank": 13,
+        "action": "Adjust Brightness",
+        "description": "Updates the screen brightness to a specified value via device Settings on the device.",
+        "score": 0.5039,
+        "polarity": "configure",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0496",
+        "rank": 14,
+        "action": "View Adjust Brightness",
+        "description": "Opens the screen brightness settings page in device Settings on the device.",
+        "score": 0.5016,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0515",
+        "rank": 15,
+        "action": "Check Battery Performance",
+        "description": "Opens the fast wireless charging settings page in device Settings on the device.",
+        "score": 0.4928,
+        "polarity": "view",
+        "is_expected": false
+      }
+    ]
+  },
+  {
+    "id": "ROB-0055",
+    "class": "C_severe_paraphrase",
+    "query": "Reduce screen brightness level",
+    "siis": {
+      "title": "Display Troubleshooting",
+      "content": "Smartphone,Others Mobile,Mobile Accessories,Tablet Email server not responding on Samsung phone or tablet ( Smartphone,Others Mobile,Mobile Accessories,Tablet): # Troubleshooting Email Connection Issues on Your Samsung Phone\nIf you're having trouble accessing your email on your Samsung phone, here are some steps you can take to resolve the issue.\n## Step 1: Check Email Access on a PC\nFirst, try accessing your email on a personal computer. This helps determine if the problem is with your phone's connection or your email account itself. If you can sign in and access your email on a PC, your phone might not be connected to Wi-Fi or mobile data.\n## Step 2: Verify Your Phone's Internet Connection\nEnsure your phone is connected to a stable Wi-Fi or mobile data network.\nSwipe down from the top of your phone's screen to open the Quick settings panel.\nTouch and hold the Wi-Fi icon to check your connection status.\nAlternatively, go to Settings, tap Connections, and then tap Wi-Fi. To confirm your internet connection is working, try loading a webpage or performing a quick search.\n## Step 3: Review Your Email Account Settings\nSometimes, changes made by your email provider on their server can cause connection problems. In such cases, you may need to remove and re-add your email account to your phone to apply the new configuration.\nYou can find instructions on how to remove your account and add it again at the provided links.\nBefore proceeding, make sure you have your email account's username and password readily available.\nRemember that passwords are case-sensitive. Entering the password incorrectly will prevent your phone from connecting to your email server.\n## Step 4: Clear the Email App's Cache and Data\nClearing the cache and data for your email app can resolve temporary glitches.\nTo clear the app's cache:\nNavigate to Settings.\nTap Apps.\nSelect your email app.\nTap Storage.\nTap Clear cache.\nTo clear the app's data:\nNavigate to Settings.\nTap Apps.\nSelect your email app.\nTap Storage.\nTap Clear data, and then tap OK.\nClearing the app's data will reset it to its original settings, effectively wiping it clean.\n## Step 5: Restart Your Phone in Safe Mode\nUsing Safe mode helps identify if a third-party app, including your email app, is causing conflicts with your phone's performance.\nPress and hold the Power button or Side button.\nIf your phone doesn't have a dedicated Power button, swipe down from the top of the screen to open Quick settings, and then tap the Power icon.\nTouch and hold the Power off icon.\nTap Safe mode when it appears on the screen.\nYour phone will restart, and \"Safe mode\" will be displayed in the bottom left corner of the screen. While in Safe mode, check if your email app is still experiencing issues. If the problem is resolved, it indicates that another app might be causing the conflict. You can also uninstall the email app if necessary while in Safe mode.\nTo exit Safe mode, simply restart your phone normally.\n## Step 6: Contact Your Email Service Provider\nIf you have followed all the above steps and are still experiencing difficulties with your email connection, it is recommended to contact your email service provider directly for further assistance."
+    },
+    "expected_action": "adjust brightness",
+    "expected_uri": "bixby://masked/act/e26224271b",
+    "expected_polarity": "neutral",
+    "expected_rank": 3,
+    "expected_candidate_in_top5": true,
+    "expected_candidate_in_top8": true,
+    "expected_candidate_in_top10": true,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "view screen mode",
+    "deterministic_selected_uri": "bixby://masked/act/c24c98e700",
+    "deterministic_confidence": 0.4097,
+    "deterministic_margin": 0.0016,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0496",
+        "rank": 1,
+        "action": "View Adjust Brightness",
+        "description": "Opens the screen brightness settings page in device Settings on the device.",
+        "score": 0.6441,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0190",
+        "rank": 2,
+        "action": "Disable Maximum privacy protection",
+        "description": "Disables extra dim (maximum privacy protection) via device Settings on the device.",
+        "score": 0.6325,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0232",
+        "rank": 3,
+        "action": "Adjust Brightness",
+        "description": "Updates the screen brightness to a specified value via device Settings on the device.",
+        "score": 0.62,
+        "polarity": "configure",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0191",
+        "rank": 4,
+        "action": "Enable Maximum privacy protection",
+        "description": "Enables extra dim (maximum privacy protection) via device Settings on the device.",
+        "score": 0.6116,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0470",
+        "rank": 5,
+        "action": "Brightness",
+        "description": "Retrieves the current brightness level for monitoring display settings.",
+        "score": 0.544,
+        "polarity": "configure",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0091",
+        "rank": 6,
+        "action": "Enable Double tap to turn off screen",
+        "description": "Enables double tap to turn off screen via device Settings on the device.",
+        "score": 0.5255,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0104",
+        "rank": 7,
+        "action": "Disable Adaptive Display",
+        "description": "Disables extra brightness via device Settings on the device.",
+        "score": 0.5185,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0020",
+        "rank": 8,
+        "action": "Disable Adaptive Display",
+        "description": "Disables adaptive brightness via device Settings on the device.",
+        "score": 0.5179,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0090",
+        "rank": 9,
+        "action": "Disable Double tap to turn off screen",
+        "description": "Disables double tap to turn off screen via device Settings on the device.",
+        "score": 0.5176,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0215",
+        "rank": 10,
+        "action": "View Screen mode",
+        "description": "Opens the screen mode settings page in device Settings on the device.",
+        "score": 0.5068,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0088",
+        "rank": 11,
+        "action": "Disable Double tap to turn on screen",
+        "description": "Disables double tap to wake screen via device Settings on the device.",
+        "score": 0.4828,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0021",
+        "rank": 12,
+        "action": "Enable Adaptive Display",
+        "description": "Enables adaptive brightness via device Settings on the device.",
+        "score": 0.4689,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0089",
+        "rank": 13,
+        "action": "Enable Double tap to turn on screen",
+        "description": "Enables double tap to wake screen via device Settings on the device.",
+        "score": 0.4681,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0105",
+        "rank": 14,
+        "action": "Enable Adaptive Display",
+        "description": "Enables extra brightness via device Settings on the device.",
+        "score": 0.457,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0258",
+        "rank": 15,
+        "action": "Disable Keep screen on while viewing",
+        "description": "Disables keep screen on while viewing via device Settings on the device.",
+        "score": 0.4322,
+        "polarity": "disable",
+        "is_expected": false
+      }
+    ]
+  },
+  {
+    "id": "ROB-0057",
+    "class": "C_severe_paraphrase",
+    "query": "Switch over to wireless internet",
+    "siis": {
+      "title": "Wi-Fi Troubleshooting",
+      "content": "Wi-Fi connectivity guide for Galaxy devices. If you experience connection drops, go to Settings > Connections > Wi-Fi. Turn on Wi-Fi or toggle it off and on. Enable Hotspot 2.0 to automatically connect to secure public networks without login. If signal is poor, enable Switch to mobile data."
+    },
+    "expected_action": "enable wifi",
+    "expected_uri": "bixby://masked/act/fdd7f62e24",
+    "expected_polarity": "enable",
+    "expected_rank": 2,
+    "expected_candidate_in_top5": true,
+    "expected_candidate_in_top8": true,
+    "expected_candidate_in_top10": true,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "disable wifi",
+    "deterministic_selected_uri": "bixby://masked/act/2efbdb2164",
+    "deterministic_confidence": 0.5918,
+    "deterministic_margin": 0.0166,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0573",
+        "rank": 1,
+        "action": "Disable WiFi",
+        "description": "Disables wifi settings via device Settings on the device.",
+        "score": 0.8016,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0574",
+        "rank": 2,
+        "action": "Enable WiFi",
+        "description": "Enables wifi settings via device Settings on the device.",
+        "score": 0.7902,
+        "polarity": "enable",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0313",
+        "rank": 3,
+        "action": "View WiFi Settings",
+        "description": "Opens the Wi-Fi settings page in device Settings on the device.",
+        "score": 0.7478,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0572",
+        "rank": 4,
+        "action": "View WiFi Settings",
+        "description": "Opens the switch to mobile data on poor Wi-Fi settings page in device Settings on the device.",
+        "score": 0.6751,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0513",
+        "rank": 5,
+        "action": "View WiFi Settings",
+        "description": "Opens the Intelligent Wi-Fi settings page in device Settings on the device.",
+        "score": 0.659,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0081",
+        "rank": 6,
+        "action": "Disable Mobile data",
+        "description": "Disables mobile data via device Settings on the device.",
+        "score": 0.6393,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0082",
+        "rank": 7,
+        "action": "Enable Mobile data",
+        "description": "Enables mobile data via device Settings on the device.",
+        "score": 0.6257,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0274",
+        "rank": 8,
+        "action": "Disable Airplane mode",
+        "description": "Disables airplane mode via device Settings on the device.",
+        "score": 0.5253,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0275",
+        "rank": 9,
+        "action": "Enable Airplane mode",
+        "description": "Enables airplane mode via device Settings on the device.",
+        "score": 0.5222,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0492",
+        "rank": 10,
+        "action": "View WiFi Settings",
+        "description": "Opens the automatic Wi-Fi turn on settings page in device Settings on the device.",
+        "score": 0.5111,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0413",
+        "rank": 11,
+        "action": "Disable Wireless power sharing",
+        "description": "Disables wireless power sharing via device Settings on the device.",
+        "score": 0.4939,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0311",
+        "rank": 12,
+        "action": "Disable WiFi",
+        "description": "Disables Mobile Hotspot via device Settings on the device.",
+        "score": 0.4919,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0359",
+        "rank": 13,
+        "action": "View Allow sharing over internet",
+        "description": "Opens the sharing over internet settings page in device Settings on the device.",
+        "score": 0.4852,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0414",
+        "rank": 14,
+        "action": "Enable Wireless power sharing",
+        "description": "Enables wireless power sharing via device Settings on the device.",
+        "score": 0.4652,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0312",
+        "rank": 15,
+        "action": "Enable WiFi",
+        "description": "Enables Mobile Hotspot via device Settings on the device.",
+        "score": 0.461,
+        "polarity": "enable",
+        "is_expected": true
+      }
+    ]
+  },
+  {
+    "id": "ROB-0062",
+    "class": "C_severe_paraphrase",
+    "query": "Turn off all radios for flight",
+    "siis": {
+      "title": "Connectivity Troubleshooting",
+      "content": "Airplane mode configuration. Navigate to Settings > Connections. Turn on Airplane mode to disable all wireless connections including cellular, Wi-Fi, and Bluetooth during flights."
+    },
+    "expected_action": "enable airplane mode",
+    "expected_uri": "bixby://masked/act/0f2eac738f",
+    "expected_polarity": "enable",
+    "expected_rank": 3,
+    "expected_candidate_in_top5": true,
+    "expected_candidate_in_top8": true,
+    "expected_candidate_in_top10": true,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "disable airplane mode",
+    "deterministic_selected_uri": "bixby://masked/act/95de0fe9ef",
+    "deterministic_confidence": 0.7478,
+    "deterministic_margin": 0.1746,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0274",
+        "rank": 1,
+        "action": "Disable Airplane mode",
+        "description": "Disables airplane mode via device Settings on the device.",
+        "score": 1.0731,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0573",
+        "rank": 2,
+        "action": "Disable WiFi",
+        "description": "Disables wifi settings via device Settings on the device.",
+        "score": 0.6642,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0275",
+        "rank": 3,
+        "action": "Enable Airplane mode",
+        "description": "Enables airplane mode via device Settings on the device.",
+        "score": 0.6583,
+        "polarity": "enable",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0413",
+        "rank": 4,
+        "action": "Disable Wireless power sharing",
+        "description": "Disables wireless power sharing via device Settings on the device.",
+        "score": 0.644,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0494",
+        "rank": 5,
+        "action": "Disable Bluetooth",
+        "description": "Disables bluetooth settings via device Settings on the device.",
+        "score": 0.6146,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0090",
+        "rank": 6,
+        "action": "Disable Double tap to turn off screen",
+        "description": "Disables double tap to turn off screen via device Settings on the device.",
+        "score": 0.6026,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0091",
+        "rank": 7,
+        "action": "Enable Double tap to turn off screen",
+        "description": "Enables double tap to turn off screen via device Settings on the device.",
+        "score": 0.5958,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0081",
+        "rank": 8,
+        "action": "Disable Mobile data",
+        "description": "Disables mobile data via device Settings on the device.",
+        "score": 0.5807,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0505",
+        "rank": 9,
+        "action": "Disable Do not disturb",
+        "description": "Disables enable now via device Settings on the device.",
+        "score": 0.5748,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0188",
+        "rank": 10,
+        "action": "Disable Palm touch to turn off screen",
+        "description": "Disables palm touch to turn off screen via device Settings on the device.",
+        "score": 0.5695,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0127",
+        "rank": 11,
+        "action": "Disable Bluetooth",
+        "description": "Disables Music Share via device Settings on the device.",
+        "score": 0.5629,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0405",
+        "rank": 12,
+        "action": "Disable Fast wireless charging",
+        "description": "Disables fast wireless charging via device Settings on the device.",
+        "score": 0.5598,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0189",
+        "rank": 13,
+        "action": "Enable Palm touch to turn off screen",
+        "description": "Enables palm touch to turn off screen via device Settings on the device.",
+        "score": 0.546,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0079",
+        "rank": 14,
+        "action": "Disable Turn on now",
+        "description": "Disables Data Saver via device Settings on the device.",
+        "score": 0.5431,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0309",
+        "rank": 15,
+        "action": "Disable WiFi",
+        "description": "Disables Wi-Fi scanning via device Settings on the device.",
+        "score": 0.5365,
+        "polarity": "disable",
+        "is_expected": false
+      }
+    ]
+  },
+  {
+    "id": "ROB-0079",
+    "class": "D_polarity",
+    "query": "Turn off Auto dim screen on my phone",
+    "siis": {
+      "title": "Auto dim screen Configuration",
+      "content": "Smartphone,Others Mobile,Mobile Accessories,Tablet Email server not responding on Samsung phone or tablet ( Smartphone,Others Mobile,Mobile Accessories,Tablet): # Troubleshooting Email Connection Issues on Your Samsung Phone\nIf you're having trouble accessing your email on your Samsung phone, here are some steps you can take to resolve the issue.\n## Step 1: Check Email Access on a PC\nFirst, try accessing your email on a personal computer. This helps determine if the problem is with your phone's connection or your email account itself. If you can sign in and access your email on a PC, your phone might not be connected to Wi-Fi or mobile data.\n## Step 2: Verify Your Phone's Internet Connection\nEnsure your phone is connected to a stable Wi-Fi or mobile data network.\nSwipe down from the top of your phone's screen to open the Quick settings panel.\nTouch and hold the Wi-Fi icon to check your connection status.\nAlternatively, go to Settings, tap Connections, and then tap Wi-Fi. To confirm your internet connection is working, try loading a webpage or performing a quick search.\n## Step 3: Review Your Email Account Settings\nSometimes, changes made by your email provider on their server can cause connection problems. In such cases, you may need to remove and re-add your email account to your phone to apply the new configuration.\nYou can find instructions on how to remove your account and add it again at the provided links.\nBefore proceeding, make sure you have your email account's username and password readily available.\nRemember that passwords are case-sensitive. Entering the password incorrectly will prevent your phone from connecting to your email server.\n## Step 4: Clear the Email App's Cache and Data\nClearing the cache and data for your email app can resolve temporary glitches.\nTo clear the app's cache:\nNavigate to Settings.\nTap Apps.\nSelect your email app.\nTap Storage.\nTap Clear cache.\nTo clear the app's data:\nNavigate to Settings.\nTap Apps.\nSelect your email app.\nTap Storage.\nTap Clear data, and then tap OK.\nClearing the app's data will reset it to its original settings, effectively wiping it clean.\n## Step 5: Restart Your Phone in Safe Mode\nUsing Safe mode helps identify if a third-party app, including your email app, is causing conflicts with your phone's performance.\nPress and hold the Power button or Side button.\nIf your phone doesn't have a dedicated Power button, swipe down from the top of the screen to open Quick settings, and then tap the Power icon.\nTouch and hold the Power off icon.\nTap Safe mode when it appears on the screen.\nYour phone will restart, and \"Safe mode\" will be displayed in the bottom left corner of the screen. While in Safe mode, check if your email app is still experiencing issues. If the problem is resolved, it indicates that another app might be causing the conflict. You can also uninstall the email app if necessary while in Safe mode.\nTo exit Safe mode, simply restart your phone normally.\n## Step 6: Contact Your Email Service Provider\nIf you have followed all the above steps and are still experiencing difficulties with your email connection, it is recommended to contact your email service provider directly for further assistance."
+    },
+    "expected_action": "disable auto dim screen",
+    "expected_uri": "bixby://masked/act/2445235301",
+    "expected_polarity": "disable",
+    "expected_rank": 3,
+    "expected_candidate_in_top5": true,
+    "expected_candidate_in_top8": true,
+    "expected_candidate_in_top10": true,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "disable double tap to turn off screen",
+    "deterministic_selected_uri": "bixby://masked/act/19a4986b12",
+    "deterministic_confidence": 0.6016,
+    "deterministic_margin": 0.0199,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0091",
+        "rank": 1,
+        "action": "Enable Double tap to turn off screen",
+        "description": "Enables double tap to turn off screen via device Settings on the device.",
+        "score": 0.9615,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0090",
+        "rank": 2,
+        "action": "Disable Double tap to turn off screen",
+        "description": "Disables double tap to turn off screen via device Settings on the device.",
+        "score": 0.9549,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0401",
+        "rank": 3,
+        "action": "Disable Auto dim screen",
+        "description": "Disables auto dim screen via device Settings on the device.",
+        "score": 0.8906,
+        "polarity": "disable",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0188",
+        "rank": 4,
+        "action": "Disable Palm touch to turn off screen",
+        "description": "Disables palm touch to turn off screen via device Settings on the device.",
+        "score": 0.8635,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0189",
+        "rank": 5,
+        "action": "Enable Palm touch to turn off screen",
+        "description": "Enables palm touch to turn off screen via device Settings on the device.",
+        "score": 0.8452,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0258",
+        "rank": 6,
+        "action": "Disable Keep screen on while viewing",
+        "description": "Disables keep screen on while viewing via device Settings on the device.",
+        "score": 0.8282,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0088",
+        "rank": 7,
+        "action": "Disable Double tap to turn on screen",
+        "description": "Disables double tap to wake screen via device Settings on the device.",
+        "score": 0.796,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0482",
+        "rank": 8,
+        "action": "Disable Always On Display",
+        "description": "Disables always on screen via device Settings on the device.",
+        "score": 0.7305,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0151",
+        "rank": 9,
+        "action": "View Auto lock when screen turns off",
+        "description": "Opens the auto lock when screen turns off settings page in device Settings on the device.",
+        "score": 0.6901,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0479",
+        "rank": 10,
+        "action": "Disable Auto Restart",
+        "description": "Disables restarting the device when needed via device Settings on the device.",
+        "score": 0.688,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0190",
+        "rank": 11,
+        "action": "Disable Maximum privacy protection",
+        "description": "Disables extra dim (maximum privacy protection) via device Settings on the device.",
+        "score": 0.6815,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0375",
+        "rank": 12,
+        "action": "Disable Show taps and touches",
+        "description": "Disables show taps and touches in recordings via device Settings on the device.",
+        "score": 0.6775,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0216",
+        "rank": 13,
+        "action": "Disable Accidental touch protection",
+        "description": "Disables accidental touch protection via device Settings on the device.",
+        "score": 0.6732,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0203",
+        "rank": 14,
+        "action": "Disable Extra dim",
+        "description": "Disables extra dim via device Settings on the device.",
+        "score": 0.6519,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0438",
+        "rank": 15,
+        "action": "Disable Screen off memos",
+        "description": "Disables screen off memos via device Settings on the device.",
+        "score": 0.6319,
+        "polarity": "disable",
+        "is_expected": false
+      }
+    ]
+  },
+  {
+    "id": "ROB-0089",
+    "class": "E_ambiguity",
+    "query": "Screen is too bright to read comfortably",
+    "siis": {
+      "title": "Display Ambiguity Resolution",
+      "content": "Guidance on Manual brightness slider. Go to Settings to configure appropriate options."
+    },
+    "expected_action": "adjust brightness",
+    "expected_uri": "bixby://masked/act/e26224271b",
+    "expected_polarity": "neutral",
+    "expected_rank": 2,
+    "expected_candidate_in_top5": true,
+    "expected_candidate_in_top8": true,
+    "expected_candidate_in_top10": true,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "view adjust brightness",
+    "deterministic_selected_uri": "bixby://masked/act/afbc80006a",
+    "deterministic_confidence": 0.5719,
+    "deterministic_margin": 0.0099,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0496",
+        "rank": 1,
+        "action": "View Adjust Brightness",
+        "description": "Opens the screen brightness settings page in device Settings on the device.",
+        "score": 0.8264,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0232",
+        "rank": 2,
+        "action": "Adjust Brightness",
+        "description": "Updates the screen brightness to a specified value via device Settings on the device.",
+        "score": 0.7918,
+        "polarity": "configure",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0470",
+        "rank": 3,
+        "action": "Brightness",
+        "description": "Retrieves the current brightness level for monitoring display settings.",
+        "score": 0.6916,
+        "polarity": "configure",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0021",
+        "rank": 4,
+        "action": "Enable Adaptive Display",
+        "description": "Enables adaptive brightness via device Settings on the device.",
+        "score": 0.6338,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0020",
+        "rank": 5,
+        "action": "Disable Adaptive Display",
+        "description": "Disables adaptive brightness via device Settings on the device.",
+        "score": 0.6206,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0509",
+        "rank": 6,
+        "action": "View Enhanced comfort",
+        "description": "Opens the enhanced comfort settings page in device Settings on the device.",
+        "score": 0.5921,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0105",
+        "rank": 7,
+        "action": "Enable Adaptive Display",
+        "description": "Enables extra brightness via device Settings on the device.",
+        "score": 0.5499,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0104",
+        "rank": 8,
+        "action": "Disable Adaptive Display",
+        "description": "Disables extra brightness via device Settings on the device.",
+        "score": 0.5449,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0355",
+        "rank": 9,
+        "action": "View Dim wallpaper when Dark mode is on",
+        "description": "Opens the dim wallpaper in Dark mode settings page in device Settings on the device.",
+        "score": 0.538,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0203",
+        "rank": 10,
+        "action": "Disable Extra dim",
+        "description": "Disables extra dim via device Settings on the device.",
+        "score": 0.5346,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0402",
+        "rank": 11,
+        "action": "Enable Auto dim screen",
+        "description": "Enables auto dim screen via device Settings on the device.",
+        "score": 0.5258,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0204",
+        "rank": 12,
+        "action": "Enable Extra dim",
+        "description": "Enables extra dim via device Settings on the device.",
+        "score": 0.522,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0191",
+        "rank": 13,
+        "action": "Enable Maximum privacy protection",
+        "description": "Enables extra dim (maximum privacy protection) via device Settings on the device.",
+        "score": 0.511,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0190",
+        "rank": 14,
+        "action": "Disable Maximum privacy protection",
+        "description": "Disables extra dim (maximum privacy protection) via device Settings on the device.",
+        "score": 0.5101,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0401",
+        "rank": 15,
+        "action": "Disable Auto dim screen",
+        "description": "Disables auto dim screen via device Settings on the device.",
+        "score": 0.5089,
+        "polarity": "disable",
+        "is_expected": false
+      }
+    ]
+  },
+  {
+    "id": "ROB-0093",
+    "class": "F_siis_grounding",
+    "query": "My device is acting sluggish",
+    "siis": {
+      "title": "Official Samsung Support: Battery Resolution",
+      "content": "Device slowdown troubleshooting: To improve stability, enable Power saving mode in device Settings to control CPU limits."
+    },
+    "expected_action": "enable power saving",
+    "expected_uri": "bixby://masked/act/75cb6916fd",
+    "expected_polarity": "neutral",
+    "expected_rank": 13,
+    "expected_candidate_in_top5": false,
+    "expected_candidate_in_top8": false,
+    "expected_candidate_in_top10": false,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "optimize device performance",
+    "deterministic_selected_uri": "bixby://masked/act/9320af81b1",
+    "deterministic_confidence": 0.4879,
+    "deterministic_margin": 0.029,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0475",
+        "rank": 1,
+        "action": "Diagnose Slow Performance",
+        "description": "Diagnoses slow device performance issues and suggests optimizations to improve your device speed and responsiveness.",
+        "score": 0.6439,
+        "polarity": "unknown",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0058",
+        "rank": 2,
+        "action": "Disable Charging",
+        "description": "Disables charging feedback vibration via device Settings on the device.",
+        "score": 0.5691,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0221",
+        "rank": 3,
+        "action": "Adjust Screen saver",
+        "description": "Updates the screen saver to a specified value via device Settings on the device.",
+        "score": 0.5641,
+        "polarity": "configure",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0418",
+        "rank": 4,
+        "action": "Adjust Performance profile",
+        "description": "Updates the performance profile to a specified value via device Settings on the device.",
+        "score": 0.5605,
+        "polarity": "configure",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0538",
+        "rank": 5,
+        "action": "Optimize Device Performance",
+        "description": "Runs one-tap device optimization to clean memory, close background apps, and improve overall performance.",
+        "score": 0.5395,
+        "polarity": "unknown",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0411",
+        "rank": 6,
+        "action": "Disable Power saving",
+        "description": "Disables power saving mode via device Settings on the device.",
+        "score": 0.5338,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0541",
+        "rank": 7,
+        "action": "Disable Back up data (Samsung Cloud)",
+        "description": "Disables data backup to Samsung Cloud via device Settings on the device.",
+        "score": 0.5198,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0519",
+        "rank": 8,
+        "action": "Check Battery Performance",
+        "description": "Opens the power saving mode settings page in device Settings on the device.",
+        "score": 0.5181,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0059",
+        "rank": 9,
+        "action": "Enable Charging",
+        "description": "Enables charging feedback vibration via device Settings on the device.",
+        "score": 0.4939,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0560",
+        "rank": 10,
+        "action": "Check Battery Performance",
+        "description": "Opens the battery settings settings page in device Settings on the device.",
+        "score": 0.4844,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0514",
+        "rank": 11,
+        "action": "Check Battery Performance",
+        "description": "Opens the fast cable charging settings page in device Settings on the device.",
+        "score": 0.4714,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0542",
+        "rank": 12,
+        "action": "Enable Back up data (Samsung Cloud)",
+        "description": "Enables data backup to Samsung Cloud via device Settings on the device.",
+        "score": 0.4631,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0412",
+        "rank": 13,
+        "action": "Enable Power saving",
+        "description": "Enables power saving mode via device Settings on the device.",
+        "score": 0.4582,
+        "polarity": "enable",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0401",
+        "rank": 14,
+        "action": "Disable Auto dim screen",
+        "description": "Disables auto dim screen via device Settings on the device.",
+        "score": 0.4565,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0474",
+        "rank": 15,
+        "action": "Diagnose Battery Drain",
+        "description": "Diagnoses excessive battery drain to identify power-hungry apps and suggest fixes for longer battery life.",
+        "score": 0.4557,
+        "polarity": "unknown",
+        "is_expected": false
+      }
+    ]
+  },
+  {
+    "id": "ROB-0102",
+    "class": "H_long_verbose_queries",
+    "query": "Hello there, I was wondering if someone could assist me because I am planning an international trip tomorrow and need to ensure my cellular and wireless antennae are completely disabled when boarding the aircraft.",
+    "siis": {
+      "title": "Connectivity Support Guide",
+      "content": "Settings guide for Connectivity on Samsung Galaxy devices. Navigate to device Settings to configure Enable Airplane mode."
+    },
+    "expected_action": "enable airplane mode",
+    "expected_uri": "bixby://masked/act/0f2eac738f",
+    "expected_polarity": "neutral",
+    "expected_rank": 4,
+    "expected_candidate_in_top5": true,
+    "expected_candidate_in_top8": true,
+    "expected_candidate_in_top10": true,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "disable airplane mode",
+    "deterministic_selected_uri": "bixby://masked/act/95de0fe9ef",
+    "deterministic_confidence": 0.7267,
+    "deterministic_margin": 0.1659,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0274",
+        "rank": 1,
+        "action": "Disable Airplane mode",
+        "description": "Disables airplane mode via device Settings on the device.",
+        "score": 0.9646,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0573",
+        "rank": 2,
+        "action": "Disable WiFi",
+        "description": "Disables wifi settings via device Settings on the device.",
+        "score": 0.6832,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0081",
+        "rank": 3,
+        "action": "Disable Mobile data",
+        "description": "Disables mobile data via device Settings on the device.",
+        "score": 0.6696,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0275",
+        "rank": 4,
+        "action": "Enable Airplane mode",
+        "description": "Enables airplane mode via device Settings on the device.",
+        "score": 0.6251,
+        "polarity": "enable",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0218",
+        "rank": 5,
+        "action": "Disable Allow apps to be pinned",
+        "description": "Disables app pinning via device Settings on the device.",
+        "score": 0.5991,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0216",
+        "rank": 6,
+        "action": "Disable Accidental touch protection",
+        "description": "Disables accidental touch protection via device Settings on the device.",
+        "score": 0.5865,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0479",
+        "rank": 7,
+        "action": "Disable Auto Restart",
+        "description": "Disables restarting the device when needed via device Settings on the device.",
+        "score": 0.5803,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0413",
+        "rank": 8,
+        "action": "Disable Wireless power sharing",
+        "description": "Disables wireless power sharing via device Settings on the device.",
+        "score": 0.5766,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0424",
+        "rank": 9,
+        "action": "Disable Air view",
+        "description": "Disables Air view via device Settings on the device.",
+        "score": 0.5731,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0326",
+        "rank": 10,
+        "action": "Disable Show as edge icon",
+        "description": "Disables edge icon display via device Settings on the device.",
+        "score": 0.5525,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0432",
+        "rank": 11,
+        "action": "Disable Show Air command icon",
+        "description": "Disables Air command icon via device Settings on the device.",
+        "score": 0.5468,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0088",
+        "rank": 12,
+        "action": "Disable Double tap to turn on screen",
+        "description": "Disables double tap to wake screen via device Settings on the device.",
+        "score": 0.5304,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0060",
+        "rank": 13,
+        "action": "Disable Charging",
+        "description": "Disables charging sounds via device Settings on the device.",
+        "score": 0.5169,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0097",
+        "rank": 14,
+        "action": "Disable Roaming clock",
+        "description": "Disables roaming clock on lock screen via device Settings on the device.",
+        "score": 0.5051,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0554",
+        "rank": 15,
+        "action": "Disable SIM manager",
+        "description": "Disables SIM manager via device Settings on the device.",
+        "score": 0.5024,
+        "polarity": "disable",
+        "is_expected": false
+      }
+    ]
+  },
+  {
+    "id": "ROB-0104",
+    "class": "H_long_verbose_queries",
+    "query": "Whenever I am typing text messages in a quiet library environment, the loud haptic vibration buzzes loudly against the desk, so I would like to disable tactile vibration feedback immediately.",
+    "siis": {
+      "title": "Sound Support Guide",
+      "content": "Settings guide for Sound on Samsung Galaxy devices. Navigate to device Settings to configure View System vibration."
+    },
+    "expected_action": "view system vibration",
+    "expected_uri": "bixby://masked/act/3d8fd23e82",
+    "expected_polarity": "neutral",
+    "expected_rank": 5,
+    "expected_candidate_in_top5": true,
+    "expected_candidate_in_top8": true,
+    "expected_candidate_in_top10": true,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "disable vibrations",
+    "deterministic_selected_uri": "bixby://masked/act/70dc4b64a1",
+    "deterministic_confidence": 0.6861,
+    "deterministic_margin": 0.1235,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0442",
+        "rank": 1,
+        "action": "Disable Vibrations",
+        "description": "Disables Air command vibrations via device Settings on the device.",
+        "score": 0.9454,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0053",
+        "rank": 2,
+        "action": "Disable Camera Feedback",
+        "description": "Disables camera feedback vibration via device Settings on the device.",
+        "score": 0.8914,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0297",
+        "rank": 3,
+        "action": "Disable Touch interactions",
+        "description": "Disables touch vibration via device Settings on the device.",
+        "score": 0.8867,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0170",
+        "rank": 4,
+        "action": "Disable Gesture Controls",
+        "description": "Disables navigation gestures vibration via device Settings on the device.",
+        "score": 0.836,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0564",
+        "rank": 5,
+        "action": "View System vibration",
+        "description": "Opens the system vibration settings page in device Settings on the device.",
+        "score": 0.8277,
+        "polarity": "view",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0144",
+        "rank": 6,
+        "action": "Disable Samsung Keyboard",
+        "description": "Disables Samsung Keyboard vibration via device Settings on the device.",
+        "score": 0.8153,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0301",
+        "rank": 7,
+        "action": "Disable Sound Amplification",
+        "description": "Disables vibration sound for incoming calls via device Settings on the device.",
+        "score": 0.7835,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0086",
+        "rank": 8,
+        "action": "Disable Dialing keypad",
+        "description": "Disables dialing keypad vibration via device Settings on the device.",
+        "score": 0.7449,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0058",
+        "rank": 9,
+        "action": "Disable Charging",
+        "description": "Disables charging feedback vibration via device Settings on the device.",
+        "score": 0.7252,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0299",
+        "rank": 10,
+        "action": "Disable Vibrate while ringing",
+        "description": "Disables vibrate while ringing via device Settings on the device.",
+        "score": 0.7166,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0272",
+        "rank": 11,
+        "action": "Adjust System",
+        "description": "Updates the system vibration to a specified value via device Settings on the device.",
+        "score": 0.6926,
+        "polarity": "configure",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0563",
+        "rank": 12,
+        "action": "Adjust Vibration intensity",
+        "description": "Updates the vibration intensity to a specified value via device Settings on the device.",
+        "score": 0.6715,
+        "polarity": "configure",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0505",
+        "rank": 13,
+        "action": "Disable Do not disturb",
+        "description": "Disables enable now via device Settings on the device.",
+        "score": 0.6318,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0290",
+        "rank": 14,
+        "action": "Disable Touch interactions",
+        "description": "Disables touch interaction sounds via device Settings on the device.",
+        "score": 0.63,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0255",
+        "rank": 15,
+        "action": "Disable Alert when phone picked up",
+        "description": "Disables alert when phone picked up via device Settings on the device.",
+        "score": 0.63,
+        "polarity": "disable",
+        "is_expected": false
+      }
+    ]
+  },
+  {
+    "id": "ROB-0108",
+    "class": "I_typos",
+    "query": "Disabel blutooth on galxy",
+    "siis": {
+      "title": "Bluetooth Troubleshooting",
+      "content": "Instructions on configuring Disable Bluetooth in device Settings."
+    },
+    "expected_action": "disable bluetooth",
+    "expected_uri": "bixby://masked/act/16e9d836c2",
+    "expected_polarity": "neutral",
+    "expected_rank": 6,
+    "expected_candidate_in_top5": false,
+    "expected_candidate_in_top8": true,
+    "expected_candidate_in_top10": true,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "enable bluetooth",
+    "deterministic_selected_uri": "bixby://masked/act/dccc16179a",
+    "deterministic_confidence": 0.6554,
+    "deterministic_margin": 0.0178,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0495",
+        "rank": 1,
+        "action": "Enable Bluetooth",
+        "description": "Enables bluetooth settings via device Settings on the device.",
+        "score": 0.896,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0128",
+        "rank": 2,
+        "action": "Enable Bluetooth",
+        "description": "Enables Music Share via device Settings on the device.",
+        "score": 0.8246,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0043",
+        "rank": 3,
+        "action": "Enable Bluetooth",
+        "description": "Enables Bluetooth scanning via device Settings on the device.",
+        "score": 0.6992,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0044",
+        "rank": 4,
+        "action": "View Bluetooth",
+        "description": "Opens the Bluetooth settings page in device Settings on the device.",
+        "score": 0.646,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0067",
+        "rank": 5,
+        "action": "View Bluetooth hearing aids shortcut",
+        "description": "Opens the bluetooth hearing aids shortcut settings in device Settings on the device.",
+        "score": 0.5487,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0494",
+        "rank": 6,
+        "action": "Disable Bluetooth",
+        "description": "Disables bluetooth settings via device Settings on the device.",
+        "score": 0.5247,
+        "polarity": "disable",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0574",
+        "rank": 7,
+        "action": "Enable WiFi",
+        "description": "Enables wifi settings via device Settings on the device.",
+        "score": 0.4635,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0127",
+        "rank": 8,
+        "action": "Disable Bluetooth",
+        "description": "Disables Music Share via device Settings on the device.",
+        "score": 0.4604,
+        "polarity": "disable",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0217",
+        "rank": 9,
+        "action": "Enable Accidental touch protection",
+        "description": "Enables accidental touch protection via device Settings on the device.",
+        "score": 0.4582,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0064",
+        "rank": 10,
+        "action": "Enable Voice Access",
+        "description": "Enables voice access via device Settings on the device.",
+        "score": 0.4541,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0414",
+        "rank": 11,
+        "action": "Enable Wireless power sharing",
+        "description": "Enables wireless power sharing via device Settings on the device.",
+        "score": 0.4515,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0040",
+        "rank": 12,
+        "action": "Enable Eye Comfort Shield",
+        "description": "Enables Eye Comfort Shield (blue light filter) via device Settings on the device.",
+        "score": 0.4424,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0075",
+        "rank": 13,
+        "action": "Enable Continue on other devices",
+        "description": "Enables continue on other devices via device Settings on the device.",
+        "score": 0.4413,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0421",
+        "rank": 14,
+        "action": "Enable Show Device care on Apps screen",
+        "description": "Enables Device Care on Apps screen via device Settings on the device.",
+        "score": 0.4282,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0283",
+        "rank": 15,
+        "action": "Enable Reduce transparency and blur",
+        "description": "Enables reduce transparency and blur via device Settings on the device.",
+        "score": 0.4236,
+        "polarity": "enable",
+        "is_expected": false
+      }
+    ]
+  },
+  {
+    "id": "ROB-0120",
+    "class": "J_conversational",
+    "query": "Hey, my screen is keeping me awake at night, is there a dark wallpaper option?",
+    "siis": {
+      "title": "Display Conversational Support",
+      "content": "Smartphone,Others Mobile,Mobile Accessories,Tablet Email server not responding on Samsung phone or tablet ( Smartphone,Others Mobile,Mobile Accessories,Tablet): # Troubleshooting Email Connection Issues on Your Samsung Phone\nIf you're having trouble accessing your email on your Samsung phone, here are some steps you can take to resolve the issue.\n## Step 1: Check Email Access on a PC\nFirst, try accessing your email on a personal computer. This helps determine if the problem is with your phone's connection or your email account itself. If you can sign in and access your email on a PC, your phone might not be connected to Wi-Fi or mobile data.\n## Step 2: Verify Your Phone's Internet Connection\nEnsure your phone is connected to a stable Wi-Fi or mobile data network.\nSwipe down from the top of your phone's screen to open the Quick settings panel.\nTouch and hold the Wi-Fi icon to check your connection status.\nAlternatively, go to Settings, tap Connections, and then tap Wi-Fi. To confirm your internet connection is working, try loading a webpage or performing a quick search.\n## Step 3: Review Your Email Account Settings\nSometimes, changes made by your email provider on their server can cause connection problems. In such cases, you may need to remove and re-add your email account to your phone to apply the new configuration.\nYou can find instructions on how to remove your account and add it again at the provided links.\nBefore proceeding, make sure you have your email account's username and password readily available.\nRemember that passwords are case-sensitive. Entering the password incorrectly will prevent your phone from connecting to your email server.\n## Step 4: Clear the Email App's Cache and Data\nClearing the cache and data for your email app can resolve temporary glitches.\nTo clear the app's cache:\nNavigate to Settings.\nTap Apps.\nSelect your email app.\nTap Storage.\nTap Clear cache.\nTo clear the app's data:\nNavigate to Settings.\nTap Apps.\nSelect your email app.\nTap Storage.\nTap Clear data, and then tap OK.\nClearing the app's data will reset it to its original settings, effectively wiping it clean.\n## Step 5: Restart Your Phone in Safe Mode\nUsing Safe mode helps identify if a third-party app, including your email app, is causing conflicts with your phone's performance.\nPress and hold the Power button or Side button.\nIf your phone doesn't have a dedicated Power button, swipe down from the top of the screen to open Quick settings, and then tap the Power icon.\nTouch and hold the Power off icon.\nTap Safe mode when it appears on the screen.\nYour phone will restart, and \"Safe mode\" will be displayed in the bottom left corner of the screen. While in Safe mode, check if your email app is still experiencing issues. If the problem is resolved, it indicates that another app might be causing the conflict. You can also uninstall the email app if necessary while in Safe mode.\nTo exit Safe mode, simply restart your phone normally.\n## Step 6: Contact Your Email Service Provider\nIf you have followed all the above steps and are still experiencing difficulties with your email connection, it is recommended to contact your email service provider directly for further assistance."
+    },
+    "expected_action": "adjust dark mode settings",
+    "expected_uri": "bixby://masked/act/eaa63bdd9e",
+    "expected_polarity": "neutral",
+    "expected_rank": 6,
+    "expected_candidate_in_top5": false,
+    "expected_candidate_in_top8": true,
+    "expected_candidate_in_top10": true,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "view dim wallpaper when dark mode is on",
+    "deterministic_selected_uri": "bixby://masked/act/801a498d15",
+    "deterministic_confidence": 0.4148,
+    "deterministic_margin": 0.0048,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0355",
+        "rank": 1,
+        "action": "View Dim wallpaper when Dark mode is on",
+        "description": "Opens the dim wallpaper in Dark mode settings page in device Settings on the device.",
+        "score": 0.645,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0259",
+        "rank": 2,
+        "action": "Enable Keep screen on while viewing",
+        "description": "Enables keep screen on while viewing via device Settings on the device.",
+        "score": 0.5884,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0258",
+        "rank": 3,
+        "action": "Disable Keep screen on while viewing",
+        "description": "Disables keep screen on while viewing via device Settings on the device.",
+        "score": 0.5818,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0353",
+        "rank": 4,
+        "action": "View Show Lock screen wallpaper",
+        "description": "Opens the lock screen wallpaper on Always On Display settings page in device Settings on the device.",
+        "score": 0.5797,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0225",
+        "rank": 5,
+        "action": "View Turn on as scheduled",
+        "description": "Opens the Dark mode schedule settings page in device Settings on the device.",
+        "score": 0.5735,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0078",
+        "rank": 6,
+        "action": "Adjust Dark mode settings",
+        "description": "Updates the dim wallpaper in Dark mode to a specified value via device Settings on the device.",
+        "score": 0.5535,
+        "polarity": "configure",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0091",
+        "rank": 7,
+        "action": "Enable Double tap to turn off screen",
+        "description": "Enables double tap to turn off screen via device Settings on the device.",
+        "score": 0.5255,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0090",
+        "rank": 8,
+        "action": "Disable Double tap to turn off screen",
+        "description": "Disables double tap to turn off screen via device Settings on the device.",
+        "score": 0.5098,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0154",
+        "rank": 9,
+        "action": "View Show Lockdown mode option",
+        "description": "Opens the Lockdown mode in power menu settings page in device Settings on the device.",
+        "score": 0.5057,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0215",
+        "rank": 10,
+        "action": "View Screen mode",
+        "description": "Opens the screen mode settings page in device Settings on the device.",
+        "score": 0.499,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0088",
+        "rank": 11,
+        "action": "Disable Double tap to turn on screen",
+        "description": "Disables double tap to wake screen via device Settings on the device.",
+        "score": 0.495,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0089",
+        "rank": 12,
+        "action": "Enable Double tap to turn on screen",
+        "description": "Enables double tap to wake screen via device Settings on the device.",
+        "score": 0.495,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0483",
+        "rank": 13,
+        "action": "Enable Always On Display",
+        "description": "Enables always on screen via device Settings on the device.",
+        "score": 0.4841,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0482",
+        "rank": 14,
+        "action": "Disable Always On Display",
+        "description": "Disables always on screen via device Settings on the device.",
+        "score": 0.4789,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0523",
+        "rank": 15,
+        "action": "View Brighten screen",
+        "description": "Opens the face unlock screen brightening settings page in device Settings on the device.",
+        "score": 0.4729,
+        "polarity": "view",
+        "is_expected": false
+      }
+    ]
+  },
+  {
+    "id": "ROB-0122",
+    "class": "J_conversational",
+    "query": "Is there an option to limit battery charging so the battery doesn't degrade?",
+    "siis": {
+      "title": "Battery Conversational Support",
+      "content": "Battery and device care troubleshooting for Samsung Galaxy devices. To maximize battery longevity, open Settings and navigate to Battery. Enable Power saving mode to limit background network usage and reduce CPU performance. You can also enable Battery protection to cap maximum charge at 85 percent."
+    },
+    "expected_action": "enable battery protection",
+    "expected_uri": "bixby://masked/act/cd73846e63",
+    "expected_polarity": "neutral",
+    "expected_rank": 2,
+    "expected_candidate_in_top5": true,
+    "expected_candidate_in_top8": true,
+    "expected_candidate_in_top10": true,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "disable charging",
+    "deterministic_selected_uri": "bixby://masked/act/f49c582114",
+    "deterministic_confidence": 0.5236,
+    "deterministic_margin": 0.0009,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0409",
+        "rank": 1,
+        "action": "Disable Battery protection",
+        "description": "Disables battery protection via device Settings on the device.",
+        "score": 0.735,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0410",
+        "rank": 2,
+        "action": "Enable Battery protection",
+        "description": "Enables battery protection via device Settings on the device.",
+        "score": 0.6792,
+        "polarity": "enable",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0060",
+        "rank": 3,
+        "action": "Disable Charging",
+        "description": "Disables charging sounds via device Settings on the device.",
+        "score": 0.6747,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0517",
+        "rank": 4,
+        "action": "Check Battery Performance",
+        "description": "Opens the battery protection settings page in device Settings on the device.",
+        "score": 0.6419,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0560",
+        "rank": 5,
+        "action": "Check Battery Performance",
+        "description": "Opens the battery settings settings page in device Settings on the device.",
+        "score": 0.6207,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0058",
+        "rank": 6,
+        "action": "Disable Charging",
+        "description": "Disables charging feedback vibration via device Settings on the device.",
+        "score": 0.62,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0241",
+        "rank": 7,
+        "action": "Disable Background Limit",
+        "description": "Disables battery background display via device Settings on the device.",
+        "score": 0.6055,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0061",
+        "rank": 8,
+        "action": "Enable Charging",
+        "description": "Enables charging sounds via device Settings on the device.",
+        "score": 0.6047,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0411",
+        "rank": 9,
+        "action": "Disable Power saving",
+        "description": "Disables power saving mode via device Settings on the device.",
+        "score": 0.5966,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0242",
+        "rank": 10,
+        "action": "Enable Background Limit",
+        "description": "Enables battery background display via device Settings on the device.",
+        "score": 0.5762,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0407",
+        "rank": 11,
+        "action": "Disable Charging Feedback",
+        "description": "Disables charging information on Always On Display via device Settings on the device.",
+        "score": 0.5485,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0403",
+        "rank": 12,
+        "action": "Disable Fast charging",
+        "description": "Disables fast cable charging via device Settings on the device.",
+        "score": 0.547,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0397",
+        "rank": 13,
+        "action": "Disable Adaptive Display",
+        "description": "Disables adaptive battery via device Settings on the device.",
+        "score": 0.5416,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0412",
+        "rank": 14,
+        "action": "Enable Power saving",
+        "description": "Enables power saving mode via device Settings on the device.",
+        "score": 0.5249,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0059",
+        "rank": 15,
+        "action": "Enable Charging",
+        "description": "Enables charging feedback vibration via device Settings on the device.",
+        "score": 0.5237,
+        "polarity": "enable",
+        "is_expected": false
+      }
+    ]
+  },
+  {
+    "id": "ROB-0124",
+    "class": "K_multi_intent",
+    "query": "I want to save battery and also dim my screen brightness",
+    "siis": {
+      "title": "Composite Battery Management",
+      "content": "Battery conservation options: Turn on Power saving mode in device Settings to reduce CPU power, or adjust display brightness sliders manually."
+    },
+    "expected_action": "enable power saving",
+    "expected_uri": "bixby://masked/act/75cb6916fd",
+    "expected_polarity": "neutral",
+    "expected_rank": 3,
+    "expected_candidate_in_top5": true,
+    "expected_candidate_in_top8": true,
+    "expected_candidate_in_top10": true,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "enable auto dim screen",
+    "deterministic_selected_uri": "bixby://masked/act/45eaaed1d3",
+    "deterministic_confidence": 0.5927,
+    "deterministic_margin": 0.0087,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0402",
+        "rank": 1,
+        "action": "Enable Auto dim screen",
+        "description": "Enables auto dim screen via device Settings on the device.",
+        "score": 0.9365,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0021",
+        "rank": 2,
+        "action": "Enable Adaptive Display",
+        "description": "Enables adaptive brightness via device Settings on the device.",
+        "score": 0.8093,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0412",
+        "rank": 3,
+        "action": "Enable Power saving",
+        "description": "Enables power saving mode via device Settings on the device.",
+        "score": 0.7628,
+        "polarity": "enable",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0204",
+        "rank": 4,
+        "action": "Enable Extra dim",
+        "description": "Enables extra dim via device Settings on the device.",
+        "score": 0.7468,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0191",
+        "rank": 5,
+        "action": "Enable Maximum privacy protection",
+        "description": "Enables extra dim (maximum privacy protection) via device Settings on the device.",
+        "score": 0.7112,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0105",
+        "rank": 6,
+        "action": "Enable Adaptive Display",
+        "description": "Enables extra brightness via device Settings on the device.",
+        "score": 0.6986,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0410",
+        "rank": 7,
+        "action": "Enable Battery protection",
+        "description": "Enables battery protection via device Settings on the device.",
+        "score": 0.6871,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0400",
+        "rank": 8,
+        "action": "Enable Adaptive Display",
+        "description": "Enables adaptive power saving via device Settings on the device.",
+        "score": 0.655,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0232",
+        "rank": 9,
+        "action": "Adjust Brightness",
+        "description": "Updates the screen brightness to a specified value via device Settings on the device.",
+        "score": 0.6517,
+        "polarity": "configure",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0398",
+        "rank": 10,
+        "action": "Enable Adaptive Display",
+        "description": "Enables adaptive battery via device Settings on the device.",
+        "score": 0.6517,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0242",
+        "rank": 11,
+        "action": "Enable Background Limit",
+        "description": "Enables battery background display via device Settings on the device.",
+        "score": 0.6444,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0417",
+        "rank": 12,
+        "action": "Enable Put unused apps to sleep",
+        "description": "Enables putting unused apps to sleep via device Settings on the device.",
+        "score": 0.6381,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0355",
+        "rank": 13,
+        "action": "View Dim wallpaper when Dark mode is on",
+        "description": "Opens the dim wallpaper in Dark mode settings page in device Settings on the device.",
+        "score": 0.6122,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0496",
+        "rank": 14,
+        "action": "View Adjust Brightness",
+        "description": "Opens the screen brightness settings page in device Settings on the device.",
+        "score": 0.6008,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0368",
+        "rank": 15,
+        "action": "Enable Save original screenshots",
+        "description": "Enables save original screenshots via device Settings on the device.",
+        "score": 0.5994,
+        "polarity": "enable",
+        "is_expected": false
+      }
+    ]
+  },
+  {
+    "id": "ROB-0125",
+    "class": "K_multi_intent",
+    "query": "Turn off Wi-Fi and switch on mobile data when signal drops",
+    "siis": {
+      "title": "Composite Wi-Fi Management",
+      "content": "Wi-Fi connectivity guide for Galaxy devices. If you experience connection drops, go to Settings > Connections > Wi-Fi. Turn on Wi-Fi or toggle it off and on. Enable Hotspot 2.0 to automatically connect to secure public networks without login. If signal is poor, enable Switch to mobile data."
+    },
+    "expected_action": "view wifi settings",
+    "expected_uri": "bixby://masked/act/a9b84a4800",
+    "expected_polarity": "neutral",
+    "expected_rank": 3,
+    "expected_candidate_in_top5": true,
+    "expected_candidate_in_top8": true,
+    "expected_candidate_in_top10": true,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "enable mobile data",
+    "deterministic_selected_uri": "bixby://masked/act/149697728c",
+    "deterministic_confidence": 0.6405,
+    "deterministic_margin": 0.0359,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0082",
+        "rank": 1,
+        "action": "Enable Mobile data",
+        "description": "Enables mobile data via device Settings on the device.",
+        "score": 0.8863,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0574",
+        "rank": 2,
+        "action": "Enable WiFi",
+        "description": "Enables wifi settings via device Settings on the device.",
+        "score": 0.8781,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0492",
+        "rank": 3,
+        "action": "View WiFi Settings",
+        "description": "Opens the automatic Wi-Fi turn on settings page in device Settings on the device.",
+        "score": 0.8067,
+        "polarity": "enable",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0572",
+        "rank": 4,
+        "action": "View WiFi Settings",
+        "description": "Opens the switch to mobile data on poor Wi-Fi settings page in device Settings on the device.",
+        "score": 0.8025,
+        "polarity": "view",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0275",
+        "rank": 5,
+        "action": "Enable Airplane mode",
+        "description": "Enables airplane mode via device Settings on the device.",
+        "score": 0.7473,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0080",
+        "rank": 6,
+        "action": "Enable Turn on now",
+        "description": "Enables Data Saver via device Settings on the device.",
+        "score": 0.7358,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0238",
+        "rank": 7,
+        "action": "Enable Set data warning",
+        "description": "Enables data warning via device Settings on the device.",
+        "score": 0.6808,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0310",
+        "rank": 8,
+        "action": "Enable WiFi",
+        "description": "Enables Wi-Fi scanning via device Settings on the device.",
+        "score": 0.678,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0236",
+        "rank": 9,
+        "action": "Enable Set data limit",
+        "description": "Enables data limit via device Settings on the device.",
+        "score": 0.6607,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0313",
+        "rank": 10,
+        "action": "View WiFi Settings",
+        "description": "Opens the Wi-Fi settings page in device Settings on the device.",
+        "score": 0.6553,
+        "polarity": "view",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0513",
+        "rank": 11,
+        "action": "View WiFi Settings",
+        "description": "Opens the Intelligent Wi-Fi settings page in device Settings on the device.",
+        "score": 0.6549,
+        "polarity": "view",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0312",
+        "rank": 12,
+        "action": "Enable WiFi",
+        "description": "Enables Mobile Hotspot via device Settings on the device.",
+        "score": 0.5907,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0225",
+        "rank": 13,
+        "action": "View Turn on as scheduled",
+        "description": "Opens the Dark mode schedule settings page in device Settings on the device.",
+        "score": 0.5896,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0555",
+        "rank": 14,
+        "action": "Enable SIM manager",
+        "description": "Enables SIM manager via device Settings on the device.",
+        "score": 0.5844,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0414",
+        "rank": 15,
+        "action": "Enable Wireless power sharing",
+        "description": "Enables wireless power sharing via device Settings on the device.",
+        "score": 0.5535,
+        "polarity": "enable",
+        "is_expected": false
+      }
+    ]
+  },
+  {
+    "id": "ROB-0129",
+    "class": "L_irrelevant_context",
+    "query": "I was watching a movie and the buzzing startled my cat, please disable vibration feedback",
+    "siis": {
+      "title": "Sound Settings Guide",
+      "content": "Sound and vibration configuration guide. Open Settings, tap Sounds and vibration. Adjust volume levels for ringtone, media, notifications, and system. Enable System vibration to provide tactile confirmation on touch. To prevent sound interruptions during meetings, configure Do Not Disturb."
+    },
+    "expected_action": "view system vibration",
+    "expected_uri": "bixby://masked/act/3d8fd23e82",
+    "expected_polarity": "neutral",
+    "expected_rank": 11,
+    "expected_candidate_in_top5": false,
+    "expected_candidate_in_top8": false,
+    "expected_candidate_in_top10": false,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "disable vibrations",
+    "deterministic_selected_uri": "bixby://masked/act/70dc4b64a1",
+    "deterministic_confidence": 0.6441,
+    "deterministic_margin": 0.0797,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0442",
+        "rank": 1,
+        "action": "Disable Vibrations",
+        "description": "Disables Air command vibrations via device Settings on the device.",
+        "score": 0.9139,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0301",
+        "rank": 2,
+        "action": "Disable Sound Amplification",
+        "description": "Disables vibration sound for incoming calls via device Settings on the device.",
+        "score": 0.8671,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0053",
+        "rank": 3,
+        "action": "Disable Camera Feedback",
+        "description": "Disables camera feedback vibration via device Settings on the device.",
+        "score": 0.8524,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0297",
+        "rank": 4,
+        "action": "Disable Touch interactions",
+        "description": "Disables touch vibration via device Settings on the device.",
+        "score": 0.8315,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0170",
+        "rank": 5,
+        "action": "Disable Gesture Controls",
+        "description": "Disables navigation gestures vibration via device Settings on the device.",
+        "score": 0.7979,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0058",
+        "rank": 6,
+        "action": "Disable Charging",
+        "description": "Disables charging feedback vibration via device Settings on the device.",
+        "score": 0.7636,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0299",
+        "rank": 7,
+        "action": "Disable Vibrate while ringing",
+        "description": "Disables vibrate while ringing via device Settings on the device.",
+        "score": 0.7507,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0563",
+        "rank": 8,
+        "action": "Adjust Vibration intensity",
+        "description": "Updates the vibration intensity to a specified value via device Settings on the device.",
+        "score": 0.6964,
+        "polarity": "configure",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0290",
+        "rank": 9,
+        "action": "Disable Touch interactions",
+        "description": "Disables touch interaction sounds via device Settings on the device.",
+        "score": 0.689,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0086",
+        "rank": 10,
+        "action": "Disable Dialing keypad",
+        "description": "Disables dialing keypad vibration via device Settings on the device.",
+        "score": 0.6812,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0564",
+        "rank": 11,
+        "action": "View System vibration",
+        "description": "Opens the system vibration settings page in device Settings on the device.",
+        "score": 0.6749,
+        "polarity": "view",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0160",
+        "rank": 12,
+        "action": "Increase Media Volume",
+        "description": "Updates the media vibration to a specified value via device Settings on the device.",
+        "score": 0.6684,
+        "polarity": "configure",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0144",
+        "rank": 13,
+        "action": "Disable Samsung Keyboard",
+        "description": "Disables Samsung Keyboard vibration via device Settings on the device.",
+        "score": 0.6542,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0440",
+        "rank": 14,
+        "action": "Disable Sound Amplification",
+        "description": "Disables Air command sounds via device Settings on the device.",
+        "score": 0.6448,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0055",
+        "rank": 15,
+        "action": "Disable Camera Feedback",
+        "description": "Disables camera flash notification via device Settings on the device.",
+        "score": 0.633,
+        "polarity": "disable",
+        "is_expected": false
+      }
+    ]
+  },
+  {
+    "id": "ROB-0153",
+    "class": "B_cross_topic_generalization",
+    "query": "How do I turn on high contrast keyboard?",
+    "siis": {
+      "title": "Keyboard Advanced Support",
+      "content": "Samsung on-screen keyboard customization. Navigate to Settings > General management > Samsung Keyboard settings. Enable High contrast keyboard to improve key visibility, or adjust keyboard layout and input languages."
+    },
+    "expected_action": "view magnification settings",
+    "expected_uri": "bixby://masked/act/2422d48c35",
+    "expected_polarity": "enable",
+    "expected_rank": 3,
+    "expected_candidate_in_top5": true,
+    "expected_candidate_in_top8": true,
+    "expected_candidate_in_top10": true,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "enable high contrast",
+    "deterministic_selected_uri": "bixby://masked/act/c6e287e975",
+    "deterministic_confidence": 0.7309,
+    "deterministic_margin": 0.0459,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0120",
+        "rank": 1,
+        "action": "Enable High Contrast",
+        "description": "Enables high contrast keyboard via device Settings on the device.",
+        "score": 1.0985,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0279",
+        "rank": 2,
+        "action": "Enable High Contrast",
+        "description": "Enables high contrast fonts via device Settings on the device.",
+        "score": 0.9148,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0387",
+        "rank": 3,
+        "action": "View Magnification Settings",
+        "description": "Opens the high contrast keyboard settings page in device Settings on the device.",
+        "score": 0.7516,
+        "polarity": "view",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0068",
+        "rank": 4,
+        "action": "View High contrast fonts shortcut",
+        "description": "Opens the high contrast fonts shortcut settings in device Settings on the device.",
+        "score": 0.7207,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0262",
+        "rank": 5,
+        "action": "Enable Speak keyboard input aloud",
+        "description": "Enables speak keyboard input aloud via device Settings on the device.",
+        "score": 0.6766,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0119",
+        "rank": 6,
+        "action": "Disable High Contrast",
+        "description": "Disables high contrast keyboard via device Settings on the device.",
+        "score": 0.6751,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0266",
+        "rank": 7,
+        "action": "Enable Slow Keys",
+        "description": "Enables sticky keys via device Settings on the device.",
+        "score": 0.6399,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0143",
+        "rank": 8,
+        "action": "Enable Samsung Keyboard",
+        "description": "Enables Samsung Keyboard sound via device Settings on the device.",
+        "score": 0.6232,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0145",
+        "rank": 9,
+        "action": "Enable Samsung Keyboard",
+        "description": "Enables Samsung Keyboard vibration via device Settings on the device.",
+        "score": 0.604,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0281",
+        "rank": 10,
+        "action": "Enable Color inversion",
+        "description": "Enables color inversion via device Settings on the device.",
+        "score": 0.5827,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0283",
+        "rank": 11,
+        "action": "Enable Reduce transparency and blur",
+        "description": "Enables reduce transparency and blur via device Settings on the device.",
+        "score": 0.5793,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0254",
+        "rank": 12,
+        "action": "Enable Slow Keys",
+        "description": "Enables slow keys via device Settings on the device.",
+        "score": 0.5719,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0008",
+        "rank": 13,
+        "action": "Enable Mouse Keys",
+        "description": "Enables mouse keys accessibility via device Settings on the device.",
+        "score": 0.5618,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0049",
+        "rank": 14,
+        "action": "Enable Bounce Keys",
+        "description": "Enables bounce keys via device Settings on the device.",
+        "score": 0.5532,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0278",
+        "rank": 15,
+        "action": "Disable High Contrast",
+        "description": "Disables high contrast fonts via device Settings on the device.",
+        "score": 0.495,
+        "polarity": "disable",
+        "is_expected": false
+      }
+    ]
+  },
+  {
+    "id": "ROB-0154",
+    "class": "B_cross_topic_generalization",
+    "query": "Enable haptic feedback on keypress",
+    "siis": {
+      "title": "Sound Advanced Support",
+      "content": "Sound and vibration configuration guide. Open Settings, tap Sounds and vibration. Adjust volume levels for ringtone, media, notifications, and system. Enable System vibration to provide tactile confirmation on touch. To prevent sound interruptions during meetings, configure Do Not Disturb."
+    },
+    "expected_action": "view system vibration",
+    "expected_uri": "bixby://masked/act/3d8fd23e82",
+    "expected_polarity": "enable",
+    "expected_rank": 10,
+    "expected_candidate_in_top5": false,
+    "expected_candidate_in_top8": false,
+    "expected_candidate_in_top10": true,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "enable vibrations",
+    "deterministic_selected_uri": "bixby://masked/act/7389df9cee",
+    "deterministic_confidence": 0.6536,
+    "deterministic_margin": 0.0849,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0443",
+        "rank": 1,
+        "action": "Enable Vibrations",
+        "description": "Enables Air command vibrations via device Settings on the device.",
+        "score": 0.9789,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0298",
+        "rank": 2,
+        "action": "Enable Touch interactions",
+        "description": "Enables touch vibration via device Settings on the device.",
+        "score": 0.8857,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0054",
+        "rank": 3,
+        "action": "Enable Camera Feedback",
+        "description": "Enables camera feedback vibration via device Settings on the device.",
+        "score": 0.8824,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0145",
+        "rank": 4,
+        "action": "Enable Samsung Keyboard",
+        "description": "Enables Samsung Keyboard vibration via device Settings on the device.",
+        "score": 0.8768,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0171",
+        "rank": 5,
+        "action": "Enable Gesture Controls",
+        "description": "Enables navigation gestures vibration via device Settings on the device.",
+        "score": 0.852,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0302",
+        "rank": 6,
+        "action": "Enable Sound Amplification",
+        "description": "Enables vibration sound for incoming calls via device Settings on the device.",
+        "score": 0.8265,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0087",
+        "rank": 7,
+        "action": "Enable Dialing keypad",
+        "description": "Enables dialing keypad vibration via device Settings on the device.",
+        "score": 0.7736,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0300",
+        "rank": 8,
+        "action": "Enable Vibrate while ringing",
+        "description": "Enables vibrate while ringing via device Settings on the device.",
+        "score": 0.76,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0059",
+        "rank": 9,
+        "action": "Enable Charging",
+        "description": "Enables charging feedback vibration via device Settings on the device.",
+        "score": 0.7385,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0564",
+        "rank": 10,
+        "action": "View System vibration",
+        "description": "Opens the system vibration settings page in device Settings on the device.",
+        "score": 0.7311,
+        "polarity": "view",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0291",
+        "rank": 11,
+        "action": "Enable Touch interactions",
+        "description": "Enables touch interaction sounds via device Settings on the device.",
+        "score": 0.713,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0143",
+        "rank": 12,
+        "action": "Enable Samsung Keyboard",
+        "description": "Enables Samsung Keyboard sound via device Settings on the device.",
+        "score": 0.7018,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0441",
+        "rank": 13,
+        "action": "Enable Sound Amplification",
+        "description": "Enables Air command sounds via device Settings on the device.",
+        "score": 0.6754,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0563",
+        "rank": 14,
+        "action": "Adjust Vibration intensity",
+        "description": "Updates the vibration intensity to a specified value via device Settings on the device.",
+        "score": 0.669,
+        "polarity": "configure",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0056",
+        "rank": 15,
+        "action": "Enable Camera Feedback",
+        "description": "Enables camera flash notification via device Settings on the device.",
+        "score": 0.655,
+        "polarity": "enable",
+        "is_expected": false
+      }
+    ]
+  },
+  {
+    "id": "ROB-0155",
+    "class": "C_severe_paraphrase",
+    "query": "My screen won't automatically turn off when idle",
+    "siis": {
+      "title": "Display Advanced Support",
+      "content": "Smartphone,Others Mobile,Mobile Accessories,Tablet Email server not responding on Samsung phone or tablet ( Smartphone,Others Mobile,Mobile Accessories,Tablet): # Troubleshooting Email Connection Issues on Your Samsung Phone\nIf you're having trouble accessing your email on your Samsung phone, here are some steps you can take to resolve the issue.\n## Step 1: Check Email Access on a PC\nFirst, try accessing your email on a personal computer. This helps determine if the problem is with your phone's connection or your email account itself. If you can sign in and access your email on a PC, your phone might not be connected to Wi-Fi or mobile data.\n## Step 2: Verify Your Phone's Internet Connection\nEnsure your phone is connected to a stable Wi-Fi or mobile data network.\nSwipe down from the top of your phone's screen to open the Quick settings panel.\nTouch and hold the Wi-Fi icon to check your connection status.\nAlternatively, go to Settings, tap Connections, and then tap Wi-Fi. To confirm your internet connection is working, try loading a webpage or performing a quick search.\n## Step 3: Review Your Email Account Settings\nSometimes, changes made by your email provider on their server can cause connection problems. In such cases, you may need to remove and re-add your email account to your phone to apply the new configuration.\nYou can find instructions on how to remove your account and add it again at the provided links.\nBefore proceeding, make sure you have your email account's username and password readily available.\nRemember that passwords are case-sensitive. Entering the password incorrectly will prevent your phone from connecting to your email server.\n## Step 4: Clear the Email App's Cache and Data\nClearing the cache and data for your email app can resolve temporary glitches.\nTo clear the app's cache:\nNavigate to Settings.\nTap Apps.\nSelect your email app.\nTap Storage.\nTap Clear cache.\nTo clear the app's data:\nNavigate to Settings.\nTap Apps.\nSelect your email app.\nTap Storage.\nTap Clear data, and then tap OK.\nClearing the app's data will reset it to its original settings, effectively wiping it clean.\n## Step 5: Restart Your Phone in Safe Mode\nUsing Safe mode helps identify if a third-party app, including your email app, is causing conflicts with your phone's performance.\nPress and hold the Power button or Side button.\nIf your phone doesn't have a dedicated Power button, swipe down from the top of the screen to open Quick settings, and then tap the Power icon.\nTouch and hold the Power off icon.\nTap Safe mode when it appears on the screen.\nYour phone will restart, and \"Safe mode\" will be displayed in the bottom left corner of the screen. While in Safe mode, check if your email app is still experiencing issues. If the problem is resolved, it indicates that another app might be causing the conflict. You can also uninstall the email app if necessary while in Safe mode.\nTo exit Safe mode, simply restart your phone normally.\n## Step 6: Contact Your Email Service Provider\nIf you have followed all the above steps and are still experiencing difficulties with your email connection, it is recommended to contact your email service provider directly for further assistance."
+    },
+    "expected_action": "disable auto dim screen",
+    "expected_uri": "bixby://masked/act/2445235301",
+    "expected_polarity": "neutral",
+    "expected_rank": 10,
+    "expected_candidate_in_top5": false,
+    "expected_candidate_in_top8": false,
+    "expected_candidate_in_top10": true,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "disable double tap to turn off screen",
+    "deterministic_selected_uri": "bixby://masked/act/19a4986b12",
+    "deterministic_confidence": 0.5842,
+    "deterministic_margin": 0.0411,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0091",
+        "rank": 1,
+        "action": "Enable Double tap to turn off screen",
+        "description": "Enables double tap to turn off screen via device Settings on the device.",
+        "score": 0.9518,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0090",
+        "rank": 2,
+        "action": "Disable Double tap to turn off screen",
+        "description": "Disables double tap to turn off screen via device Settings on the device.",
+        "score": 0.9462,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0188",
+        "rank": 3,
+        "action": "Disable Palm touch to turn off screen",
+        "description": "Disables palm touch to turn off screen via device Settings on the device.",
+        "score": 0.8787,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0189",
+        "rank": 4,
+        "action": "Enable Palm touch to turn off screen",
+        "description": "Enables palm touch to turn off screen via device Settings on the device.",
+        "score": 0.8588,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0258",
+        "rank": 5,
+        "action": "Disable Keep screen on while viewing",
+        "description": "Disables keep screen on while viewing via device Settings on the device.",
+        "score": 0.8048,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0088",
+        "rank": 6,
+        "action": "Disable Double tap to turn on screen",
+        "description": "Disables double tap to wake screen via device Settings on the device.",
+        "score": 0.7923,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0482",
+        "rank": 7,
+        "action": "Disable Always On Display",
+        "description": "Disables always on screen via device Settings on the device.",
+        "score": 0.7529,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0151",
+        "rank": 8,
+        "action": "View Auto lock when screen turns off",
+        "description": "Opens the auto lock when screen turns off settings page in device Settings on the device.",
+        "score": 0.7178,
+        "polarity": "view",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0479",
+        "rank": 9,
+        "action": "Disable Auto Restart",
+        "description": "Disables restarting the device when needed via device Settings on the device.",
+        "score": 0.6964,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0401",
+        "rank": 10,
+        "action": "Disable Auto dim screen",
+        "description": "Disables auto dim screen via device Settings on the device.",
+        "score": 0.6617,
+        "polarity": "disable",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0216",
+        "rank": 11,
+        "action": "Disable Accidental touch protection",
+        "description": "Disables accidental touch protection via device Settings on the device.",
+        "score": 0.6428,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0274",
+        "rank": 12,
+        "action": "Disable Airplane mode",
+        "description": "Disables airplane mode via device Settings on the device.",
+        "score": 0.6272,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0375",
+        "rank": 13,
+        "action": "Disable Show taps and touches",
+        "description": "Disables show taps and touches in recordings via device Settings on the device.",
+        "score": 0.6256,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0438",
+        "rank": 14,
+        "action": "Disable Screen off memos",
+        "description": "Disables screen off memos via device Settings on the device.",
+        "score": 0.6165,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0146",
+        "rank": 15,
+        "action": "Disable Lift to wake",
+        "description": "Disables lift to wake via device Settings on the device.",
+        "score": 0.5878,
+        "polarity": "disable",
+        "is_expected": false
+      }
+    ]
+  },
+  {
+    "id": "ROB-0156",
+    "class": "N_catalog_boundary_dummy",
+    "query": "Turn on eye protection shield to block blue light",
+    "siis": {
+      "title": "Display Advanced Support",
+      "content": "Smartphone,Others Mobile,Mobile Accessories,Tablet Email server not responding on Samsung phone or tablet ( Smartphone,Others Mobile,Mobile Accessories,Tablet): # Troubleshooting Email Connection Issues on Your Samsung Phone\nIf you're having trouble accessing your email on your Samsung phone, here are some steps you can take to resolve the issue.\n## Step 1: Check Email Access on a PC\nFirst, try accessing your email on a personal computer. This helps determine if the problem is with your phone's connection or your email account itself. If you can sign in and access your email on a PC, your phone might not be connected to Wi-Fi or mobile data.\n## Step 2: Verify Your Phone's Internet Connection\nEnsure your phone is connected to a stable Wi-Fi or mobile data network.\nSwipe down from the top of your phone's screen to open the Quick settings panel.\nTouch and hold the Wi-Fi icon to check your connection status.\nAlternatively, go to Settings, tap Connections, and then tap Wi-Fi. To confirm your internet connection is working, try loading a webpage or performing a quick search.\n## Step 3: Review Your Email Account Settings\nSometimes, changes made by your email provider on their server can cause connection problems. In such cases, you may need to remove and re-add your email account to your phone to apply the new configuration.\nYou can find instructions on how to remove your account and add it again at the provided links.\nBefore proceeding, make sure you have your email account's username and password readily available.\nRemember that passwords are case-sensitive. Entering the password incorrectly will prevent your phone from connecting to your email server.\n## Step 4: Clear the Email App's Cache and Data\nClearing the cache and data for your email app can resolve temporary glitches.\nTo clear the app's cache:\nNavigate to Settings.\nTap Apps.\nSelect your email app.\nTap Storage.\nTap Clear cache.\nTo clear the app's data:\nNavigate to Settings.\nTap Apps.\nSelect your email app.\nTap Storage.\nTap Clear data, and then tap OK.\nClearing the app's data will reset it to its original settings, effectively wiping it clean.\n## Step 5: Restart Your Phone in Safe Mode\nUsing Safe mode helps identify if a third-party app, including your email app, is causing conflicts with your phone's performance.\nPress and hold the Power button or Side button.\nIf your phone doesn't have a dedicated Power button, swipe down from the top of the screen to open Quick settings, and then tap the Power icon.\nTouch and hold the Power off icon.\nTap Safe mode when it appears on the screen.\nYour phone will restart, and \"Safe mode\" will be displayed in the bottom left corner of the screen. While in Safe mode, check if your email app is still experiencing issues. If the problem is resolved, it indicates that another app might be causing the conflict. You can also uninstall the email app if necessary while in Safe mode.\nTo exit Safe mode, simply restart your phone normally.\n## Step 6: Contact Your Email Service Provider\nIf you have followed all the above steps and are still experiencing difficulties with your email connection, it is recommended to contact your email service provider directly for further assistance."
+    },
+    "expected_action": "enable eye comfort shield",
+    "expected_uri": "bixby://dummy_positive",
+    "expected_polarity": "enable",
+    "expected_rank": 1,
+    "expected_candidate_in_top5": true,
+    "expected_candidate_in_top8": true,
+    "expected_candidate_in_top10": true,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "enable accidental touch protection",
+    "deterministic_selected_uri": "bixby://masked/act/97282dc4dd",
+    "deterministic_confidence": 0.4902,
+    "deterministic_margin": 0.0318,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0040",
+        "rank": 1,
+        "action": "Enable Eye Comfort Shield",
+        "description": "Enables Eye Comfort Shield (blue light filter) via device Settings on the device.",
+        "score": 0.7958,
+        "polarity": "enable",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0217",
+        "rank": 2,
+        "action": "Enable Accidental touch protection",
+        "description": "Enables accidental touch protection via device Settings on the device.",
+        "score": 0.6911,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0089",
+        "rank": 3,
+        "action": "Enable Double tap to turn on screen",
+        "description": "Enables double tap to wake screen via device Settings on the device.",
+        "score": 0.6664,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0259",
+        "rank": 4,
+        "action": "Enable Keep screen on while viewing",
+        "description": "Enables keep screen on while viewing via device Settings on the device.",
+        "score": 0.6398,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0199",
+        "rank": 5,
+        "action": "Enable Privacy display",
+        "description": "Enables privacy display via device Settings on the device.",
+        "score": 0.5837,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0225",
+        "rank": 6,
+        "action": "View Turn on as scheduled",
+        "description": "Opens the Dark mode schedule settings page in device Settings on the device.",
+        "score": 0.5729,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0421",
+        "rank": 7,
+        "action": "Enable Show Device care on Apps screen",
+        "description": "Enables Device Care on Apps screen via device Settings on the device.",
+        "score": 0.571,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0191",
+        "rank": 8,
+        "action": "Enable Maximum privacy protection",
+        "description": "Enables extra dim (maximum privacy protection) via device Settings on the device.",
+        "score": 0.562,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0376",
+        "rank": 9,
+        "action": "Enable Show taps and touches",
+        "description": "Enables show taps and touches in recordings via device Settings on the device.",
+        "score": 0.5581,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0080",
+        "rank": 10,
+        "action": "Enable Turn on now",
+        "description": "Enables Data Saver via device Settings on the device.",
+        "score": 0.5552,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0126",
+        "rank": 11,
+        "action": "Enable Touch sensitivity",
+        "description": "Enables touch sensitivity via device Settings on the device.",
+        "score": 0.5491,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0410",
+        "rank": 12,
+        "action": "Enable Battery protection",
+        "description": "Enables battery protection via device Settings on the device.",
+        "score": 0.5482,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0366",
+        "rank": 13,
+        "action": "Enable Only record top screen in Flex mode",
+        "description": "Enables record top screen in Flex mode via device Settings on the device.",
+        "score": 0.5176,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0281",
+        "rank": 14,
+        "action": "Enable Color inversion",
+        "description": "Enables color inversion via device Settings on the device.",
+        "score": 0.5146,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0522",
+        "rank": 15,
+        "action": "Enable Enhanced data protection",
+        "description": "Enables enhanced data protection via device Settings on the device.",
+        "score": 0.5023,
+        "polarity": "enable",
+        "is_expected": false
+      }
+    ]
+  },
+  {
+    "id": "ROB-0162",
+    "class": "J_conversational",
+    "query": "Can you help me make the text on my keyboard much easier to read?",
+    "siis": {
+      "title": "Keyboard Advanced Support",
+      "content": "Samsung on-screen keyboard customization. Navigate to Settings > General management > Samsung Keyboard settings. Enable High contrast keyboard to improve key visibility, or adjust keyboard layout and input languages."
+    },
+    "expected_action": "view magnification settings",
+    "expected_uri": "bixby://masked/act/2422d48c35",
+    "expected_polarity": "neutral",
+    "expected_rank": 5,
+    "expected_candidate_in_top5": true,
+    "expected_candidate_in_top8": true,
+    "expected_candidate_in_top10": true,
+    "expected_candidate_in_top15": true,
+    "deterministic_selected_action": "enable high contrast",
+    "deterministic_selected_uri": "bixby://masked/act/c6e287e975",
+    "deterministic_confidence": 0.616,
+    "deterministic_margin": 0.0017,
+    "candidates_top15": [
+      {
+        "candidate_id": "candidate_1",
+        "catalog_id": "DL-0120",
+        "rank": 1,
+        "action": "Enable High Contrast",
+        "description": "Enables high contrast keyboard via device Settings on the device.",
+        "score": 0.9815,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_2",
+        "catalog_id": "DL-0279",
+        "rank": 2,
+        "action": "Enable High Contrast",
+        "description": "Enables high contrast fonts via device Settings on the device.",
+        "score": 0.9745,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_3",
+        "catalog_id": "DL-0262",
+        "rank": 3,
+        "action": "Enable Speak keyboard input aloud",
+        "description": "Enables speak keyboard input aloud via device Settings on the device.",
+        "score": 0.7787,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_4",
+        "catalog_id": "DL-0266",
+        "rank": 4,
+        "action": "Enable Slow Keys",
+        "description": "Enables sticky keys via device Settings on the device.",
+        "score": 0.7135,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_5",
+        "catalog_id": "DL-0387",
+        "rank": 5,
+        "action": "View Magnification Settings",
+        "description": "Opens the high contrast keyboard settings page in device Settings on the device.",
+        "score": 0.6801,
+        "polarity": "view",
+        "is_expected": true
+      },
+      {
+        "candidate_id": "candidate_6",
+        "catalog_id": "DL-0122",
+        "rank": 6,
+        "action": "Enable Highlight buttons",
+        "description": "Enables highlight buttons via device Settings on the device.",
+        "score": 0.6476,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_7",
+        "catalog_id": "DL-0254",
+        "rank": 7,
+        "action": "Enable Slow Keys",
+        "description": "Enables slow keys via device Settings on the device.",
+        "score": 0.6396,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_8",
+        "catalog_id": "DL-0008",
+        "rank": 8,
+        "action": "Enable Mouse Keys",
+        "description": "Enables mouse keys accessibility via device Settings on the device.",
+        "score": 0.6097,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_9",
+        "catalog_id": "DL-0145",
+        "rank": 9,
+        "action": "Enable Samsung Keyboard",
+        "description": "Enables Samsung Keyboard vibration via device Settings on the device.",
+        "score": 0.595,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_10",
+        "catalog_id": "DL-0143",
+        "rank": 10,
+        "action": "Enable Samsung Keyboard",
+        "description": "Enables Samsung Keyboard sound via device Settings on the device.",
+        "score": 0.5936,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_11",
+        "catalog_id": "DL-0431",
+        "rank": 11,
+        "action": "Enable S Pen to text",
+        "description": "Enables S Pen to text via device Settings on the device.",
+        "score": 0.5891,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_12",
+        "catalog_id": "DL-0137",
+        "rank": 12,
+        "action": "Enable Show input method button on navigation bar",
+        "description": "Enables input method button on navigation bar via device Settings on the device.",
+        "score": 0.5853,
+        "polarity": "enable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_13",
+        "catalog_id": "DL-0119",
+        "rank": 13,
+        "action": "Disable High Contrast",
+        "description": "Disables high contrast keyboard via device Settings on the device.",
+        "score": 0.5785,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_14",
+        "catalog_id": "DL-0278",
+        "rank": 14,
+        "action": "Disable High Contrast",
+        "description": "Disables high contrast fonts via device Settings on the device.",
+        "score": 0.5696,
+        "polarity": "disable",
+        "is_expected": false
+      },
+      {
+        "candidate_id": "candidate_15",
+        "catalog_id": "DL-0283",
+        "rank": 15,
+        "action": "Enable Reduce transparency and blur",
+        "description": "Enables reduce transparency and blur via device Settings on the device.",
+        "score": 0.5676,
+        "polarity": "enable",
+        "is_expected": false
+      }
+    ]
+  }
+]
