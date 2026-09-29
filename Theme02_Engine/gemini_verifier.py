@@ -169,10 +169,10 @@ class GeminiSemanticVerifier:
         conf = deterministic_draft.get("confidence", 1.0)
 
         # Triggers:
-        # 1. Ambiguous margin between Rank #1 and Rank #2 (< 0.12)
-        # 2. Low overall deterministic confidence (< 0.60)
+        # 1. Ambiguous margin between Rank #1 and Rank #2 (< 0.06)
+        # 2. Low overall deterministic confidence (< 0.35)
         # 3. Two candidates have opposing polarities in Top-2
-        if margin < 0.12 or conf < 0.60:
+        if margin < 0.06 or conf < 0.35:
             return True
 
         if len(candidate_pool) >= 2:

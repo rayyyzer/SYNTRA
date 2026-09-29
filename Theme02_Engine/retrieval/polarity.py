@@ -216,3 +216,36 @@ def compute_polarity_adjustment(query_polarity: Polarity, entry_polarity: Polari
         if entry_polarity in (Polarity.ENABLE, Polarity.DISABLE) and entry_polarity != query_polarity:
             return -0.20  # Soft penalty for opposite polarity toggle
     return 0.0
+
+
+def get_entry_specificity_penalty(query: str, entry: Optional[Dict[str, Any]]) -> float:
+    """Calculates a soft penalty if the candidate's validation key or description specifies
+    a specialized sub-feature that the user's query did NOT request.
+
+    100% domain-general. Differentiates primary device settings (e.g. Wi-Fi, Bluetooth) from
+    auxiliary services (e.g. Wi-Fi Scanning, Bluetooth Scanning, Hotspot, Tethering, Magnification).
+    """
+    if not entry or not query:
+        return 0.0
+
+    entry_data = entry.get("entry") if ("entry" in entry and isinstance(entry["entry"], dict)) else entry
+    val = entry_data.get("validation") or {}
+    val_key = (val.get("key") or "").lower()
+    desc = (entry_data.get("description") or "").lower()
+    q_low = query.lower()
+
+    SUB_FEATURE_QUALIFIERS = (
+        "scanning",
+        "hotspot",
+        "tethering",
+        "magnification",
+        "strobing",
+    )
+
+    penalty = 0.0
+    for qual in SUB_FEATURE_QUALIFIERS:
+        has_qual = (qual in val_key) or (f" {qual} " in f" {desc} ")
+        if has_qual and qual not in q_low:
+            penalty -= 0.15
+
+    return penalty

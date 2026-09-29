@@ -7,6 +7,22 @@ import time
 from typing import Any, Dict, List, Optional, Tuple
 
 
+_MODEL_CACHE: Dict[str, Any] = {}
+
+
+def get_sentence_transformer(model_name: str = "all-MiniLM-L6-v2") -> Any:
+    """Singleton getter for SentenceTransformer with local_files_only priority to eliminate cold-start network stalls."""
+    if model_name in _MODEL_CACHE:
+        return _MODEL_CACHE[model_name]
+    from sentence_transformers import SentenceTransformer  # type: ignore
+    try:
+        model = SentenceTransformer(model_name, local_files_only=True)
+    except Exception:
+        model = SentenceTransformer(model_name)
+    _MODEL_CACHE[model_name] = model
+    return model
+
+
 class DenseRetriever:
     """In-memory dense semantic vector retriever with sub-millisecond dot-product scoring."""
 
@@ -21,10 +37,9 @@ class DenseRetriever:
     def _init_model(self):
         try:
             import numpy as np  # type: ignore
-            from sentence_transformers import SentenceTransformer  # type: ignore
 
             t0 = time.perf_counter()
-            self.model = SentenceTransformer(self.model_name)
+            self.model = get_sentence_transformer(self.model_name)
             self.load_time_ms = (time.perf_counter() - t0) * 1000.0
 
             # Check if precomputed embeddings exist on disk

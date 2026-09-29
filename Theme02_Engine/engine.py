@@ -135,7 +135,7 @@ class TroubleshootingEngine:
         t_ret_0 = time.perf_counter()
         candidates = self.retriever.retrieve(
             query=query,
-            top_k=8,
+            top_k=10,
             siis_title=siis_title,
             siis_content=siis_content
         )

@@ -12,6 +12,7 @@ from .polarity import (
     detect_query_polarity,
     get_entry_polarity,
     compute_polarity_adjustment,
+    get_entry_specificity_penalty,
     Polarity,
 )
 
@@ -166,13 +167,17 @@ class HybridRetriever:
             # Mobile context penalty for TV settings
             dev_adj = -0.40 if "tv settings" in entry.get("description", "").lower() else 0.0
 
-            final_score = fused + pol_adj + dev_adj
+            # Domain-general catalog sub-feature specificity penalty
+            spec_pen = get_entry_specificity_penalty(expanded_q, entry)
+
+            final_score = fused + pol_adj + dev_adj + spec_pen
             fused_scores[idx] = final_score
             comp_scores[idx] = {
                 "bm25": round(norm_bm25, 4),
                 "dense": round(norm_dense, 4),
                 "siis": round(norm_siis, 4),
-                "pol_adj": round(pol_adj, 4)
+                "pol_adj": round(pol_adj, 4),
+                "spec_pen": round(spec_pen, 4)
             }
 
         # 7. Rank and return top_k candidates
@@ -200,6 +205,7 @@ class HybridRetriever:
                 "dense_score": c_comp.get("dense", 0.0),
                 "siis_score": c_comp.get("siis", 0.0),
                 "polarity_adjustment": c_comp.get("pol_adj", 0.0),
+                "specificity_adjustment": c_comp.get("spec_pen", 0.0),
                 "entry": e
             })
 
