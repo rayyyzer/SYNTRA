@@ -30,12 +30,14 @@ from safety_router import is_unsupported_hardware, get_hardware_repair_action
 from retrieval.hybrid_retriever import HybridRetriever
 from retrieval.polarity import detect_query_polarity
 from adjudicator import CandidateAdjudicator
+from gemini_verifier import GeminiSemanticVerifier, GeminiVerificationResult
 
 
 class TroubleshootingEngine:
     def __init__(self):
         self.retriever = HybridRetriever()
         self.adjudicator = CandidateAdjudicator(dense=self.retriever.dense)
+        self.verifier = GeminiSemanticVerifier()
         self.cache = QueryCache()
 
     def troubleshoot(
@@ -43,7 +45,8 @@ class TroubleshootingEngine:
         query: str,
         siis_response: Optional[Dict[str, Any]] = None,
         siis_title: Optional[str] = None,
-        siis_content: Optional[str] = None
+        siis_content: Optional[str] = None,
+        _debug_trace: Optional[Dict[str, Any]] = None
     ) -> Dict[str, Any]:
         # 1. Extract and sanitize raw text from SIIS (with strict type safety)
         if siis_response is None:
@@ -67,10 +70,15 @@ class TroubleshootingEngine:
         # 2. Check context-isolated cache (<0.05ms)
         cached = self.cache.get(query, siis_title=siis_title, siis_content=siis_content)
         if cached:
+            if _debug_trace is not None:
+                _debug_trace["cached"] = True
+                _debug_trace["cached_response"] = cached
             return cached
 
         # 3. Check Safety & Hardware Router for physical damage or hazardous operations
         if is_unsupported_hardware(query, siis_content):
+            if _debug_trace is not None:
+                _debug_trace["hardware_triggered"] = True
             hw_data = get_hardware_repair_action()
             action_hw = Action(
                 actionName=hw_data["actionName"],
@@ -123,22 +131,46 @@ class TroubleshootingEngine:
             auto_steps = [raw_sentences[0]]
             manual_steps = raw_sentences[1:]
 
-        # 5. SIIS-Grounded Hybrid Retrieval (<25ms) + Candidate Adjudication
+        # 5. SIIS-Grounded Hybrid Retrieval (<25ms) + Candidate Adjudication + Gemini Verification
+        t_ret_0 = time.perf_counter()
         candidates = self.retriever.retrieve(
             query=query,
             top_k=5,
             siis_title=siis_title,
             siis_content=siis_content
         )
+        retrieval_ms = (time.perf_counter() - t_ret_0) * 1000.0
+
+        verifier_res: Optional[GeminiVerificationResult] = None
+        adj: Optional[Dict[str, Any]] = None
+        selection_ms: float = 0.0
 
         if candidates and candidates[0]["score"] >= 0.20:
+            t_sel_0 = time.perf_counter()
             adj = self.adjudicator.adjudicate(
                 query=query,
                 siis_title=siis_title,
                 siis_content=siis_content,
                 candidates=candidates
             )
+            selection_ms = (time.perf_counter() - t_sel_0) * 1000.0
             best = adj.get("selected_candidate") or candidates[0]
+
+            # Phase 17: Native Gemini Final Semantic Verification Layer
+            # Runs as final post-retrieval verification/correction layer
+            if self.verifier.should_verify(adj, candidates):
+                verifier_res = self.verifier.verify(
+                    query=query,
+                    siis_title=siis_title,
+                    siis_content=siis_content,
+                    candidate_pool=candidates,
+                    deterministic_draft=best
+                )
+                if verifier_res and verifier_res.decision == "CORRECT" and verifier_res.selected_candidate_id:
+                    cand_map = {c["id"]: c for c in candidates if "id" in c}
+                    if verifier_res.selected_candidate_id in cand_map:
+                        best = cand_map[verifier_res.selected_candidate_id]
+
             act_dl = best["deeplink"]
             act1_name = best.get("message") or "Configure Device Settings"
             act_desc_hint = best.get("description") or act1_name
@@ -231,6 +263,15 @@ class TroubleshootingEngine:
 
         # Store in context-isolated cache
         self.cache.put(query, result_dict, siis_title=siis_title, siis_content=siis_content)
+
+        if _debug_trace is not None:
+            _debug_trace["candidates"] = candidates
+            _debug_trace["adjudication"] = adj
+            _debug_trace["verifier_res"] = verifier_res
+            _debug_trace["best"] = best
+            _debug_trace["retrieval_ms"] = retrieval_ms
+            _debug_trace["selection_ms"] = selection_ms
+
         return result_dict
 
     def troubleshoot_debug(self, query: str, siis_response: Dict[str, Any]) -> Dict[str, Any]:
@@ -296,17 +337,28 @@ class TroubleshootingEngine:
             "triage_reason": "Physical crack, liquid exposure, or component failure detected" if hw_triggered else "Standard settings troubleshooting"
         }
 
-        # 5. SIIS-Grounded Hybrid Retrieval
-        t_ret_0 = time.perf_counter()
-        candidates = self.retriever.retrieve(
-            query=query,
-            top_k=5,
+        # 5. Run Execution via troubleshoot with debug trace
+        trace: Dict[str, Any] = {}
+        official_response = self.troubleshoot(
+            query,
+            siis_response,
             siis_title=siis_title,
-            siis_content=siis_content
+            siis_content=siis_content,
+            _debug_trace=trace
         )
-        t_ret_1 = time.perf_counter()
 
-        retrieval_latency_ms = (t_ret_1 - t_ret_0) * 1000.0
+        candidates = trace.get("candidates")
+        if candidates is None and not hw_triggered:
+            candidates = self.retriever.retrieve(
+                query=query,
+                top_k=5,
+                siis_title=siis_title,
+                siis_content=siis_content
+            )
+        elif candidates is None:
+            candidates = []
+
+        retrieval_latency_ms = trace.get("retrieval_ms", 0.0)
 
         formatted_cands = []
         for c in candidates:
@@ -330,8 +382,22 @@ class TroubleshootingEngine:
             "candidates": formatted_cands
         }
 
-        # 6. Adjudication / Selection
-        t_sel_0 = time.perf_counter()
+        # 6. Selection & Gemini Verification Info
+        adj = trace.get("adjudication")
+        if adj is None and candidates and not hw_triggered:
+            adj = self.adjudicator.adjudicate(
+                query=query,
+                siis_title=siis_title,
+                siis_content=siis_content,
+                candidates=candidates
+            )
+
+        best = trace.get("best")
+        if best is None and adj:
+            best = adj.get("selected_candidate") or (candidates[0] if candidates else None)
+
+        verifier_res: Optional[GeminiVerificationResult] = trace.get("verifier_res")
+
         if hw_triggered:
             selection_info = {
                 "method": "Hardware Safety Router",
@@ -339,6 +405,18 @@ class TroubleshootingEngine:
                 "selected_catalog_id": None,
                 "confidence": 1.0,
                 "latency_ms": 0.01
+            }
+            gemini_info = {
+                "enabled": self.verifier.is_enabled(),
+                "mode": self.verifier.mode,
+                "model": self.verifier.model_name,
+                "decision": "SKIPPED",
+                "selected_catalog_id": None,
+                "confidence": 1.0,
+                "reason_code": "SAFETY_INTERCEPT",
+                "explanation": "Hardware safety router intercepted query prior to candidate adjudication and LLM verification.",
+                "latency_ms": 0.0,
+                "is_override": False
             }
             catalog_info = {
                 "catalog_id": None,
@@ -348,16 +426,6 @@ class TroubleshootingEngine:
                 "original_type": "manual_action"
             }
         else:
-            adj = self.adjudicator.adjudicate(
-                query=query,
-                siis_title=siis_title,
-                siis_content=siis_content,
-                candidates=candidates
-            )
-            t_sel_1 = time.perf_counter()
-            selection_latency_ms = (t_sel_1 - t_sel_0) * 1000.0
-
-            best = adj.get("selected_candidate") or (candidates[0] if candidates else None)
             selected_catalog_id = best.get("id") if best else "DL-DUMMY"
             selected_rank = None
             for idx, c in enumerate(candidates, start=1):
@@ -366,11 +434,24 @@ class TroubleshootingEngine:
                     break
 
             selection_info = {
-                "method": adj.get("source", "deterministic_dense_adjudicator"),
+                "method": (adj or {}).get("source", "deterministic_dense_adjudicator"),
                 "selected_rank": selected_rank or 1,
                 "selected_catalog_id": selected_catalog_id,
-                "confidence": adj.get("confidence", 0.92),
-                "latency_ms": round(selection_latency_ms, 3)
+                "confidence": (adj or {}).get("confidence", 0.92),
+                "latency_ms": round(trace.get("selection_ms", 0.0), 3)
+            }
+
+            gemini_info = {
+                "enabled": self.verifier.is_enabled(),
+                "mode": self.verifier.mode,
+                "model": self.verifier.model_name,
+                "decision": verifier_res.decision if verifier_res else ("SKIPPED" if not self.verifier.is_enabled() else "UNTRIGGERED"),
+                "selected_catalog_id": verifier_res.selected_candidate_id if (verifier_res and verifier_res.selected_candidate_id) else selected_catalog_id,
+                "confidence": verifier_res.confidence if verifier_res else ((adj or {}).get("confidence", 0.90)),
+                "reason_code": verifier_res.reason_code if verifier_res else "DETERMINISTIC_PASS",
+                "explanation": verifier_res.raw_output if verifier_res else "Deterministic selection accepted without LLM override.",
+                "latency_ms": round(verifier_res.latency_ms, 3) if verifier_res else 0.0,
+                "is_override": (verifier_res.decision == "CORRECT") if verifier_res else False
             }
 
             act_dl = best.get("deeplink") if best else "bixby://dummy_positive"
@@ -386,16 +467,14 @@ class TroubleshootingEngine:
                 "original_type": best.get("originalType", "onClickURL") if best else "onClickURL"
             }
 
-        # 7. Official Response
-        official_response = self.troubleshoot(query, siis_response)
-
-        # 8. Performance Summary
+        # 7. Performance Summary
         total_latency_ms = (time.perf_counter() - t_total_0) * 1000.0
         perf_info = {
             "total_latency_ms": round(total_latency_ms, 3),
             "cache_lookup_latency_ms": round(cache_latency_ms, 3),
             "retrieval_latency_ms": round(retrieval_latency_ms, 3) if not hw_triggered else 0.0,
-            "selection_latency_ms": selection_info.get("latency_ms", 0.0)
+            "selection_latency_ms": selection_info.get("latency_ms", 0.0),
+            "gemini_latency_ms": round(verifier_res.latency_ms, 3) if verifier_res else 0.0
         }
 
         return {
@@ -406,6 +485,7 @@ class TroubleshootingEngine:
                 "safety": safety_info,
                 "retrieval": retrieval_info,
                 "selection": selection_info,
+                "gemini_verification": gemini_info,
                 "catalog_resolution": catalog_info,
                 "performance": perf_info
             },

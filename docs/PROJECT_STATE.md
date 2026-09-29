@@ -323,3 +323,30 @@ User Query + SIIS Response Payload
   - **Cold Latency:** 312.45 ms
   - **P50 Latency:** 89.15 ms
 
+---
+
+## 13. Phase 17 — Native Gemini Semantic Verification Layer & Safety Hardening (Completed)
+
+- **Deliverables (`docs/PHASE_17_GEMINI_FINAL_VERIFICATION.md`):**
+  - **Native Gemini Semantic Verifier (`gemini_verifier.py`, `engine.py`):** Structured post-retrieval verification layer using Google GenAI SDK (`gemini-2.5-flash`). Evaluates deterministic draft winner against candidate pool with strict Pydantic JSON schema (`GeminiVerifierOutput`).
+  - **Zero URI Generation Invariant:** Gemini never receives, emits, or modifies deeplink URIs (`bixby://`). All URIs are strictly resolved from verified catalog entries.
+  - **Programmatic Whitelist & Polarity Guards:** Programmatically verifies Candidate IDs exist in the retrieved pool; rejects polarity contradictions (`ENABLE` vs `DISABLE`).
+  - **Safe Offline / Quota Fallback:** Complete fallback to deterministic candidate on missing key, timeout (>2500ms), HTTP 429 quota exhaustion, or malformed JSON.
+  - **Safety Router Hardening (`safety_router.py`):** Remediated Phase 16B gaps (`cracked`, `smoking`/`smoldering`, `smartphone`).
+  - **Playground UI Upgrade (`playground.html`):** Real-time Gemini verification status pill, dedicated telemetry card, and override highlighting.
+- **Official Scorer (`Theme02_Engine/test_suite.py`):** **60 / 60 points [PASS]** (Gates G2–G5 PASS, 0 URL leaks, repeat P95: 1.53 ms).
+- **Security Regression Suite (`test_security_remediation.py`):** **100% PASS (27 / 27)**.
+- **Gemini Integration Unit Suite (`test_gemini_integration.py`):** **100% PASS (16 / 16)**.
+- **Held-Out Generalization Evaluation (30 frozen scenarios):** **63.33% Action Match (19 / 30)**, **100% Hardware Safety (3 / 3)**.
+- **Candidate Pool Recall Analysis (164 benchmark cases):**
+  - Top-5: 98 / 164 (59.76% recall ceiling)
+  - Top-8: 103 / 164 (62.80% recall ceiling)
+  - Top-10: 105 / 164 (64.02% recall ceiling)
+- **164-Case Offline Robustness Benchmark:**
+  - Mode A (Deterministic): URI Match 40.24% (66/164), Action Match 53.05% (87/164)
+  - Mode B (Gemini Always): URI Match 43.29% (71/164), Action Match 55.49% (91/164)
+  - Mode C (Gemini Selective): URI Match 42.07% (69/164), Action Match 54.27% (89/164)
+  - Hardware Safety: 100.0% (5 / 5)
+  - URL Leaks: 0
+
+

@@ -18,8 +18,8 @@ from typing import Any, Dict, List, Optional, Tuple
 
 # Category A: Physical Structural Damage (severe destruction of hardware parts)
 STRUCTURAL_DAMAGE = re.compile(
-    r"\b(?:shatter(?:ed|ing)?|crush(?:ed|ing)?|bent|warped|snapp(?:ed|ing)(?:\s+off)?|split(?:\s+in\s+half)?|smashed|punctured)\b.*?\b(?:screen|display|glass|panel|frame|chassis|body|housing|motherboard|board|port|usb|connector|phone|device|handset)\b"
-    r"|\b(?:screen|display|glass|panel|frame|chassis|body|housing|motherboard|board|port|usb|connector|phone|device|handset)\b.*?\b(?:shatter(?:ed|ing)?|crush(?:ed|ing)?|bent|warped|snapp(?:ed|ing)(?:\s+off)?|split(?:\s+in\s+half)?|smashed|punctured)\b",
+    r"\b(?:shatter(?:ed|ing)?|crush(?:ed|ing)?|crack(?:ed|ing)?|bent|warped|snapp(?:ed|ing)(?:\s+off)?|split(?:\s+in\s+half)?|smashed|punctured)\b.*?\b(?:screen|display|glass|panel|frame|chassis|body|housing|motherboard|board|port|usb|connector|phone|smartphone|device|handset)\b"
+    r"|\b(?:screen|display|glass|panel|frame|chassis|body|housing|motherboard|board|port|usb|connector|phone|smartphone|device|handset)\b.*?\b(?:shatter(?:ed|ing)?|crush(?:ed|ing)?|crack(?:ed|ing)?|bent|warped|snapp(?:ed|ing)(?:\s+off)?|split(?:\s+in\s+half)?|smashed|punctured)\b",
     re.I
 )
 
@@ -27,15 +27,15 @@ STRUCTURAL_DAMAGE = re.compile(
 LIQUID_INGRESS = re.compile(
     r"\b(?:submerged|immersed|soaked)\b"
     r"|\b(?:dropped|fell|spilled)\b.*?\b(?:in|into|inside)\b.*?\b(?:water|ocean|sea|pool|toilet|sink|liquid|coffee|tea|soda|beverage)\b"
-    r"|\b(?:water|liquid|coffee|tea|soda|ocean|salt\s+water)\b.*?\b(?:got\s+inside|spilled\s+inside|seeped\s+inside|inside\s+(?:the\s+)?(?:phone|device|handset|port|charging\s+port|speaker))\b"
+    r"|\b(?:water|liquid|coffee|tea|soda|ocean|salt\s+water)\b.*?\b(?:got\s+inside|spilled\s+inside|seeped\s+inside|inside\s+(?:the\s+)?(?:phone|smartphone|device|handset|port|charging\s+port|speaker))\b"
     r"|\bliquid\s+damage(?:\s+detected)?\b",
     re.I
 )
 
 # Category C: Thermal / Electrical Hazards
 THERMAL_ELECTRICAL = re.compile(
-    r"\b(?:smoke|sparks?|sparking|fire|exploded?|exploding)\b"
-    r"|\b(?:burning|smell\s+(?:of\s+)?burning)\b.*?\b(?:electronics?|phone|device|battery|charger|plastic)\b"
+    r"\b(?:smoke|smoking|smolder(?:ing)?|sparks?|sparking|fire|exploded?|exploding)\b"
+    r"|\b(?:burning|smell\s+(?:of\s+)?burning)\b.*?\b(?:electronics?|phone|smartphone|device|battery|charger|plastic)\b"
     r"|\b(?:battery|cell|back\s+panel)\b.*?\b(?:swollen|swelling|bulg(?:ed|ing)|expand(?:ed|ing)|leak(?:ed|ing))\b"
     r"|\b(?:swollen|swelling|bulg(?:ed|ing)|expand(?:ed|ing)|leak(?:ed|ing))\b.*?\b(?:battery|cell)\b",
     re.I
@@ -44,9 +44,9 @@ THERMAL_ELECTRICAL = re.compile(
 # Category D: Physical Repair / DIY Disassembly Procedures
 PHYSICAL_REPAIR = re.compile(
     r"\b(?:heat\s+gun|soldering\s+iron|pry\s+tool)\b"
-    r"|\b(?:open|opening|disassemble|disassembling|take\s+apart|taking\s+apart)\b.*?\b(?:phone|device|handset|casing|chassis)\b.*?\b(?:replace|repair|fix)\b"
+    r"|\b(?:open|opening|disassemble|disassembling|take\s+apart|taking\s+apart)\b.*?\b(?:phone|smartphone|device|handset|casing|chassis)\b.*?\b(?:replace|repair|fix)\b"
     r"|\b(?:replace|replacing|repair|repairing)\b.*?\bphysical\s+(?:oled|screen|display|battery|camera|motherboard|component)\b"
-    r"|\b(?:open|opening)\b.*?\b(?:phone|device|handset)\b.*?\b(?:replace|repair|install)\b.*?\b(?:internal\s+component|part|hardware)\b",
+    r"|\b(?:open|opening)\b.*?\b(?:phone|smartphone|device|handset)\b.*?\b(?:replace|repair|install)\b.*?\b(?:internal\s+component|part|hardware)\b",
     re.I
 )
 

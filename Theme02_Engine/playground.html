@@ -220,7 +220,7 @@
     /* Pipeline Diagnostics Ribbons */
     .ribbon-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
       gap: 12px;
       margin-bottom: 20px;
     }
@@ -465,6 +465,10 @@
           <div class="stat-value" style="font-size: 0.85rem;" id="val-selection">Dense Rerank</div>
         </div>
         <div class="stat-pill">
+          <div class="stat-label">Gemini Verifier</div>
+          <div class="stat-value" id="val-gemini"><span class="badge badge-neutral">SKIPPED</span></div>
+        </div>
+        <div class="stat-pill">
           <div class="stat-label">Total Execution</div>
           <div class="stat-value" style="color: var(--accent-green);" id="val-latency">18.5 ms</div>
         </div>
@@ -501,6 +505,32 @@
               </tr>
             </tbody>
           </table>
+        </div>
+      </div>
+
+      <!-- Gemini Semantic Verifier Layer -->
+      <div class="card" id="gemini-card">
+        <h2>
+          <span>Gemini Semantic Verification Layer</span>
+          <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: normal;" id="gemini-model-badge">gemini-2.5-flash (selective)</span>
+        </h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 12px;">
+          <div>
+            <label>Verifier Decision</label>
+            <div id="gemini-decision"><span class="badge badge-neutral">SKIPPED</span></div>
+          </div>
+          <div>
+            <label>Reason Code</label>
+            <div id="gemini-reason" style="font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">DETERMINISTIC_PASS</div>
+          </div>
+          <div>
+            <label>LLM Latency</label>
+            <div id="gemini-latency" style="font-size: 0.85rem; font-family: var(--font-mono); color: var(--accent-green);">0.0 ms</div>
+          </div>
+        </div>
+        <div>
+          <label>Audit Explanation</label>
+          <div id="gemini-explanation" style="font-size: 0.8rem; color: var(--text-secondary); background: var(--bg-input); padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); font-family: var(--font-mono);">Deterministic selection accepted without LLM override.</div>
         </div>
       </div>
 
@@ -676,6 +706,39 @@ function renderDebugResults(data) {
 
   // 3. Selection Method
   document.getElementById("val-selection").innerText = dbg.selection?.method || "Deterministic";
+
+  // 3b. Gemini Verifier Ribbon & Card
+  const g = dbg.gemini_verification || {};
+  const gDec = (g.decision || "SKIPPED").toUpperCase();
+  let gBadgeClass = "badge-neutral";
+  if (gDec === "ACCEPT") gBadgeClass = "badge-hit";
+  else if (gDec === "CORRECT") gBadgeClass = "badge-config";
+  else if (gDec === "FALLBACK") gBadgeClass = "badge-miss";
+
+  const valGemini = document.getElementById("val-gemini");
+  if (valGemini) {
+    valGemini.innerHTML = `<span class="badge ${gBadgeClass}">${gDec}</span>`;
+  }
+  const gDecEl = document.getElementById("gemini-decision");
+  if (gDecEl) {
+    gDecEl.innerHTML = `<span class="badge ${gBadgeClass}">${gDec}</span> ${g.is_override ? '<span class="winner-tag" style="background:var(--accent-purple); color:white; margin-left:4px;">OVERRIDE</span>' : ''}`;
+  }
+  const gReasonEl = document.getElementById("gemini-reason");
+  if (gReasonEl) {
+    gReasonEl.innerText = g.reason_code || "-";
+  }
+  const gLatEl = document.getElementById("gemini-latency");
+  if (gLatEl) {
+    gLatEl.innerText = `${g.latency_ms || 0} ms`;
+  }
+  const gBadgeEl = document.getElementById("gemini-model-badge");
+  if (gBadgeEl) {
+    gBadgeEl.innerText = `${g.model || "gemini-2.5-flash"} (${g.mode || "selective"})`;
+  }
+  const gExpEl = document.getElementById("gemini-explanation");
+  if (gExpEl) {
+    gExpEl.innerText = g.explanation || (gDec === "ACCEPT" ? "Deterministic draft verified and accepted." : "No semantic verification performed.");
+  }
 
   // 4. Latency
   document.getElementById("val-latency").innerText = `${dbg.performance?.total_latency_ms || 0} ms`;
