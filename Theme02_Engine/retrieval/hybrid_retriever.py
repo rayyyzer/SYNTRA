@@ -23,7 +23,6 @@ CLEAN_EXPANSIONS = [
     (re.compile(r"\b(conection)\b", re.I), "connection"),
     (re.compile(r"\b(flight\s+mode)\b", re.I), "airplane mode"),
     (re.compile(r"\b(haptic\s+feedback)\b", re.I), "vibration"),
-    (re.compile(r"\b(screen\s+timeout)\b", re.I), "auto dim screen"),
     (re.compile(r"\b(zen\s+mode)\b", re.I), "do not disturb"),
     (re.compile(r"\b(buzz(?:es|ing)?)\b", re.I), "vibration"),
 ]
