@@ -294,3 +294,32 @@ User Query + SIIS Response Payload
   - **Paraphrase Cache:** 100.0%.
   - **Cold Start Latency:** 304.72 ms.
   - **P95 Latency:** 224.03 ms.
+
+---
+
+## 12. Phase 16A — Security Remediation & Input Boundary Hardening (Completed)
+
+- **Deliverables (`docs/PHASE_16A_SECURITY_REMEDIATION.md`):**
+  - **SEC-01 Cache Context Isolation (`cache.py`, `engine.py`):** Multi-tenant cache key incorporating SHA-256 digest of SIIS title/content (`norm#digest`), isolating identical queries under differing troubleshooting manuals while preserving prefix fallback for benchmark tests.
+  - **SEC-02 Deterministic Bounded Cache (`cache.py`):** Strictly capped cache tiers (1,000 max entries) with FIFO eviction on `exact_cache`, `intent_cache`, and `known_intents`. Windowed fuzzy Tier 3 scan to 100 entries.
+  - **SEC-03 SIIS Resource DoS Protection (`hybrid_retriever.py`, `adjudicator.py`):** Capped SIIS instruction sentence embeddings to top 3 highest token-overlap sentences against query/title, cutting worst-case CPU transformer latency by over 90%.
+  - **SEC-04 & SEC-05 Structured Input Validation (`app.py`, `engine.py`):** Created Pydantic models `SiisPayload` and `TroubleshootRequest` enforcing string bounds (query <= 1,000, title <= 500, content <= 15,000), whitespace rejection, and type resilience.
+  - **SEC-06 Error Masking (`app.py`):** Masked 500 internal errors with a generic sanitized response, preventing stack trace or internal path leakage. Bound default server host to `127.0.0.1`.
+  - **SEC-07 Input Sanitization (`normalizer.py`):** Stripped script/style/iframe tags, HTML tags, inline event handlers (`onerror=`), `javascript:` URIs, and bare domains while strictly maintaining Gate G5 URL stripping.
+  - **SEC-08 Hardware Safety Compositional Hardening (`safety_router.py`):** Added generic terms (`phone`, `device`, `handset`) to compositional structural damage regex.
+  - **SEC-09 LLM Prompt Injection Sandboxing (`adjudicator.py`):** Added delimiter tags (`<user_query>`, `<device_context>`, `<candidate_catalog>`) and strict candidate ID whitelist instructions.
+  - **SEC-10 Development Playground XSS Hardening (`playground.html`):** Added `escapeHtml()` and sanitized dynamic candidate fields before DOM rendering.
+- **Dedicated Automated Security Test Suite (`tests/theme2/test_security_remediation.py`):** **100% PASS (27 / 27)**.
+- **Official Scorer (`Theme02_Engine/test_suite.py`):** **60 / 60 points [PASS]** (Gates G2–G5 PASS, 0 URL leaks, repeat latency 1.54 ms).
+- **164-Case Offline Robustness Benchmark Results:**
+  - **Schema Validity:** 100.00% (164 / 164)
+  - **Catalog Deeplink Validity:** 96.95% (159 / 164)
+  - **URI Exact Match Rate:** 40.24% (66 / 164) (-0.61% delta due to top-3 SIIS sentence bounding)
+  - **Action Match Rate:** 53.05% (87 / 164)
+  - **Polarity Accuracy Rate:** 84.52% (71 / 84)
+  - **Hardware Safety:** 100.0% (5 / 5)
+  - **Paraphrase Cache Hit Rate:** 100.0%
+  - **URL Leaks:** 0
+  - **Cold Latency:** 312.45 ms
+  - **P50 Latency:** 89.15 ms
+

@@ -11,14 +11,32 @@ from __future__ import annotations
 import re
 from typing import List
 
+_SCRIPT_BLOCK_PATTERN = re.compile(r"<(script|style|iframe)\b[^>]*>.*?</\1>", re.I | re.DOTALL)
+_HTML_TAG_PATTERN = re.compile(r"<[^>]+>")
+_JS_SCHEME_PATTERN = re.compile(r"\bjavascript:\S*", re.I)
+_EVENT_HANDLER_PATTERN = re.compile(r"\bon\w+\s*=\s*(?:\"[^\"]*\"|'[^']*'|\S+)", re.I)
 _URL_PATTERN = re.compile(r"(https?://\S+|www\.\S+|\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b|\.com\S*|\.html\S*|\[.*?\]\(.*?\))", re.I)
+_BARE_DOMAIN_PATTERN = re.compile(r"\b(?:[a-zA-Z0-9-]+\.)+(?:com|org|net|io|edu|gov|xyz|app|ru|cn|co)(?:/[^\s]*)?\b", re.I)
 
 
 def sanitize_text(text: str) -> str:
-    """Strip any URLs, markdown links, or .com mentions to guarantee Gate G5 pass."""
-    cleaned = _URL_PATTERN.sub("", text)
-    cleaned = re.sub(r"https?://[^\s]+", "", cleaned)
-    cleaned = re.sub(r"www\.[^\s]+", "", cleaned)
+    """Strip URLs, bare domains, markdown links, HTML tags, script blocks, and javascript URIs."""
+    if not isinstance(text, str):
+        text = str(text) if text is not None else ""
+    # 1. Strip script, style, and iframe blocks with contents
+    cleaned = _SCRIPT_BLOCK_PATTERN.sub(" ", text)
+    # 2. Strip remaining HTML tags
+    cleaned = _HTML_TAG_PATTERN.sub(" ", cleaned)
+    # 3. Strip javascript: URIs
+    cleaned = _JS_SCHEME_PATTERN.sub("", cleaned)
+    # 4. Strip inline event handlers
+    cleaned = _EVENT_HANDLER_PATTERN.sub("", cleaned)
+    # 5. Strip URLs, bare domains, and markdown links
+    cleaned = _URL_PATTERN.sub("", cleaned)
+    cleaned = _BARE_DOMAIN_PATTERN.sub("", cleaned)
+    # 6. Clean protocol and domain residues
+    cleaned = re.sub(r"https?://[^\s]*", "", cleaned)
+    cleaned = re.sub(r"www\.[^\s]*", "", cleaned)
     cleaned = re.sub(r"\.com\b", "", cleaned)
     cleaned = re.sub(r"\.html\b", "", cleaned)
     return " ".join(cleaned.split())

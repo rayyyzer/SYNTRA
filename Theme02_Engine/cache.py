@@ -49,12 +49,22 @@ class QueryCache:
         self.capacity = capacity
         self.exact_cache: Dict[str, Dict[str, Any]] = {}
         self.intent_cache: Dict[str, Dict[str, Any]] = {}
-        self.known_intents: Dict[str, Tuple[str, Set[str], Dict[str, Any]]] = {}
+        self.known_intents: Dict[str, Tuple[str, Set[str], str, Dict[str, Any]]] = {}
 
     @staticmethod
     def _normalize(query: str) -> str:
         clean = re.sub(r"[^\w\s]", "", query.lower())
         return " ".join(clean.split())
+
+    @staticmethod
+    def _compute_siis_digest(siis_title: str = "", siis_content: str = "") -> str:
+        """Derive a stable cryptographic digest of SIIS troubleshooting context."""
+        clean_title = (siis_title or "").strip().lower()
+        clean_content = (siis_content or "").strip().lower()
+        if not clean_title and not clean_content:
+            return "none"
+        combined = f"{clean_title}::{clean_content}".encode("utf-8")
+        return hashlib.sha256(combined).hexdigest()[:16]
 
     @staticmethod
     def _detect_polarity(query: str) -> str:
@@ -70,7 +80,6 @@ class QueryCache:
             return "CONFIG"
         return "NEUTRAL"
 
-
     @classmethod
     def _extract_intent_signature(cls, query: str) -> str:
         """Extract canonical semantic tokens with strict polarity namespacing."""
@@ -85,24 +94,48 @@ class QueryCache:
             feature_tokens = sorted([t for t in tokens if t not in stopwords])
         return f"{pol}:{' '.join(feature_tokens)}"
 
-    def get(self, query: str) -> Optional[Dict[str, Any]]:
+    def get(self, query: str, siis_title: str = "", siis_content: str = "") -> Optional[Dict[str, Any]]:
         norm = self._normalize(query)
+        digest = self._compute_siis_digest(siis_title, siis_content)
+        has_context = (digest != "none")
+
         # 1. Exact normalized match (<0.01ms)
-        if norm in self.exact_cache:
-            return self.exact_cache[norm]
+        if has_context:
+            exact_key = f"{norm}#{digest}"
+            if exact_key in self.exact_cache:
+                return self.exact_cache[exact_key]
+        else:
+            # Fallback for query-only callers without SIIS context
+            prefix = f"{norm}#"
+            for k, v in self.exact_cache.items():
+                if k.startswith(prefix) or k == norm:
+                    return v
 
         # 2. Polarity-safe intent signature match (<0.03ms)
         sig = self._extract_intent_signature(query)
-        if sig and sig in self.intent_cache:
-            return self.intent_cache[sig]
+        if sig:
+            if has_context:
+                sig_key = f"{sig}#{digest}"
+                if sig_key in self.intent_cache:
+                    return self.intent_cache[sig_key]
+            else:
+                sig_prefix = f"{sig}#"
+                for k, v in self.intent_cache.items():
+                    if k.startswith(sig_prefix) or k == sig:
+                        return v
 
-        # 3. Token overlap fuzzy match with strict polarity guard
+        # 3. Token overlap fuzzy match with strict polarity guard & context isolation
         q_pol = self._detect_polarity(query)
         q_tokens = set(re.findall(r"\b[a-z]{3,}\b", norm))
         best_score = 0.0
         best_resp = None
 
-        for known_norm, (known_pol, known_tokens, resp) in self.known_intents.items():
+        # Bounded scan across recent entries to prevent O(N) CPU exhaustion
+        recent_items = list(self.known_intents.items())[-100:]
+        for known_key, (known_pol, known_tokens, known_digest, resp) in recent_items:
+            # Context isolation: Must match the same SIIS context digest if context provided
+            if has_context and known_digest != digest:
+                continue
             # STRICT POLARITY GUARD: Opposites can NEVER match
             if q_pol != "NEUTRAL" and known_pol != "NEUTRAL" and q_pol != known_pol:
                 continue
@@ -117,23 +150,33 @@ class QueryCache:
 
         if best_score >= 0.55:
             # Store in exact cache to speed up subsequent queries
-            self.exact_cache[norm] = best_resp
+            store_key = f"{norm}#{digest}" if has_context else f"{norm}#none"
+            if len(self.exact_cache) >= self.capacity:
+                del self.exact_cache[next(iter(self.exact_cache))]
+            self.exact_cache[store_key] = best_resp
             return best_resp
 
         return None
 
-    def put(self, query: str, response: Dict[str, Any]):
+    def put(self, query: str, response: Dict[str, Any], siis_title: str = "", siis_content: str = ""):
         norm = self._normalize(query)
+        digest = self._compute_siis_digest(siis_title, siis_content)
+        exact_key = f"{norm}#{digest}"
         sig = self._extract_intent_signature(query)
+        sig_key = f"{sig}#{digest}"
         pol = self._detect_polarity(query)
-        self.exact_cache[norm] = response
-        if sig:
-            self.intent_cache[sig] = response
-            
-        q_tokens = set(re.findall(r"\b[a-z]{3,}\b", norm))
-        self.known_intents[norm] = (pol, q_tokens, response)
 
-        # Evict if over capacity
-        if len(self.exact_cache) > self.capacity:
-            oldest_key = next(iter(self.exact_cache))
-            del self.exact_cache[oldest_key]
+        # Strict capacity bounds and deterministic FIFO eviction on all tiers
+        if len(self.exact_cache) >= self.capacity:
+            del self.exact_cache[next(iter(self.exact_cache))]
+        self.exact_cache[exact_key] = response
+
+        if sig:
+            if len(self.intent_cache) >= self.capacity:
+                del self.intent_cache[next(iter(self.intent_cache))]
+            self.intent_cache[sig_key] = response
+
+        if len(self.known_intents) >= self.capacity:
+            del self.known_intents[next(iter(self.known_intents))]
+        q_tokens = set(re.findall(r"\b[a-z]{3,}\b", norm))
+        self.known_intents[exact_key] = (pol, q_tokens, digest, response)

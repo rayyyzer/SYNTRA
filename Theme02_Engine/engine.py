@@ -45,19 +45,29 @@ class TroubleshootingEngine:
         siis_title: Optional[str] = None,
         siis_content: Optional[str] = None
     ) -> Dict[str, Any]:
-        """Main entry point: returns schema-valid ContextDeeplinkResponse as dict."""
-        # 1. Check two-tier cache first (<0.05ms)
-        cached = self.cache.get(query)
-        if cached:
-            return cached
-
-        # 2. Extract and sanitize raw text from SIIS
+        # 1. Extract and sanitize raw text from SIIS (with strict type safety)
         if siis_response is None:
             siis_response = {}
+        elif hasattr(siis_response, "model_dump"):
+            siis_response = siis_response.model_dump()
+        elif not isinstance(siis_response, dict):
+            siis_response = {}
+
         raw_title = siis_title if siis_title is not None else siis_response.get("title", "Device Issue")
         raw_content = siis_content if siis_content is not None else siis_response.get("content", "")
+
+        if not isinstance(raw_title, str):
+            raw_title = str(raw_title) if raw_title is not None else "Device Issue"
+        if not isinstance(raw_content, str):
+            raw_content = str(raw_content) if raw_content is not None else ""
+
         siis_title = sanitize_text(raw_title)
         siis_content = sanitize_text(raw_content)
+
+        # 2. Check context-isolated cache (<0.05ms)
+        cached = self.cache.get(query, siis_title=siis_title, siis_content=siis_content)
+        if cached:
+            return cached
 
         # 3. Check Safety & Hardware Router for physical damage or hazardous operations
         if is_unsupported_hardware(query, siis_content):
@@ -82,7 +92,7 @@ class TroubleshootingEngine:
             )
             resp_obj = ContextDeeplinkResponse(contexts=[goal])
             result_dict = resp_obj.model_dump()
-            self.cache.put(query, result_dict)
+            self.cache.put(query, result_dict, siis_title=siis_title, siis_content=siis_content)
             return result_dict
 
         # 4. Extract action steps from SIIS text (grounded, do not hallucinate)
@@ -219,15 +229,26 @@ class TroubleshootingEngine:
         response_obj = ContextDeeplinkResponse(contexts=[goal])
         result_dict = response_obj.model_dump()
 
-        # Store in cache
-        self.cache.put(query, result_dict)
+        # Store in context-isolated cache
+        self.cache.put(query, result_dict, siis_title=siis_title, siis_content=siis_content)
         return result_dict
 
     def troubleshoot_debug(self, query: str, siis_response: Dict[str, Any]) -> Dict[str, Any]:
         """Development-only debug execution returning full diagnostic trace + official response."""
         t_total_0 = time.perf_counter()
 
-        # 1. Polarity Analysis
+        # 1. SIIS Extraction & Sanitization
+        raw_t = (siis_response or {}).get("title", "Device Issue")
+        raw_c = (siis_response or {}).get("content", "")
+        if not isinstance(raw_t, str):
+            raw_t = str(raw_t) if raw_t is not None else "Device Issue"
+        if not isinstance(raw_c, str):
+            raw_c = str(raw_c) if raw_c is not None else ""
+        siis_title = sanitize_text(raw_t)
+        siis_content = sanitize_text(raw_c)
+        siis_digest = self.cache._compute_siis_digest(siis_title, siis_content)
+
+        # 2. Polarity Analysis
         q_pol = detect_query_polarity(query)
         intent_sig = self.cache._extract_intent_signature(query)
         polarity_info = {
@@ -237,20 +258,22 @@ class TroubleshootingEngine:
             "details": f"Query classified under '{q_pol.value.upper()}' polarity with intent signature '{intent_sig}'."
         }
 
-        # 2. Cache Inspection
+        # 3. Cache Inspection
         t_cache_0 = time.perf_counter()
         norm_q = self.cache._normalize(query)
+        exact_key = f"{norm_q}#{siis_digest}"
+        sig_key = f"{intent_sig}#{siis_digest}"
         cache_status = "MISS"
         cache_tier = "- (Cache Miss)"
 
-        if norm_q in self.cache.exact_cache:
+        if exact_key in self.cache.exact_cache:
             cache_status = "HIT"
             cache_tier = "Tier 1: Exact Normalized Query Hash (<0.01ms)"
-        elif intent_sig and intent_sig in self.cache.intent_cache:
+        elif intent_sig and sig_key in self.cache.intent_cache:
             cache_status = "HIT"
             cache_tier = "Tier 2: Polarity-Safe Intent Signature (<0.03ms)"
         else:
-            cached_check = self.cache.get(query)
+            cached_check = self.cache.get(query, siis_title=siis_title, siis_content=siis_content)
             if cached_check is not None:
                 cache_status = "HIT"
                 cache_tier = "Tier 3: Token Overlap Fuzzy Match with Polarity Guard (<0.05ms)"
@@ -264,10 +287,6 @@ class TroubleshootingEngine:
             "latency_ms": round(cache_latency_ms, 3),
             "details": f"Cache lookup evaluated with status {cache_status}."
         }
-
-        # 3. SIIS Extraction & Sanitization
-        siis_title = sanitize_text((siis_response or {}).get("title", "Device Issue"))
-        siis_content = sanitize_text((siis_response or {}).get("content", ""))
 
         # 4. Hardware Safety Check
         hw_triggered = is_unsupported_hardware(query, siis_content)

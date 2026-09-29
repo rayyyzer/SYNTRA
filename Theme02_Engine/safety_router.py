@@ -18,8 +18,8 @@ from typing import Any, Dict, List, Optional, Tuple
 
 # Category A: Physical Structural Damage (severe destruction of hardware parts)
 STRUCTURAL_DAMAGE = re.compile(
-    r"\b(?:shatter(?:ed|ing)?|crush(?:ed|ing)?|bent|warped|snapp(?:ed|ing)(?:\s+off)?|split(?:\s+in\s+half)?|smashed|punctured)\b.*?\b(?:screen|display|glass|panel|frame|chassis|body|housing|motherboard|board|port|usb|connector)\b"
-    r"|\b(?:screen|display|glass|panel|frame|chassis|body|housing|motherboard|board|port|usb|connector)\b.*?\b(?:shatter(?:ed|ing)?|crush(?:ed|ing)?|bent|warped|snapp(?:ed|ing)(?:\s+off)?|split(?:\s+in\s+half)?|smashed|punctured)\b",
+    r"\b(?:shatter(?:ed|ing)?|crush(?:ed|ing)?|bent|warped|snapp(?:ed|ing)(?:\s+off)?|split(?:\s+in\s+half)?|smashed|punctured)\b.*?\b(?:screen|display|glass|panel|frame|chassis|body|housing|motherboard|board|port|usb|connector|phone|device|handset)\b"
+    r"|\b(?:screen|display|glass|panel|frame|chassis|body|housing|motherboard|board|port|usb|connector|phone|device|handset)\b.*?\b(?:shatter(?:ed|ing)?|crush(?:ed|ing)?|bent|warped|snapp(?:ed|ing)(?:\s+off)?|split(?:\s+in\s+half)?|smashed|punctured)\b",
     re.I
 )
 

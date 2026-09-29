@@ -93,6 +93,18 @@ class HybridRetriever:
             target_sents = action_sents if action_sents else siis_sentences
 
             if target_sents:
+                # DoS Protection (SEC-03): Cap expensive sentence embeddings to top 3 relevant sentences
+                if len(target_sents) > 3:
+                    q_tokens = set(re.findall(r"\b[a-z0-9]+\b", f"{query} {siis_title}".lower()))
+                    def score_sent(item):
+                        idx, s = item
+                        s_tokens = set(re.findall(r"\b[a-z0-9]+\b", s.lower()))
+                        overlap = len(q_tokens.intersection(s_tokens))
+                        return (overlap, -idx)
+                    indexed = list(enumerate(target_sents))
+                    indexed.sort(key=score_sent, reverse=True)
+                    target_sents = [s for idx, s in indexed[:3]]
+
                 for s in target_sents:
                     s_vec = self.dense.encode_query(s)
                     if s_vec is not None and self.dense.catalog_matrix is not None:

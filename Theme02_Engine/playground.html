@@ -696,6 +696,16 @@ function renderDebugResults(data) {
   const candidates = dbg.retrieval?.candidates || [];
   const selectedId = dbg.selection?.selected_catalog_id;
 
+  function escapeHtml(str) {
+    if (str === null || str === undefined) return "";
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
   if (candidates.length === 0) {
     tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:var(--text-secondary);">No catalog candidates retrieved (Hardware safety intercept triggered)</td></tr>`;
   } else {
@@ -707,9 +717,9 @@ function renderDebugResults(data) {
       const polBadgeClass = cand.polarity === "enable" ? "badge-enable" : (cand.polarity === "disable" ? "badge-disable" : "badge-neutral");
       
       tr.innerHTML = `
-        <td>#${cand.rank || idx + 1} ${isWinner ? '<span class="winner-tag">SELECTED</span>' : ''}</td>
-        <td><code>${cand.catalog_id || 'N/A'}</code></td>
-        <td><strong>${cand.action || ''}</strong></td>
+        <td>#${escapeHtml(cand.rank || idx + 1)} ${isWinner ? '<span class="winner-tag">SELECTED</span>' : ''}</td>
+        <td><code>${escapeHtml(cand.catalog_id || 'N/A')}</code></td>
+        <td><strong>${escapeHtml(cand.action || '')}</strong></td>
         <td><strong>${cand.score?.toFixed(4) || '0.0000'}</strong></td>
         <td style="color:var(--text-secondary);">${cand.bm25_score?.toFixed(4) || '0.0000'}</td>
         <td style="color:var(--text-secondary);">${cand.dense_score?.toFixed(4) || '0.0000'}</td>
