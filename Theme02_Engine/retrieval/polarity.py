@@ -122,7 +122,9 @@ def detect_query_polarity(query: str, dense_retriever: Any = None, siis_text: Op
         return Polarity.DISABLE
 
     # 3b. Joint SIIS Grounded Interpretation for symptom / nuisance / protection goals
-    if siis_text:
+    # Applies when the query is NOT already an explicit toggle directive (e.g. "turn off X", "disable X")
+    has_explicit_directive = bool(re.search(r"\b(?:turn\s+off|disable|deactivate|switch\s+off|turn\s+on|enable|activate|switch\s+on)\b", q_low))
+    if siis_text and not has_explicit_directive:
         siis_low = siis_text.lower()
         if any(w in q_low for w in ("stop", "prevent", "block", "avoid", "protect", "drain", "wont", "won't", "keep from")):
             if re.search(r"\b(?:turn on|enable|activate|switch on|tap\s+.*?\s+to\s+on|switch to on)\b", siis_low):
@@ -131,7 +133,7 @@ def detect_query_polarity(query: str, dense_retriever: Any = None, siis_text: Op
                 return Polarity.DISABLE
 
     # 4. Resource Reduction / Conservation Goals (wants restriction mode active)
-    if CONSERVATION_INTENT_PATTERN.search(q_low):
+    if CONSERVATION_INTENT_PATTERN.search(q_low) and not re.search(r"\b(?:turn\s+off|disable|deactivate|switch\s+off)\b", q_low):
         return Polarity.ENABLE
 
     # 4b. Vibration / Noise Complaints (wants to disable nuisance feedback)
