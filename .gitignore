@@ -6,7 +6,15 @@ __pycache__/
 # Virtual environments
 venv/
 .venv/
+.venv*/
+*.venv/
 env/
+scratch/.venv*/
+
+# Test & coverage caches
+.pytest_cache/
+.coverage
+htmlcov/
 
 # Environment variables
 .env
@@ -18,3 +26,4 @@ env/
 .idea/
 .DS_Store
 Thumbs.db
+*.log

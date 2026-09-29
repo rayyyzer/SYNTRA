@@ -30,7 +30,7 @@ class CandidateAdjudicator:
         client: Any = None,
         mode: Optional[str] = None
     ):
-        self.model_name = model_name or os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+        self.model_name = model_name or os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
         self.timeout_sec = float(os.getenv("GEMINI_TIMEOUT_SEC", str(timeout_sec)))
         self.mode = (mode or os.getenv("GEMINI_MODE", "off")).lower()
         self.dense = dense

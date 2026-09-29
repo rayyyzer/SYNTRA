@@ -102,7 +102,7 @@ class GeminiSemanticVerifier:
         client: Any = None
     ):
         self.api_key = os.getenv("GEMINI_API_KEY")
-        self.model_name = model_name or os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+        self.model_name = model_name or os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
         
         timeout_env = os.getenv("GEMINI_TIMEOUT_MS")
         if timeout_ms is not None:

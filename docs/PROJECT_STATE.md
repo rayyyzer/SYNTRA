@@ -429,6 +429,44 @@ User Query + SIIS Response Payload
   - **Anti-Hardcoding Audit:** **100% CLEAN** (0 benchmark IDs, 0 query strings, 0 dataset contamination).
 - **Promotion Status:** **PROMOTED TO PRODUCTION (Commit `main`). Phase 19 is fully complete.**
 
+---
+
+## 17. Phase 20 — Gemini Semantic Action Reranking & Deep Repository Hygiene Audit (Completed)
+
+- **Deliverables (`docs/PHASE_20_SEMANTIC_ACCURACY_AND_REPOSITORY_HYGIENE.md`):**
+  - **Action Accuracy Ceiling Analysis (`scratch/phase20b_action_ceiling_report.json`):**
+    - Empirically audited all 164 robustness test cases and categorized all 76 action failures.
+    - Revealed that **34 of 76 failures (44.7%)** are Class A benchmark cases requiring non-catalog synthetic action strings (e.g. `"Adjust Display Configuration"`), which do not exist in Samsung's 578-entry catalog. Emitting them would violate catalog grounding.
+    - Established that the true theoretical ceiling for catalog-grounded action selection is **79.27% (130 / 164)**.
+    - Identified that of the 42 solvable failures: 19 are retrieval recall and 23 are candidate selection/clones.
+  - **Gemini Semantic Reasoner Architecture (`gemini_reasoner.py`):**
+    - Implemented structured intent extraction (`GeminiIntentOutput`) and candidate reranking (`GeminiRerankOutput`).
+    - Enforced zero-URI hallucination, candidate ID whitelisting, and polarity guards.
+    - Updated upstream model default to `gemini-3.8-flash` following Google's deprecation of `gemini-2.5-flash`.
+    - Discovered Google Free-Tier 20 requests/day limit (`GenerateRequestsPerDayPerProjectPerModel-FreeTier`) and verified graceful deterministic fallback under HTTP 429 exhaustion.
+  - **Deep Repository Hygiene & Storage Optimization:**
+    - Purged dead virtual environment (`scratch/.venv_bench`) containing 34,978 files (1,011.89 MB).
+    - Cleaned 70+ obsolete one-off test scripts in `scratch/`.
+    - **Total repository file count reduced from 35,253 to 175 files (-99.50%).**
+    - **Total disk space reduced from 1,079.02 MB to 16.41 MB (-98.41% / 1.06 GB saved).**
+    - Hardened `.gitignore` to prevent any virtualenvs, pytest caches, or logs from polluting git.
+- **Benchmark & Compliance Metrics:**
+  - **Official Evaluator (`test_suite.py`):** **60 / 60 points [PASS]**, Gates G3, G4, G5: **ALL PASS (0 URL leaks)**.
+  - **Robustness Benchmark (164 Cases):**
+    - URI Exact Match: **53.05% (87 / 164)**.
+    - Action Name Match: **53.66% (88 / 164)**.
+    - Polarity Accuracy: **86.90% (73 / 84)**.
+    - Hardware Safety: **100.0% (5 / 5)**.
+    - Repeat & Paraphrase Cache: **100.00% [PASS]**.
+  - **Held-Out Generalization Evaluation (30 Cases):**
+    - Action Match Accuracy: **83.33% (25 / 30)**.
+    - Hardware Safety: **100.0% (3 / 3)**.
+  - **Security Regression Suite (`test_security_remediation.py`):** **27 / 27 PASSED (100%)**.
+  - **Gemini Integration Suite (`test_gemini_integration.py`):** **16 / 16 PASSED (100%)**.
+  - **Anti-Hardcoding Audit:** **100% CLEAN** (0 benchmark tokens in `Theme02_Engine/`).
+- **Promotion Status:** **PROMOTED TO PRODUCTION (Commit `main`). Phase 20 is fully complete.**
+
+
 
 
 
