@@ -88,7 +88,8 @@ class CandidateAdjudicator:
             import numpy as np
             from retrieval.polarity import detect_query_polarity, Polarity
 
-            q_pol = detect_query_polarity(query)
+            siis_text = f"{siis_title} {siis_content}".strip()
+            q_pol = detect_query_polarity(query, siis_text=siis_text)
             q_vec = None
             if self.dense is not None and hasattr(self.dense, "encode_query"):
                 q_vec = self.dense.encode_query(query)
@@ -150,18 +151,18 @@ class CandidateAdjudicator:
                 msg_low = cand.get("message", "").lower()
                 if q_pol == Polarity.ENABLE:
                     if msg_low.startswith(("enable", "turn on", "activate", "switch on")):
-                        pol_adj += 0.25
+                        pol_adj += 0.20
                     elif msg_low.startswith(("disable", "turn off", "deactivate", "switch off", "stop")):
-                        pol_adj -= 0.50
+                        pol_adj -= 0.25
                     elif msg_low.startswith(("view", "open")):
-                        pol_adj -= 0.15
+                        pol_adj -= 0.10
                 elif q_pol == Polarity.DISABLE:
                     if msg_low.startswith(("disable", "turn off", "deactivate", "switch off", "stop")):
-                        pol_adj += 0.25
+                        pol_adj += 0.20
                     elif msg_low.startswith(("enable", "turn on", "activate", "switch on")):
-                        pol_adj -= 0.50
+                        pol_adj -= 0.25
                     elif msg_low.startswith(("view", "open")):
-                        pol_adj -= 0.15
+                        pol_adj -= 0.10
                 elif q_pol == Polarity.VIEW:
                     if msg_low.startswith(("view", "open", "check", "show")):
                         pol_adj += 0.15

@@ -81,7 +81,7 @@ DISABLE_REVERSAL_PATTERN = re.compile(
 )
 
 
-def detect_query_polarity(query: str, dense_retriever: Any = None) -> Polarity:
+def detect_query_polarity(query: str, dense_retriever: Any = None, siis_text: Optional[str] = None) -> Polarity:
     """Classifies query intent into a discrete semantic Polarity state using compositional reasoning."""
     q_low = query.lower()
 
@@ -102,6 +102,10 @@ def detect_query_polarity(query: str, dense_retriever: Any = None) -> Polarity:
     if re.search(r"\b(?:don'?t\s+want|do\s+not\s+want|never\s+want)\b.*?\b(?:on|enabled?|activated)\b", q_low):
         return Polarity.DISABLE
 
+    # 1b. Inactive / Not active state goals ("make sure power saving is not active")
+    if re.search(r"\b(?:not|isn'?t|aren'?t|never|no longer)\s+(?:active|on|enabled|running)\b", q_low):
+        return Polarity.DISABLE
+
     # 2. Single Negations on Enablers / Disablers
     # "don't enable Bluetooth" -> DISABLE
     # "keep airplane mode disabled" -> DISABLE
@@ -117,6 +121,15 @@ def detect_query_polarity(query: str, dense_retriever: Any = None) -> Polarity:
     if DISABLE_REVERSAL_PATTERN.search(q_low):
         return Polarity.DISABLE
 
+    # 3b. Joint SIIS Grounded Interpretation for symptom / nuisance / protection goals
+    if siis_text:
+        siis_low = siis_text.lower()
+        if any(w in q_low for w in ("stop", "prevent", "block", "avoid", "protect", "drain", "wont", "won't", "keep from")):
+            if re.search(r"\b(?:turn on|enable|activate|switch on|tap\s+.*?\s+to\s+on|switch to on)\b", siis_low):
+                return Polarity.ENABLE
+            if re.search(r"\b(?:turn off|disable|deactivate|switch off|tap\s+.*?\s+to\s+off|switch to off)\b", siis_low):
+                return Polarity.DISABLE
+
     # 4. Resource Reduction / Conservation Goals (wants restriction mode active)
     if CONSERVATION_INTENT_PATTERN.search(q_low):
         return Polarity.ENABLE
@@ -127,10 +140,16 @@ def detect_query_polarity(query: str, dense_retriever: Any = None) -> Polarity:
 
     # 5. Device Mode Enablers (Flight, Zen/Do Not Disturb)
     if any(k in q_low for k in ("take off", "takeoff", "flight mode", "on a plane", "on a flight")):
-        return Polarity.ENABLE
+        if not any(k in q_low for k in ("turn off", "disable", "stop", "end", "deactivate", "leave", "landed", "signal back")):
+            return Polarity.ENABLE
+        else:
+            return Polarity.DISABLE
+
     if any(k in q_low for k in ("silence all", "mute all", "total silence", "stop making noise", "do not disturb")):
         if not any(k in q_low for k in ("turn off", "disable", "stop", "end", "deactivate")):
             return Polarity.ENABLE
+        else:
+            return Polarity.DISABLE
 
     # 6. Multi-word phrase check (higher specificity)
     for phrase in POLARITY_ENABLE_PHRASES:
@@ -191,7 +210,7 @@ def compute_polarity_adjustment(query_polarity: Polarity, entry_polarity: Polari
     """Calculates additive re-ranking score adjustment based on polarity alignment."""
     if query_polarity in (Polarity.ENABLE, Polarity.DISABLE):
         if entry_polarity == query_polarity:
-            return 0.30  # Substantial boost for matching polarity
+            return 0.20  # Boost for matching polarity
         if entry_polarity in (Polarity.ENABLE, Polarity.DISABLE) and entry_polarity != query_polarity:
-            return -0.60  # Severe penalty for opposite polarity toggle
+            return -0.20  # Soft penalty for opposite polarity toggle
     return 0.0

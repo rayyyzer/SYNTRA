@@ -140,8 +140,9 @@ class HybridRetriever:
                     toggle_cands.add(p_idx)
         candidate_indices = candidate_indices.union(toggle_cands)
 
-        # 5. Detect Query Polarity (compositional)
-        q_polarity = detect_query_polarity(query)
+        # 5. Detect Query Polarity (compositional with SIIS grounding)
+        siis_text = f"{siis_title} {siis_content}".strip()
+        q_polarity = detect_query_polarity(query, siis_text=siis_text)
 
         # 6. Candidate Score Fusion & Polarity Adjustment
         fused_scores: Dict[int, float] = {}

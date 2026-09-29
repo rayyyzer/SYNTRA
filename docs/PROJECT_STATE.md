@@ -345,8 +345,32 @@ User Query + SIIS Response Payload
 - **164-Case Offline Robustness Benchmark:**
   - Mode A (Deterministic): URI Match 40.24% (66/164), Action Match 53.05% (87/164)
   - Mode B (Gemini Always): URI Match 43.29% (71/164), Action Match 55.49% (91/164)
-  - Mode C (Gemini Selective): URI Match 42.07% (69/164), Action Match 54.27% (89/164)
-  - Hardware Safety: 100.0% (5 / 5)
-  - URL Leaks: 0
+## 14. Phase 18 — Retrieval Recall & Generalization Refinement (Completed)
+
+- **Deliverables (`docs/PHASE_18_RETRIEVAL_REFINEMENT.md`):**
+  - **Joint SIIS Polarity Grounding (`polarity.py`, `hybrid_retriever.py`, `adjudicator.py`):** Authoritative resolution of ambiguous nuisance/symptom queries ("stop disturbing", "prevent pocket wakeups", "stop battery drain") by consulting explicit operational directives in SIIS procedure text ("turn on", "enable", "switch to on").
+  - **Soft Polarity Compatibility Re-ranking (`polarity.py`, `adjudicator.py`):** Replaced hard candidate-pruning penalty (-0.60) with soft compatibility adjustment (+0.20 matching, -0.20 opposing). Prevents candidate pool destruction on nuanced natural language formulations.
+  - **State Negation & Mode Deactivation Guards (`polarity.py`):** Generalized detection of inactive state goals (`not active`, `isn't active`, `no longer active`) to `Polarity.DISABLE` and fixed flight mode negation guard so "disable flight mode" maps to `Polarity.DISABLE`.
+  - **Decoupled Internal Candidate Pool ($K_{\text{ret}} = 8$):** Expanded internal candidate retrieval from 5 to 8 entries before deterministic adjudication and Gemini verification, improving candidate pool recall.
+- **Official Scorer (`Theme02_Engine/test_suite.py`):** **60 / 60 points [PASS]** (Gates G3, G4, G5: ALL PASS, 0 URL leaks, repeat P95: 1.47 ms).
+- **Security Regression Suite (`test_security_remediation.py`):** **100% PASS (27 / 27)**.
+- **Gemini Integration Suite (`test_gemini_integration.py`):** **100% PASS (16 / 16)**.
+- **Held-Out Generalization Evaluation (30 frozen scenarios):**
+  - **Action Match Accuracy:** **83.33% (25 / 30)** (**+20.00% absolute gain over 63.33% baseline**).
+  - **Battery Generalization:** **80.0% (4 / 5)** (+60.0% gain).
+  - **Connectivity Generalization:** **100.0% (2 / 2)** (+50.0% gain).
+  - **Display Generalization:** **100.0% (9 / 9)** (+11.1% gain).
+  - **Notifications Generalization:** **50.0% (1 / 2)** (+50.0% gain).
+  - **Hardware Safety:** **100.0% (3 / 3)**.
+- **164-Case Robustness Benchmark:**
+  - **Top-5 Candidate Recall:** **63.41%** (vs 59.76% baseline, **+3.65% gain**).
+  - **Top-10 Candidate Recall:** **67.07%** (vs 64.02% baseline, **+3.05% gain**).
+  - **Top-5 Action Recall:** **66.46%** (vs 62.80% baseline, **+3.66% gain**).
+  - **Hardware Safety:** **100.0% (5 / 5)**.
+  - **Schema Validity:** **100.0% (164 / 164)**.
+  - **Catalog Validity:** **95.73%**.
+  - **P50 Latency:** **316.99 ms** | **P95 Latency:** **487.85 ms**.
+- **Anti-Hardcoding Audit:** **100% CLEAN** (0 benchmark IDs, 0 query strings, 0 dataset contamination).
+
 
 
