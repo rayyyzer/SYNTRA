@@ -76,14 +76,9 @@ All measurements taken on the actual runtime environment under identical load co
 | `Theme02_Engine/playground.html`| **Runtime Required** | SYNTRA Samsung One UI demonstration console | **Preserved (Frozen)** |
 | `Theme02_Engine/results.jsonl` | **Evaluator Required** | Official benchmark submission outputs | **Preserved & Validated** |
 | `Theme02_Engine/test_suite.py` | **Evaluator Required** | Automated scoring test harness | **Preserved & Passing** |
-| `participant-kit-all-themes/` | **Reference / Evaluator** | Official Samsung participant kit, schemas, and SIIS inputs | **Preserved Intact** |
-| `All theme guidelines/` | **Reference** | Official Samsung guidelines and documentation | **Preserved Intact** |
+| `data/student_kit/` | **Reference / Evaluator** | Authoritative 578-entry catalog, schemas, scenarios & inputs | **Preserved Intact** |
 | `docs/` | **Documentation** | Technical specs, compliance matrices, and architecture reports | **Preserved Clean** |
 | `tests/theme2/` | **Validation Required** | Pytest / Unittest suites for security and Gemini integration | **Preserved & 100% Passing** |
-| `CollegeName_TeamName_Submission.pptx` | **Submission Asset** | Competition presentation slide deck template | **Preserved Intact** |
-| `LangAI3.0_AI_Disclosure.docx` | **Submission Asset** | Mandatory AI disclosure form | **Preserved Intact** |
-| `Samsung_PRISM_GenAI_Hackathon_3_FAQ_v4.docx` | **Submission Asset** | Official FAQ document | **Preserved Intact** |
-| `Samsung PRISM_Y2026_GenAI_Hackathon_3rd_Edition.V2(2).pdf` | **Submission Asset** | Hackathon specification manual | **Preserved Intact** |
 | `scratch/` | **Internal Development** | Historical experiments, datasets, and audits | **Cleaned & Cached** |
 | `__pycache__/`, `.pytest_cache/` | **Generated / Temporary**| Python bytecode and pytest cache directories | **Purged & Gitignored** |
 
@@ -130,4 +125,4 @@ All measurements taken on the actual runtime environment under identical load co
 - [x] `results.jsonl` verified and fully synchronized.
 - [x] `requirements.txt` generated for clean environment setup.
 - [x] `.gitignore` hardened against caches, logs, and IDE settings.
-- [x] All submission presentation and disclosure documents verified and intact.
+- [x] Clean repository containing only project-related files, data, tests, and documentation.

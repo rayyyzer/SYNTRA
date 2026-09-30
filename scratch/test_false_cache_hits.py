@@ -2,9 +2,16 @@ import json
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath("."))
-sys.path.insert(0, os.path.abspath("Theme02_Engine"))
-sys.path.insert(0, os.path.abspath("participant-kit-all-themes/participant-kit/Theme02_Input_Kit/student_kit"))
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+CANDIDATE_KIT_DIRS = [
+    os.path.join(PROJECT_ROOT, "data", "student_kit"),
+    os.path.join(PROJECT_ROOT, "participant-kit-all-themes", "participant-kit", "Theme02_Input_Kit", "student_kit")
+]
+STUDENT_KIT_DIR = next((d for d in CANDIDATE_KIT_DIRS if os.path.exists(d)), CANDIDATE_KIT_DIRS[0])
+
+sys.path.insert(0, PROJECT_ROOT)
+sys.path.insert(0, os.path.join(PROJECT_ROOT, "Theme02_Engine"))
+sys.path.insert(0, STUDENT_KIT_DIR)
 
 from Theme02_Engine.cache import QueryCache
 from Theme02_Engine.engine import TroubleshootingEngine

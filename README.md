@@ -148,15 +148,13 @@ d:\Samsung_Hackathon\
 │       ├── hybrid_retriever.py              # Score fusion, SIIS grounding & toggle maps
 │       └── polarity.py                      # Directional polarity classifier
 │
-├── participant-kit-all-themes\              # Official Samsung Hackathon participant kit
-│   └── participant-kit\
-│       └── Theme02_Input_Kit\
-│           └── student_kit\
-│               ├── deeplinks.json           # Authoritative 578-entry Samsung catalog
-│               ├── input.txt                # 20 raw input scenarios
-│               ├── siis_responses.json      # Structured SIIS responses
-│               ├── schema.py                # Official Pydantic schema definitions
-│               └── sample_output.json       # Reference output structure
+├── data\                                    # Authoritative Theme 2 Knowledge & Datasets
+│   └── student_kit\
+│       ├── deeplinks.json                   # Authoritative 578-entry Samsung catalog
+│       ├── input.txt                        # 20 raw input scenarios
+│       ├── siis_responses.json              # Structured SIIS responses
+│       ├── schema.py                        # Official Pydantic schema definitions
+│       └── sample_output.json               # Reference output structure
 │
 ├── tests\                                   # Automated test suites
 │   └── theme2\
@@ -165,18 +163,12 @@ d:\Samsung_Hackathon\
 │       ├── run_robustness.py                # Robustness benchmark runner
 │       └── run_experiment.py                # Retrieval experiment harness
 │
-├── docs\                                    # In-depth architectural & compliance reports
-│   ├── FINAL_PRODUCTION_READINESS.md        # Comprehensive production audit & benchmark report
-│   ├── ARCHITECTURE_PROPOSAL.md             # Hybrid retrieval technical design
-│   ├── COMPLIANCE_MATRIX.md                 # Gate & scoring block traceability matrix
-│   ├── EVALUATOR_SPEC.md                    # Official evaluator rules & scoring breakdown
-│   └── PROJECT_STATE.md                     # Complete project milestone log
-│
-└── [Submission Documents]                  # Official Samsung PRISM submission assets
-    ├── CollegeName_TeamName_Submission.pptx # Hackathon presentation deck
-    ├── LangAI3.0_AI_Disclosure.docx         # Mandatory AI disclosure declaration
-    ├── Samsung_PRISM_GenAI_Hackathon_3_FAQ_v4.docx # Official FAQ reference
-    └── Samsung PRISM_Y2026_GenAI_Hackathon_3rd_Edition.V2(2).pdf # Competition rules
+└── docs\                                    # In-depth architectural & compliance reports
+    ├── FINAL_PRODUCTION_READINESS.md        # Comprehensive production audit & benchmark report
+    ├── ARCHITECTURE_PROPOSAL.md             # Hybrid retrieval technical design
+    ├── COMPLIANCE_MATRIX.md                 # Gate & scoring block traceability matrix
+    ├── EVALUATOR_SPEC.md                    # Official evaluator rules & scoring breakdown
+    └── PROJECT_STATE.md                     # Complete project milestone log
 ```
 
 ---
@@ -452,7 +444,6 @@ Submitted as part of the **Samsung PRISM GenAI Hackathon 3.0**:
 - **Project Name:** SYNTRA — Samsung Galaxy Smart Guided Troubleshooting Engine
 - **Theme:** Theme 2 (Smart Guided Troubleshooting Engine)
 - **Institution:** SRMIST (SRM Institute of Science and Technology)
-- **Team Details:** Refer to [`CollegeName_TeamName_Submission.pptx`](file:///d:/Samsung_Hackathon/CollegeName_TeamName_Submission.pptx) and [`LangAI3.0_AI_Disclosure.docx`](file:///d:/Samsung_Hackathon/LangAI3.0_AI_Disclosure.docx).
 
 ---
 

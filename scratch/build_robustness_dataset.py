@@ -13,7 +13,11 @@ import re
 from typing import Any, Dict, List, Optional
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-STUDENT_KIT_DIR = os.path.join(PROJECT_ROOT, "participant-kit-all-themes", "participant-kit", "Theme02_Input_Kit", "student_kit")
+CANDIDATE_KIT_DIRS = [
+    os.path.join(PROJECT_ROOT, "data", "student_kit"),
+    os.path.join(PROJECT_ROOT, "participant-kit-all-themes", "participant-kit", "Theme02_Input_Kit", "student_kit")
+]
+STUDENT_KIT_DIR = next((d for d in CANDIDATE_KIT_DIRS if os.path.exists(d)), CANDIDATE_KIT_DIRS[0])
 CLEANED_DATA_PATH = os.path.join(PROJECT_ROOT, "scratch", "generated", "cleaned_deeplinks.json")
 OUTPUT_JSONL = os.path.join(PROJECT_ROOT, "tests", "theme2", "robustness_dataset.jsonl")
 

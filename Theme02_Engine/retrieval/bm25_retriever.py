@@ -44,10 +44,13 @@ class BM25Retriever:
 
         # Resolve catalog path
         if not catalog_path:
-            # Check scratch/generated/cleaned_deeplinks.json then student_kit/deeplinks.json
-            cleaned_p = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "scratch", "generated", "cleaned_deeplinks.json"))
-            kit_p = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "participant-kit-all-themes", "participant-kit", "Theme02_Input_Kit", "student_kit", "deeplinks.json"))
-            catalog_path = cleaned_p if os.path.exists(cleaned_p) else kit_p
+            cand_paths = [
+                os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data", "student_kit", "deeplinks.json")),
+                os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data", "student_kit", "deeplinks.json")),
+                os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "scratch", "generated", "cleaned_deeplinks.json")),
+                os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "participant-kit-all-themes", "participant-kit", "Theme02_Input_Kit", "student_kit", "deeplinks.json")),
+            ]
+            catalog_path = next((p for p in cand_paths if os.path.exists(p)), cand_paths[0])
 
         self._load_and_index(catalog_path)
 

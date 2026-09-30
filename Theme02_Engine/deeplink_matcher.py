@@ -6,7 +6,12 @@ import os
 import re
 from typing import Any, Dict, List, Optional, Tuple
 
-KIT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "participant-kit-all-themes", "participant-kit", "Theme02_Input_Kit", "student_kit"))
+CANDIDATE_KIT_DIRS = [
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data", "student_kit")),
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "data", "student_kit")),
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "participant-kit-all-themes", "participant-kit", "Theme02_Input_Kit", "student_kit")),
+]
+KIT_DIR = next((d for d in CANDIDATE_KIT_DIRS if os.path.exists(d)), CANDIDATE_KIT_DIRS[0])
 DEEPLINKS_PATH = os.path.join(KIT_DIR, "deeplinks.json")
 
 

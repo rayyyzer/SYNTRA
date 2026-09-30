@@ -15,7 +15,12 @@ import re
 import sys
 import time
 
-STUDENT_KIT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "participant-kit-all-themes", "participant-kit", "Theme02_Input_Kit", "student_kit"))
+CANDIDATE_KIT_DIRS = [
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data", "student_kit")),
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "data", "student_kit")),
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "participant-kit-all-themes", "participant-kit", "Theme02_Input_Kit", "student_kit")),
+]
+STUDENT_KIT_DIR = next((d for d in CANDIDATE_KIT_DIRS if os.path.exists(d)), CANDIDATE_KIT_DIRS[0])
 if STUDENT_KIT_DIR not in sys.path:
     sys.path.insert(0, STUDENT_KIT_DIR)
 

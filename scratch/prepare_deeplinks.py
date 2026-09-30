@@ -143,14 +143,11 @@ def main():
     script_dir = os.path.dirname(os.path.abspath(__file__))
     workspace_root = os.path.abspath(os.path.join(script_dir, ".."))
     
-    input_path = os.path.join(
-        workspace_root,
-        "participant-kit-all-themes",
-        "participant-kit",
-        "Theme02_Input_Kit",
-        "student_kit",
-        "deeplinks.json"
-    )
+    candidate_paths = [
+        os.path.join(workspace_root, "data", "student_kit", "deeplinks.json"),
+        os.path.join(workspace_root, "participant-kit-all-themes", "participant-kit", "Theme02_Input_Kit", "student_kit", "deeplinks.json")
+    ]
+    input_path = next((p for p in candidate_paths if os.path.exists(p)), candidate_paths[0])
     
     out_dir = os.path.join(script_dir, "generated")
     os.makedirs(out_dir, exist_ok=True)

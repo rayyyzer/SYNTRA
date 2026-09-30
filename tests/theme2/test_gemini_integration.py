@@ -25,7 +25,11 @@ from unittest.mock import MagicMock
 # Path setup
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 THEME2_DIR = os.path.join(PROJECT_ROOT, "Theme02_Engine")
-STUDENT_KIT_DIR = os.path.join(PROJECT_ROOT, "participant-kit-all-themes", "participant-kit", "Theme02_Input_Kit", "student_kit")
+CANDIDATE_KIT_DIRS = [
+    os.path.join(PROJECT_ROOT, "data", "student_kit"),
+    os.path.join(PROJECT_ROOT, "participant-kit-all-themes", "participant-kit", "Theme02_Input_Kit", "student_kit")
+]
+STUDENT_KIT_DIR = next((d for d in CANDIDATE_KIT_DIRS if os.path.exists(d)), CANDIDATE_KIT_DIRS[0])
 
 if THEME2_DIR not in sys.path:
     sys.path.insert(0, THEME2_DIR)
