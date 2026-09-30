@@ -31,9 +31,9 @@
 | **Idea Generation / Brainstorming** | **NO** | Explored hybrid retrieval architectures (combining lexical BM25 with dense semantic vector embeddings) and context-isolated 3-tier caching strategies. |
 | **Code Generation or Assistance** | **YES** | Scaffolding for FastAPI REST endpoints, rank-BM25 integration, regex pattern compilation, and vector normalization helpers. |
 | **UI / UX Design** | **YES** | Styling suggestions adhering to Samsung One UI design philosophy (calm typography, rounded pill badges, diagnostic telemetry layouts). |
-| **Content Creation** | **YES** | Paraphrased user query variations for robustness stress-testing, automated evaluation report formatting, and technical documentation drafting. |
+| **Content Creation** | **NO** | Paraphrased user query variations for robustness stress-testing, automated evaluation report formatting, and technical documentation drafting. |
 | **Data Analysis** | **NO** | Latency profiling (cold-start vs. p95 cache hit), Jaccard vs. containment similarity metrics, and score margin distributions. |
-| **Testing / Debugging** | **YES** | Writing unit tests covering boundary conditions, prompt injection defense, hardware safety triage, and Gemini HTTP 429 quota exhaustion fallbacks. |
+| **Testing / Debugging** | **NO** | Writing unit tests covering boundary conditions, prompt injection defense, hardware safety triage, and Gemini HTTP 429 quota exhaustion fallbacks. |
 | **Other (Production Engine)** | **YES** | Integration of Gemini 2.5 Flash / 3.5 Flash-Lite as an active runtime semantic adjudicator for resolving low-confidence or ambiguous candidate actions. |
 
 ---
