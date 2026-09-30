@@ -3,6 +3,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Caches and test artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+.cache/
+
 # Virtual environments
 venv/
 .venv/
@@ -11,19 +17,26 @@ venv/
 env/
 scratch/.venv*/
 
-# Test & coverage caches
-.pytest_cache/
-.coverage
-htmlcov/
-
-# Environment variables
+# Environment variables & secrets
 .env
 .env.*
 !.env.example
+*.pem
+*.key
+*.cert
 
-# IDE & OS files
+# Distribution & Build
+build/
+dist/
+*.egg-info/
+
+# IDE, Editor, and OS metadata
 .vscode/
 .idea/
+.claude/
 .DS_Store
 Thumbs.db
+*.swp
+*.swo
+*~
 *.log

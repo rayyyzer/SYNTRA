@@ -209,11 +209,14 @@ class GeminiSemanticReasoner:
             "total_latency_ms": 0.0,
         }
 
-        self._targeted_cache_path = os.path.join(
+        data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
+        primary_cache = os.path.join(data_dir, "gemini_targeted_cache.json")
+        fallback_cache = os.path.join(
             os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
             "scratch",
             "gemini_targeted_cache.json"
         )
+        self._targeted_cache_path = primary_cache if (os.path.exists(primary_cache) or not os.path.exists(fallback_cache)) else fallback_cache
         self._targeted_cache: Dict[str, Any] = self._load_targeted_cache()
 
         if self.client is None and self.api_key:
@@ -221,12 +224,20 @@ class GeminiSemanticReasoner:
 
     def _load_targeted_cache(self) -> Dict[str, Any]:
         """Loads cached Gemini targeted selection outputs from disk."""
-        if os.path.exists(self._targeted_cache_path):
-            try:
-                with open(self._targeted_cache_path, "r", encoding="utf-8") as f:
-                    return json.load(f)
-            except Exception:
-                return {}
+        data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
+        primary_cache = os.path.join(data_dir, "gemini_targeted_cache.json")
+        fallback_cache = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            "scratch",
+            "gemini_targeted_cache.json"
+        )
+        for p in (primary_cache, fallback_cache, self._targeted_cache_path):
+            if os.path.exists(p):
+                try:
+                    with open(p, "r", encoding="utf-8") as f:
+                        return json.load(f)
+                except Exception:
+                    continue
         return {}
 
     def _save_targeted_cache(self):
@@ -647,16 +658,36 @@ class GeminiSemanticReasoner:
 
         draft_act = draft_cand.get("message") or draft_cand.get("actionName") or ""
 
-        # Check disk cache first to conserve free-tier API quota
-        cache_key = f"{query.strip().lower()}__k{len(candidate_pool)}"
-        if cache_key in self._targeted_cache:
-            cached = self._targeted_cache[cache_key]
+        # Check disk cache first to conserve free-tier API quota and eliminate network stalls
+        norm_q = query.strip().lower()
+        k_val = len(candidate_pool)
+        cache_key = f"{norm_q}__k{k_val}"
+        cached = self._targeted_cache.get(cache_key)
+        if not cached:
+            for alt_k in (f"{norm_q}__k5", f"{norm_q}__k10", f"{norm_q}__k3", norm_q):
+                if alt_k in self._targeted_cache:
+                    cached = self._targeted_cache[alt_k]
+                    break
+
+        if cached:
+            cached_dec = cached.get("decision", "SELECT")
+            if cached_dec in ("AMBIGUOUS", "FALLBACK"):
+                return GeminiReasonerResult(
+                    decision="AMBIGUOUS",
+                    selected_candidate_id=draft_cand.get("id"),
+                    confidence=cached.get("confidence", 0.85),
+                    reason_code=cached.get("reason_code", "AMBIGUOUS"),
+                    explanation=cached.get("explanation", "Loaded from targeted cache (ambiguous/fallback)."),
+                    latency_ms=0.5,
+                    raw_output=json.dumps(cached),
+                    source="gemini_targeted_cache"
+                )
             cached_id = cached.get("selected_candidate_id")
             if cached_id in internal_to_cand:
                 selected_cand = internal_to_cand[cached_id]
                 catalog_id = selected_cand.get("id")
                 return GeminiReasonerResult(
-                    decision=cached.get("decision", "SELECT"),
+                    decision="SELECT",
                     selected_candidate_id=catalog_id,
                     confidence=cached.get("confidence", 0.9),
                     reason_code=cached.get("reason_code", "DIRECT_FEATURE_MATCH"),
@@ -803,6 +834,14 @@ class GeminiSemanticReasoner:
                     raw_output=raw_text,
                     source="gemini_ambiguous_fallback"
                 )
+                self._targeted_cache[cache_key] = {
+                    "decision": "AMBIGUOUS",
+                    "selected_candidate_id": None,
+                    "confidence": conf,
+                    "reason_code": reason_code or "AMBIGUOUS",
+                    "explanation": expl or "Candidate selection ambiguous."
+                }
+                self._save_targeted_cache()
             return result
 
         except Exception as e:

@@ -1,0 +1,10 @@
+# Samsung PRISM GenAI Hackathon 3.0 - Theme 2 Engine Requirements
+fastapi>=0.110.0
+uvicorn>=0.28.0
+pydantic>=2.7.0
+numpy>=1.26.0
+sentence-transformers>=3.0.0
+rank-bm25>=0.2.2
+google-genai>=0.1.0
+httpx>=0.27.0
+pytest>=8.0.0

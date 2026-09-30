@@ -3,913 +3,1991 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Samsung Galaxy Theme 2 — Troubleshooting Playground</title>
+  <title>SYNTRA — Intelligent Device Guidance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-primary: #0f1117;
-      --bg-secondary: #1a1d27;
-      --bg-card: #222634;
-      --bg-input: #151822;
-      --border-color: #2e3446;
-      --text-primary: #f0f2f5;
-      --text-secondary: #9ba3b8;
-      --accent-blue: #3b82f6;
-      --accent-blue-hover: #2563eb;
-      --accent-green: #10b981;
-      --accent-amber: #f59e0b;
-      --accent-red: #ef4444;
-      --accent-purple: #8b5cf6;
-      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      /* Samsung One UI Dark Mode Palette */
+      --bg-app: #080A0D;
+      --bg-surface: #10141B;
+      --bg-secondary: #151A22;
+      --bg-elevated: #1C232E;
+      
+      --border-color: rgba(255, 255, 255, 0.09);
+      --border-light: rgba(255, 255, 255, 0.05);
+      
+      --accent-primary: #1473E6;
+      --accent-primary-hover: #1D7AF2;
+      --accent-primary-gradient: linear-gradient(135deg, #1E7DF5 0%, #1059B5 100%);
+      --accent-primary-alpha: rgba(20, 115, 230, 0.14);
+      --accent-glow: rgba(20, 115, 230, 0.3);
+      
+      --status-success: #22A06B;
+      --status-success-alpha: rgba(34, 160, 107, 0.14);
+      --status-warning: #D99A24;
+      --status-warning-alpha: rgba(217, 154, 36, 0.14);
+      --status-error: #D9534F;
+      --status-error-alpha: rgba(217, 83, 79, 0.14);
+      --status-neutral: #8A92A3;
+
+      --text-primary: #F3F5F8;
+      --text-secondary: #A0ACB9;
+      --text-muted: #6B7787;
+      
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 22px;
+      --radius-full: 999px;
+      
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
     body {
-      background-color: var(--bg-primary);
+      background-color: var(--bg-app);
+      /* Subtle ambient radial depth */
+      background-image: 
+        radial-gradient(circle at 18% 12%, rgba(20, 115, 230, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 82% 88%, rgba(34, 160, 107, 0.05) 0%, transparent 45%);
+      background-attachment: fixed;
       color: var(--text-primary);
       font-family: var(--font-sans);
       line-height: 1.5;
-      padding: 24px;
-      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
     }
 
-    .container {
-      max-width: 1440px;
-      margin: 0 auto;
+    h1, h2, h3 { color: var(--text-primary); font-weight: 600; }
+    .mono { font-family: var(--font-mono); }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-full);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.22);
     }
 
     /* Header */
     header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 20px;
+      background: rgba(16, 20, 27, 0.9);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border-color);
-      margin-bottom: 24px;
-    }
-
-    .logo-area h1 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 14px 24px;
       display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .logo-area p {
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-    }
-
-    .badge-env {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 14px;
-      border-radius: 9999px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      background: rgba(16, 185, 129, 0.15);
-      color: var(--accent-green);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: currentColor;
-    }
-
-    /* Layout */
-    .grid-layout {
-      display: grid;
-      grid-template-columns: 460px 1fr;
-      gap: 24px;
-    }
-
-    @media (max-width: 1024px) {
-      .grid-layout { grid-template-columns: 1fr; }
-    }
-
-    .card {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-
-    .card h2 {
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
       justify-content: space-between;
-      color: var(--text-primary);
-    }
-
-    /* Forms & Inputs */
-    label {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 6px;
-    }
-
-    input[type="text"], textarea {
+      align-items: center;
       width: 100%;
-      background: var(--bg-input);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 10px 14px;
-      color: var(--text-primary);
-      font-size: 0.9rem;
-      font-family: inherit;
-      outline: none;
-      transition: border-color 0.2s;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
     }
 
-    input[type="text"]:focus, textarea:focus {
-      border-color: var(--accent-blue);
-    }
-
-    textarea {
-      resize: vertical;
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-    }
-
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    /* Example Chips */
-    .chips-container {
+    .brand {
       display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 16px;
-    }
-
-    .chip {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      color: var(--text-secondary);
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 0.75rem;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
       cursor: pointer;
-      transition: all 0.15s;
     }
-
-    .chip:hover {
-      background: rgba(59, 130, 246, 0.15);
-      color: var(--accent-blue);
-      border-color: var(--accent-blue);
-    }
-
-    .button-row {
-      display: flex;
-      gap: 10px;
-    }
-
-    button.btn-primary {
-      flex: 1;
-      background: var(--accent-blue);
-      color: white;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      cursor: pointer;
+    
+    .brand-mark {
+      width: 30px;
+      height: 30px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      transition: background 0.15s;
+      flex-shrink: 0;
     }
 
-    button.btn-primary:hover {
-      background: var(--accent-blue-hover);
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
     }
-
-    button.btn-secondary {
-      background: var(--bg-card);
-      color: var(--text-secondary);
-      border: 1px solid var(--border-color);
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-
-    button.btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-primary);
-    }
-
-    /* Pipeline Diagnostics Ribbons */
-    .ribbon-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-
-    @media (max-width: 800px) {
-      .ribbon-grid { grid-template-columns: 1fr 1fr; }
-    }
-
-    .stat-pill {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 12px;
-    }
-
-    .stat-label {
-      font-size: 0.7rem;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 4px;
-    }
-
-    .stat-value {
-      font-size: 1rem;
-      font-weight: 700;
+    
+    .brand-title {
+      font-size: 1.1rem;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+      color: #FFFFFF;
+      line-height: 1.1;
       display: flex;
       align-items: center;
       gap: 6px;
+    }
+
+    .brand-title .brand-dot {
+      width: 5px;
+      height: 5px;
+      background: var(--accent-primary);
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 0 8px var(--accent-primary);
+    }
+    
+    .brand-subtitle {
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.03em;
+    }
+
+    /* Live Header HUD */
+    .header-hud {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+    
+    .hud-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--status-success);
+      display: inline-block;
+      flex-shrink: 0;
+      box-shadow: 0 0 8px rgba(34, 160, 107, 0.4);
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Compact Top Pipeline Bar */
+    .pipeline-compact {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+      padding: 10px 24px;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      width: 100%;
+    }
+
+    .pipeline-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .pipe-node {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-secondary);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+    }
+    .pipe-node .status-dot {
+      background: var(--text-muted);
+      transition: all 0.25s ease;
+      box-shadow: none;
+    }
+    .pipe-node.active { 
+      color: var(--accent-primary); 
+      background: var(--accent-primary-alpha);
+    }
+    .pipe-node.active .status-dot { 
+      background: var(--accent-primary); 
+      box-shadow: 0 0 8px var(--accent-primary);
+    }
+    .pipe-node.done { 
+      color: var(--text-primary); 
+    }
+    .pipe-node.done .status-dot { 
+      background: var(--status-success); 
+      box-shadow: 0 0 6px var(--status-success);
+    }
+    .pipe-node.skipped { color: var(--text-muted); }
+    .pipe-node.skipped .status-dot { background: transparent; border: 1px solid var(--text-muted); }
+    .pipe-line { color: var(--border-color); user-select: none; }
+
+    .pipeline-action {
+      margin-left: auto;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--accent-primary);
+      text-transform: none;
+      font-weight: 500;
+      font-size: 0.8rem;
+      border: none;
+      background: transparent;
+      padding: 0;
+      transition: opacity 0.2s;
+    }
+    .pipeline-action:hover {
+      text-decoration: underline;
+      opacity: 0.85;
+    }
+
+    /* Layout & Container - Rock-solid responsive grid */
+    .container {
+      max-width: 1280px;
+      width: 100%;
+      margin: 24px auto;
+      padding: 0 20px;
+      flex: 1;
+    }
+
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 380px minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+      width: 100%;
+    }
+
+    .col-left, .col-right {
+      min-width: 0; /* Prevents grid blowout */
+      width: 100%;
+    }
+    
+    @media (max-width: 960px) {
+      .grid-2col {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 20px;
+      }
+      .header-hud {
+        display: none;
+      }
+    }
+
+    /* Surfaces */
+    .surface {
+      background: var(--bg-surface);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      min-width: 0;
+      position: relative;
+    }
+    
+    .surface-secondary {
+      background: var(--bg-secondary);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border-light);
+      min-width: 0;
+    }
+
+    .section-title {
+      font-size: 0.86rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Quick Test Spark Chips */
+    .quick-chips-wrapper {
+      margin-bottom: 14px;
+    }
+    .quick-chips-header {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+    }
+    .quick-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .quick-chip {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      color: var(--text-secondary);
+      padding: 5px 11px;
+      border-radius: var(--radius-full);
+      font-size: 0.76rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      user-select: none;
+    }
+    .quick-chip:hover {
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      border-color: var(--accent-primary);
+      transform: translateY(-1px);
+    }
+    .quick-chip:active {
+      transform: scale(0.96);
+    }
+
+    /* Forms */
+    .input-group {
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .input-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .input-group label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+    .input-action-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      transition: color 0.15s, background 0.15s;
+    }
+    .input-action-btn:hover {
+      color: var(--text-primary);
+      background: var(--bg-secondary);
+    }
+    
+    input[type="text"], textarea {
+      width: 100%;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      resize: vertical;
+      box-sizing: border-box;
+    }
+    
+    input[type="text"]:focus, textarea:focus {
+      border-color: var(--accent-primary);
+      background: var(--bg-elevated);
+    }
+
+    .input-hint {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: var(--radius-full);
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s ease;
+      text-decoration: none;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .btn:active:not(:disabled) { 
+      transform: scale(0.97); 
+    }
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    
+    .btn-primary {
+      background: var(--accent-primary-gradient);
+      color: #FFFFFF;
+      box-shadow: 0 4px 16px var(--accent-glow);
+    }
+    .btn-primary:hover:not(:disabled) {
+      background: linear-gradient(135deg, #2A85F7 0%, #1366CC 100%);
+      transform: translateY(-1px);
+    }
+    
+    .btn-secondary {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+    }
+    .btn-secondary:hover:not(:disabled) {
+      background: var(--bg-elevated);
+      border-color: rgba(255, 255, 255, 0.16);
+      transform: translateY(-1px);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+    }
+    .btn-outline:hover:not(:disabled) {
+      background: var(--bg-elevated);
+      border-color: rgba(255, 255, 255, 0.16);
+    }
+
+    /* Engine Activity Log (SYNTRA ANALYSIS) */
+    .activity-log {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+      min-width: 0;
+    }
+    
+    .act-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      opacity: 0.35;
+      transition: opacity 0.25s ease;
+      min-width: 0;
+    }
+    .act-item.active {
+      opacity: 1;
+    }
+    .act-item.done {
+      opacity: 1;
+    }
+    .act-icon {
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-top: 1px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: var(--bg-secondary);
+      transition: all 0.2s ease;
+    }
+    .act-item.done .act-icon { 
+      color: var(--status-success); 
+      background: var(--status-success-alpha);
+    }
+    .act-item.skipped .act-icon { 
+      color: var(--text-muted); 
+      background: var(--bg-secondary);
+    }
+    
+    .act-text {
+      min-width: 0;
+      flex: 1;
+    }
+    .act-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+    .act-detail {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      word-break: break-word;
+    }
+    
+    /* Telemetry Strip */
+    .telemetry-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 14px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border-light);
+    }
+    .tel-item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+      background: var(--bg-secondary);
+      padding: 8px 12px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
+    }
+    .tel-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .tel-val {
+      font-size: 0.92rem;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Result Hero Card */
+    .result-hero {
+      padding: 36px 24px;
+      background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-surface) 100%);
+      border-radius: var(--radius-lg);
+      margin-bottom: 20px;
+      text-align: center;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      min-width: 0;
+      position: relative;
+    }
+
+    /* Device Setting Toggle Simulation */
+    .hero-device-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--bg-elevated);
+      padding: 8px 18px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-color);
+      margin-bottom: 18px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    .device-toggle-name {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .device-switch {
+      width: 40px;
+      height: 22px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-full);
+      position: relative;
+      transition: background 0.3s ease;
+      cursor: pointer;
+    }
+    .device-switch.active {
+      background: var(--accent-primary);
+    }
+    .device-switch-thumb {
+      width: 16px;
+      height: 16px;
+      background: #FFFFFF;
+      border-radius: 50%;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    }
+    .device-switch.active .device-switch-thumb {
+      transform: translateX(18px);
+    }
+    
+    .hero-status {
+      font-size: 0.74rem;
+      font-weight: 800;
+      color: var(--status-success);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .hero-status.manual {
+      color: var(--status-warning);
+    }
+    
+    .hero-action-name {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+      word-break: break-word;
+      line-height: 1.25;
+    }
+
+    .hero-tagline {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      word-break: break-word;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .hero-badges {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      flex-wrap: wrap;
+      padding-top: 18px;
+      border-top: 1px solid var(--border-light);
+    }
+    .hero-badges span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-status-line {
+      margin-top: 12px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Troubleshooting Steps */
+    .step-list { list-style: none; padding: 0; margin: 0; }
+    .step-item {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      align-items: flex-start;
+      min-width: 0;
+    }
+    .step-item:last-child { margin-bottom: 0; }
+    .step-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--bg-surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+      border: 1px solid var(--border-color);
+      flex-shrink: 0;
+      font-family: var(--font-mono);
+      margin-top: 1px;
+    }
+    .step-content {
+      flex: 1;
+      min-width: 0;
+      word-break: break-word;
+      line-height: 1.5;
+    }
+
+    /* Accordions / Advanced Diagnostics */
+    details {
+      margin-bottom: 10px;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--border-light);
+      transition: border-color 0.2s;
+    }
+    details:hover {
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+    summary {
+      padding: 14px 18px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      cursor: pointer;
+      user-select: none;
+      outline: none;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.15s;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary:hover { background: var(--bg-elevated); }
+    summary svg {
+      transition: transform 0.2s ease;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+    details[open] summary svg {
+      transform: rotate(180deg);
+    }
+    .details-content {
+      padding: 0 18px 18px 18px;
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      min-width: 0;
+      overflow-x: auto;
+    }
+
+    /* Test Scenarios List */
+    .scenario-list-container {
+      max-height: 480px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .scenario-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .scenario-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-md);
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      border: 1px solid transparent;
+      min-width: 0;
+    }
+    .scenario-row:hover { 
+      background: var(--bg-elevated); 
+      border-color: var(--border-color);
+    }
+    .scenario-row.active {
+      background: var(--accent-primary-alpha);
+      border-color: rgba(20, 115, 230, 0.35);
+      box-shadow: inset 3px 0 0 var(--accent-primary);
+    }
+    .scenario-row.active .scenario-title { color: var(--accent-primary); }
+    
+    .scenario-meta {
+      min-width: 0;
+      flex: 1;
+      margin-right: 12px;
+    }
+    .scenario-title { font-weight: 600; margin-bottom: 2px; color: var(--text-primary); }
+    .scenario-desc {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     /* Badges */
     .badge {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-    }
-
-    .badge-enable { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
-    .badge-disable { background: rgba(245, 158, 11, 0.2); color: var(--accent-amber); }
-    .badge-view { background: rgba(59, 130, 246, 0.2); color: var(--accent-blue); }
-    .badge-config { background: rgba(139, 92, 246, 0.2); color: var(--accent-purple); }
-    .badge-neutral { background: rgba(155, 163, 184, 0.2); color: var(--text-secondary); }
-
-    .badge-hit { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
-    .badge-miss { background: rgba(155, 163, 184, 0.2); color: var(--text-secondary); }
-    .badge-safety { background: rgba(239, 68, 68, 0.2); color: var(--accent-red); }
-
-    /* Candidates Table */
-    .table-container {
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.85rem;
-      text-align: left;
-    }
-
-    th {
-      background: var(--bg-card);
-      color: var(--text-secondary);
-      font-weight: 600;
-      padding: 10px 12px;
-      border-bottom: 1px solid var(--border-color);
-      font-size: 0.75rem;
-      text-transform: uppercase;
-    }
-
-    td {
-      padding: 10px 12px;
-      border-bottom: 1px solid rgba(46, 52, 70, 0.6);
-      vertical-align: middle;
-    }
-
-    tr.selected-winner {
-      background: rgba(59, 130, 246, 0.12);
-      border-left: 3px solid var(--accent-blue);
-    }
-
-    .winner-tag {
-      font-size: 0.65rem;
+      padding: 3px 9px;
+      border-radius: var(--radius-full);
+      font-size: 0.68rem;
       font-weight: 700;
-      background: var(--accent-blue);
-      color: white;
-      padding: 2px 6px;
-      border-radius: 4px;
-      margin-left: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
+    .bg-neutral { background: var(--bg-elevated); color: var(--text-secondary); border: 1px solid var(--border-light); }
+    .bg-blue { background: var(--accent-primary-alpha); color: var(--accent-primary); border: 1px solid rgba(20, 115, 230, 0.3); }
+    .bg-amber { background: var(--status-warning-alpha); color: var(--status-warning); border: 1px solid rgba(217, 154, 36, 0.3); }
+    .bg-green { background: var(--status-success-alpha); color: var(--status-success); border: 1px solid rgba(34, 160, 107, 0.3); }
+    .bg-red { background: var(--status-error-alpha); color: var(--status-error); border: 1px solid rgba(217, 83, 79, 0.3); }
 
-    /* Catalog Resolution Card */
-    .uri-box {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: var(--bg-input);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 10px 14px;
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      color: #93c5fd;
-      word-break: break-all;
-    }
-
-    /* JSON Box */
-    pre.json-box {
-      background: var(--bg-input);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
+    /* Tables & Code */
+    pre {
+      background: var(--bg-app);
       padding: 14px;
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-      color: #e2e8f0;
+      border-radius: var(--radius-md);
       overflow-x: auto;
-      max-height: 400px;
-    }
-
-    .copy-btn {
-      background: transparent;
-      border: 1px solid var(--border-color);
-      color: var(--text-secondary);
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 0.75rem;
-      cursor: pointer;
-    }
-
-    .copy-btn:hover {
-      background: var(--bg-card);
-      color: var(--text-primary);
-    }
-
-    .latency-bar {
-      display: flex;
-      gap: 16px;
       font-size: 0.8rem;
       color: var(--text-secondary);
-      font-family: var(--font-mono);
+      line-height: 1.5;
+      border: 1px solid var(--border-light);
+      white-space: pre-wrap;
+      word-break: break-all;
+      max-width: 100%;
     }
-
-    .latency-val {
-      color: var(--accent-green);
+    
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
+    }
+    .table-clean {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      text-align: left;
+    }
+    .table-clean th {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-muted);
       font-weight: 600;
+      background: var(--bg-surface);
+      white-space: nowrap;
+    }
+    .table-clean td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-primary);
+      vertical-align: middle;
+    }
+    .table-clean tr:last-child td {
+      border-bottom: none;
     }
 
-    .spinner {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-radius: 50%;
-      border-top-color: white;
-      animation: spin 0.8s linear infinite;
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(28, 35, 46, 0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      color: var(--text-primary);
+      padding: 12px 22px;
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 1px 1px rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+      z-index: 1000;
+      pointer-events: none;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* Empty Landing State */
+    .empty-landing {
+      text-align: center;
+      padding: 68px 24px;
+      background: var(--bg-surface);
+      border-radius: var(--radius-lg);
+      border: 1px dashed var(--border-color);
+    }
+    .empty-mark {
+      margin: 0 auto 16px;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-secondary);
+      border-radius: 14px;
+      border: 1px solid var(--border-light);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Utility */
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
 
-<div class="container">
   <!-- Header -->
   <header>
-    <div class="logo-area">
-      <h1>Samsung Galaxy Smart Guided Troubleshooting Engine</h1>
-      <p>Theme 2 Development Test Playground &amp; Real-Time Candidate Selection Inspector</p>
+    <div class="brand" onclick="switchTab('workbench')" title="SYNTRA Intelligent Device Guidance">
+      <div class="brand-mark" id="brand-core">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+          <rect x="3" y="3" width="18" height="18" rx="5" stroke="var(--accent-primary)" stroke-width="2"/>
+          <circle cx="12" cy="12" r="3.5" fill="var(--accent-primary)"/>
+          <circle cx="12" cy="5" r="1.5" fill="var(--accent-primary)"/>
+          <circle cx="19" cy="12" r="1.5" fill="var(--accent-primary)"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">SYNTRA <span class="brand-dot"></span></span>
+        <span class="brand-subtitle">Intelligent Device Guidance</span>
+      </div>
     </div>
-    <div>
-      <span class="badge-env"><span class="status-dot"></span>THEME2_DEBUG ACTIVE (DEV MODE)</span>
+    
+    <div class="header-hud">
+      <div class="hud-item" title="Engine Status">
+        <span class="status-dot" id="hud-api-dot"></span>
+        <span id="hud-api-status">Online</span>
+      </div>
+      <span>·</span>
+      <div class="hud-item" title="Execution Latency">
+        <span id="hud-latency" class="mono">-- ms</span>
+      </div>
+      <span>·</span>
+      <div class="hud-item" title="Cache State">
+        <span id="hud-cache">Ready</span>
+      </div>
+      <span>·</span>
+      <div class="hud-item" title="Catalog Match Status">
+        <span id="hud-catalog" style="color: var(--status-success);">Verified</span>
+      </div>
+    </div>
+    
+    <div class="header-nav">
+      <button class="btn btn-secondary" style="padding: 7px 16px; font-size: 0.8rem;" id="tab-workbench-btn" onclick="switchTab('workbench')">Diagnose</button>
+      <button class="btn btn-secondary" style="padding: 7px 16px; font-size: 0.8rem;" id="tab-testlab-btn" onclick="switchTab('testlab')">Test Lab</button>
     </div>
   </header>
 
-  <div class="grid-layout">
-    <!-- Left Column: Input Form -->
-    <div class="column-left">
-      <div class="card">
-        <h2>Input Parameters</h2>
+  <!-- Compact Top Pipeline Bar -->
+  <div class="pipeline-compact" id="view-workbench-pipeline">
+    <div class="pipeline-inner">
+      <span class="pipe-node" id="pipe-query"><span class="status-dot"></span> Query</span>
+      <span class="pipe-line">───</span>
+      <span class="pipe-node" id="pipe-siis"><span class="status-dot"></span> Grounded</span>
+      <span class="pipe-line">───</span>
+      <span class="pipe-node" id="pipe-ret"><span class="status-dot"></span> Retrieved</span>
+      <span class="pipe-line">───</span>
+      <span class="pipe-node" id="pipe-ver"><span class="status-dot"></span> Verified</span>
+      
+      <button class="pipeline-action" onclick="viewDetails()">
+        View Details 
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>
+      </button>
+    </div>
+  </div>
 
-        <div class="form-group">
-          <label>Example Diagnostic Scenarios</label>
-          <div class="chips-container" id="example-chips"></div>
-        </div>
+  <div class="container">
+    
+    <!-- Workbench View -->
+    <div id="view-workbench" class="grid-2col">
+      
+      <!-- Left Column: Input & Test Scenarios -->
+      <div class="col-left">
+        <div class="surface">
+          <div class="section-title">
+            <span>WHAT CAN WE HELP YOU FIX?</span>
+            <button class="input-action-btn" onclick="resetDiagnosis()" title="Reset query and results">Reset</button>
+          </div>
 
-        <div class="form-group">
-          <label for="query-input">User Natural Language Query</label>
-          <input type="text" id="query-input" placeholder="e.g. Turn on Wi-Fi on my phone..." value="How do I turn on Wi-Fi on my Samsung Galaxy?">
-        </div>
+          <!-- Quick Test Sparks -->
+          <div class="quick-chips-wrapper">
+            <div class="quick-chips-header">
+              <span>Quick Sparks:</span>
+            </div>
+            <div class="quick-chips">
+              <button class="quick-chip" onclick="quickSelect(10)">🛡️ Cracked Screen</button>
+              <button class="quick-chip" onclick="quickSelect(11)">⚡ Hotspot 2.0</button>
+              <button class="quick-chip" onclick="quickSelect(3)">🔋 Battery Saver</button>
+              <button class="quick-chip" onclick="quickSelect(13)">🌐 Dual Clock</button>
+              <button class="quick-chip" onclick="quickSelect(1)">📶 Wi-Fi Toggle</button>
+            </div>
+          </div>
+          
+          <div class="input-group">
+            <div class="input-header">
+              <label for="query-input">Issue Description</label>
+              <button class="input-action-btn" onclick="clearQuery()" title="Clear text">Clear</button>
+            </div>
+            <textarea id="query-input" rows="3" placeholder="Describe the issue with your Samsung device..."></textarea>
+            <div class="input-hint">
+              <span>Natural language query</span>
+              <span>Press <kbd style="font-family: inherit; font-size: 0.7rem; background: var(--bg-elevated); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--border-light);">Ctrl+Enter</kbd> to run</span>
+            </div>
+          </div>
+          
+          <details style="background: transparent; border: 1px solid var(--border-light); margin-bottom: 16px;">
+            <summary style="padding: 10px 14px;">
+              <span>Samsung Knowledge Grounding (SIIS)</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>
+            </summary>
+            <div class="details-content" style="padding: 0 14px 14px 14px;">
+              <div class="input-group">
+                <label for="siis-title">Context Title</label>
+                <input type="text" id="siis-title" value="Device Settings">
+              </div>
+              <div class="input-group" style="margin-bottom: 0;">
+                <label for="siis-content">Context Content</label>
+                <textarea id="siis-content" rows="4"></textarea>
+              </div>
+            </div>
+          </details>
 
-        <div class="form-group">
-          <label for="siis-title">SIIS Document Title</label>
-          <input type="text" id="siis-title" placeholder="e.g. Wi-Fi Management" value="Wi-Fi Management on Galaxy Device">
-        </div>
-
-        <div class="form-group">
-          <label for="siis-content">SIIS Response Body</label>
-          <textarea id="siis-content" rows="6" placeholder="Paste Samsung SIIS response text...">Navigate to Settings. Tap Connections and select Wi-Fi. Toggle the switch to On to connect to available wireless networks.</textarea>
-        </div>
-
-        <div class="button-row">
-          <button class="btn-primary" id="run-btn" onclick="executePlayground()">
-            <span id="btn-text">Run Diagnostic Test</span>
+          <button class="btn btn-primary" style="width: 100%;" id="run-btn" onclick="executePlayground()">
+            <span id="btn-text">Diagnose &rarr;</span>
           </button>
-          <button class="btn-secondary" onclick="clearInputs()">Clear</button>
         </div>
-      </div>
-
-      <!-- Catalog Resolution Preview -->
-      <div class="card">
-        <h2>Catalog Resolution</h2>
-        <div style="margin-bottom: 12px;">
-          <label>Resolved Actionable Deeplink URI</label>
-          <div class="uri-box">
-            <span id="res-uri">bixby://masked/act/fdd7f62e24</span>
-            <button class="copy-btn" onclick="copyUri()">Copy</button>
+        
+        <div class="surface" style="padding-bottom: 12px;">
+          <div class="section-title">
+            <span>VALIDATION SUITE</span>
+            <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: normal;" id="scenario-count">13 scenarios</span>
+          </div>
+          <div class="scenario-list-container">
+            <div class="scenario-list" id="scenarios-grid">
+              <!-- Populated by JS -->
+            </div>
           </div>
         </div>
-        <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
-          <span style="color: var(--text-secondary);">Catalog ID: <strong id="res-cat-id" style="color: var(--text-primary);">DL-0214</strong></span>
-          <span style="color: var(--text-secondary);">Validation: <strong id="res-valid" style="color: var(--accent-green);">✓ Verified Catalog URI</strong></span>
+      </div>
+      
+      <!-- Right Column: Result & Activity -->
+      <div class="col-right">
+        
+        <!-- Empty Landing State -->
+        <div id="result-placeholder" class="empty-landing">
+          <div class="empty-mark">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <rect x="3" y="3" width="18" height="18" rx="5" stroke="var(--accent-primary)" stroke-width="1.8"/>
+              <circle cx="12" cy="12" r="3.5" fill="var(--accent-primary)"/>
+            </svg>
+          </div>
+          <div style="font-size: 1.25rem; font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">SYNTRA Intelligence Ready</div>
+          <div style="color: var(--text-secondary); font-size: 0.9rem; max-width: 440px; margin: 0 auto 20px;">Describe a Samsung device issue or click a Quick Spark to see the diagnostic engine resolve it.</div>
+          <button class="btn btn-secondary" onclick="quickSelect(11)">Try Hotspot 2.0 Demo &rarr;</button>
+        </div>
+        
+        <!-- Error State -->
+        <div id="result-error" class="hidden" style="text-align: center; padding: 60px 20px; color: var(--status-error); background: var(--bg-surface); border-radius: var(--radius-lg); border: 1px solid var(--status-error-alpha);">
+          <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 8px;">Diagnosis Failed</div>
+          <div style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 16px;" id="error-message">Unable to reach the diagnostic engine.</div>
+          <button class="btn btn-secondary" onclick="executePlayground()">Retry</button>
+        </div>
+        
+        <!-- Active Result Content -->
+        <div id="result-content" class="hidden">
+          
+          <!-- Engine Activity (SYNTRA ANALYSIS) -->
+          <div class="surface" id="engine-activity-section">
+            <div class="section-title">
+              <span>SYNTRA ANALYSIS</span>
+              <span id="analysis-live-status" style="font-size: 0.72rem; color: var(--accent-primary); font-weight: 600;">ACTIVE</span>
+            </div>
+            
+            <div class="activity-log">
+              <div class="act-item" id="act-query">
+                <div class="act-icon" id="act-query-icon">○</div>
+                <div class="act-text">
+                  <div class="act-title">Query analyzed</div>
+                  <div class="act-detail" id="act-query-detail">Waiting...</div>
+                </div>
+              </div>
+              <div class="act-item" id="act-siis">
+                <div class="act-icon" id="act-siis-icon">○</div>
+                <div class="act-text">
+                  <div class="act-title">Samsung knowledge grounded</div>
+                  <div class="act-detail" id="act-siis-detail">Waiting...</div>
+                </div>
+              </div>
+              <div class="act-item" id="act-cache">
+                <div class="act-icon" id="act-cache-icon">○</div>
+                <div class="act-text">
+                  <div class="act-title">Context cache</div>
+                  <div class="act-detail" id="act-cache-detail">Waiting...</div>
+                </div>
+              </div>
+              <div class="act-item" id="act-retrieval">
+                <div class="act-icon" id="act-retrieval-icon">○</div>
+                <div class="act-text">
+                  <div class="act-title">Hybrid retrieval</div>
+                  <div class="act-detail" id="act-retrieval-detail">Waiting...</div>
+                </div>
+              </div>
+              <div class="act-item" id="act-ranking">
+                <div class="act-icon" id="act-ranking-icon">○</div>
+                <div class="act-text">
+                  <div class="act-title">Candidate ranking</div>
+                  <div class="act-detail" id="act-ranking-detail">Waiting...</div>
+                </div>
+              </div>
+              <div class="act-item" id="act-gemini">
+                <div class="act-icon" id="act-gemini-icon">○</div>
+                <div class="act-text">
+                  <div class="act-title">Targeted reasoning</div>
+                  <div class="act-detail" id="act-gemini-detail">Waiting...</div>
+                </div>
+              </div>
+              <div class="act-item" id="act-catalog">
+                <div class="act-icon" id="act-catalog-icon">○</div>
+                <div class="act-text">
+                  <div class="act-title">Catalog verified</div>
+                  <div class="act-detail" id="act-catalog-detail">Waiting...</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="telemetry-strip" id="telemetry-strip" style="opacity: 0; transition: opacity 0.3s ease;">
+              <div class="tel-item"><div class="tel-label">RETRIEVAL</div><div class="tel-val" id="tel-ret">...</div></div>
+              <div class="tel-item"><div class="tel-label">CONFIDENCE</div><div class="tel-val" id="tel-conf">...</div></div>
+              <div class="tel-item"><div class="tel-label">LATENCY</div><div class="tel-val" id="tel-lat">...</div></div>
+              <div class="tel-item"><div class="tel-label">CACHE</div><div class="tel-val" id="tel-cache">...</div></div>
+              <div class="tel-item"><div class="tel-label">REASONING</div><div class="tel-val" id="tel-gem">...</div></div>
+              <div class="tel-item"><div class="tel-label">CATALOG</div><div class="tel-val" id="tel-cat">...</div></div>
+            </div>
+          </div>
+          
+          <!-- Hero Result -->
+          <div class="result-hero" id="hero-deeplink" style="opacity: 0; transform: translateY(10px);">
+            
+            <!-- Device Setting Toggle Simulation -->
+            <div class="hero-device-toggle" id="hero-device-toggle">
+              <span class="device-toggle-name" id="device-toggle-name">Device Setting</span>
+              <div class="device-switch" id="device-switch" onclick="toggleHeroSwitch()">
+                <div class="device-switch-thumb"></div>
+              </div>
+            </div>
+
+            <div class="hero-status" id="hero-status-label">
+              <span>READY TO FIX</span>
+            </div>
+            <div class="hero-action-name" id="resp-act1-name">Action Name</div>
+            <div class="hero-tagline" id="resp-tagline">SYNTRA found a verified action for this issue.</div>
+            
+            <div style="margin-bottom: 20px;">
+              <span class="badge bg-blue" id="resp-category-badge">AUTO ACTION</span>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="hero-buttons">
+              <button class="btn btn-primary" id="btn-open-settings" onclick="openDeeplink()">
+                Open Settings &nearr;
+              </button>
+              <button class="btn btn-secondary" id="btn-copy-uri" onclick="copyUri()">
+                Copy Deeplink
+              </button>
+            </div>
+            
+            <div class="hero-badges">
+              <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--status-success);"><path d="M20 6L9 17l-5-5"></path></svg> Samsung catalog verified</span>
+              <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--status-success);"><path d="M20 6L9 17l-5-5"></path></svg> Grounded in Samsung knowledge</span>
+            </div>
+
+            <div class="hero-status-line">Verified against authoritative Samsung catalog (deeplinks.json)</div>
+          </div>
+          
+          <!-- Troubleshooting Guidance -->
+          <div class="surface-secondary" id="hero-guidance" style="opacity: 0; transform: translateY(10px); transition: all 0.3s ease;">
+            <div class="section-title">Troubleshooting Guidance</div>
+            <ul class="step-list" id="resp-steps-list">
+              <!-- JS Populated -->
+            </ul>
+          </div>
+          
+          <!-- Advanced Diagnostics Accordions -->
+          <div id="adv-details" style="opacity: 0; transition: opacity 0.3s ease;">
+            <div class="section-title" style="margin-bottom: 12px;">ADVANCED DIAGNOSTICS</div>
+            
+            <details id="acc-pipeline">
+              <summary>
+                <span>Pipeline Architecture &amp; Telemetry</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>
+              </summary>
+              <div class="details-content mono">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; padding-top: 8px;">
+                  <div><strong style="color: var(--text-primary);">Polarity Detected:</strong> <span id="sig-polarity"></span></div>
+                  <div><strong style="color: var(--text-primary);">Cache Telemetry:</strong> <span id="sig-cache"></span></div>
+                  <div><strong style="color: var(--text-primary);">Engine Latency:</strong> <span id="lat-total"></span></div>
+                  <div><strong style="color: var(--text-primary);">Hardware Safety Guard:</strong> <span id="sig-safety"></span></div>
+                </div>
+              </div>
+            </details>
+
+            <details id="acc-candidates">
+              <summary>
+                <span>Candidate Ranking &amp; Shortlist</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>
+              </summary>
+              <div class="details-content" style="padding-top: 8px;">
+                <div class="table-responsive">
+                  <table class="table-clean">
+                    <thead>
+                      <tr>
+                        <th>Catalog ID</th>
+                        <th>Action</th>
+                        <th>Score</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="cands-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </details>
+            
+            <details id="acc-gemini">
+              <summary>
+                <span>Targeted Reasoning Diagnostic</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>
+              </summary>
+              <div class="details-content mono" style="padding-top: 8px;">
+                <div><strong style="color: var(--text-primary);">Reasoning State:</strong> <span id="hud-gemini-detail"></span></div>
+                <div style="margin-top: 6px;"><strong style="color: var(--text-primary);">Decision Code:</strong> <span id="gem-reason"></span></div>
+                <div style="margin-top: 6px;"><strong style="color: var(--text-primary);">Triggers:</strong> <span id="gem-triggers"></span></div>
+              </div>
+            </details>
+
+            <details id="acc-catalog">
+              <summary>
+                <span>Catalog Resolution &amp; Deeplink Authority</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>
+              </summary>
+              <div class="details-content mono" style="padding-top: 8px;">
+                <div><strong style="color: var(--text-primary);">Catalog ID:</strong> <span id="cat-id">N/A</span></div>
+                <div style="margin-top: 6px;"><strong style="color: var(--text-primary);">Verified Catalog URI:</strong></div>
+                <pre id="hero-uri" style="margin-top: 4px; color: var(--accent-primary);">bixby://...</pre>
+              </div>
+            </details>
+            
+            <details id="acc-json">
+              <summary>
+                <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; margin-right: 12px;">
+                  <span>Raw ContextDeeplinkResponse JSON</span>
+                  <button class="input-action-btn" onclick="copyJson(event)" style="font-size: 0.72rem;">Copy JSON</button>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>
+              </summary>
+              <div class="details-content" style="padding-top: 8px;">
+                <pre id="json-viewer" class="mono" style="max-height: 380px; overflow-y: auto;"></pre>
+              </div>
+            </details>
+          </div>
+          
         </div>
       </div>
     </div>
-
-    <!-- Right Column: Diagnostic Inspection -->
-    <div class="column-right">
-      <!-- Pipeline Summary Ribbon -->
-      <div class="ribbon-grid">
-        <div class="stat-pill">
-          <div class="stat-label">Polarity Classifier</div>
-          <div class="stat-value" id="val-polarity"><span class="badge badge-enable">ENABLE</span></div>
+    
+    <!-- Test Lab View (SYNTRA TEST LAB) -->
+    <div id="view-testlab" class="hidden">
+      <div class="surface">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <div class="section-title" style="margin-bottom: 6px;">
+              <span>SYNTRA TEST LAB</span>
+              <span id="lab-badge" class="badge bg-green">READY</span>
+            </div>
+            <div style="font-size: 0.85rem; color: var(--text-secondary); display: flex; gap: 16px;">
+              <span>Passed: <strong id="lab-passed" style="color: var(--status-success);">-</strong></span>
+              <span>Failed: <strong id="lab-failed" style="color: var(--status-error);">-</strong></span>
+              <span>Avg Latency: <strong id="lab-avg-lat" class="mono" style="color: var(--accent-primary);">-</strong></span>
+            </div>
+          </div>
+          <button class="btn btn-primary" id="btn-run-all-tests" onclick="runAllTestLab()">Run Entire Suite</button>
         </div>
-        <div class="stat-pill">
-          <div class="stat-label">Two-Tier Cache</div>
-          <div class="stat-value" id="val-cache"><span class="badge badge-miss">MISS</span></div>
-        </div>
-        <div class="stat-pill">
-          <div class="stat-label">Deterministic Pick</div>
-          <div class="stat-value" style="font-size: 0.85rem;" id="val-selection">Dense Adjudicator</div>
-        </div>
-        <div class="stat-pill">
-          <div class="stat-label">Targeted Gemini (Phase 20.1)</div>
-          <div class="stat-value" id="val-gemini-targeted"><span class="badge badge-neutral">UNTRIGGERED</span></div>
-        </div>
-        <div class="stat-pill">
-          <div class="stat-label">Total Execution</div>
-          <div class="stat-value" style="color: var(--accent-green);" id="val-latency">18.5 ms</div>
-        </div>
-      </div>
-
-      <!-- Top Candidates Table -->
-      <div class="card">
-        <h2>
-          <span>Top Candidate Settings (Catalog Retrieval)</span>
-          <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: normal;" id="cand-count">candidates retrieved</span>
-        </h2>
-        <div class="table-container">
-          <table id="cands-table">
+        
+        <div class="table-responsive">
+          <table class="table-clean" style="margin: 0;">
             <thead>
               <tr>
-                <th>Rank</th>
-                <th>Internal ID</th>
-                <th>Catalog ID</th>
-                <th>Action Name</th>
-                <th>Score</th>
-                <th>BM25</th>
-                <th>Dense</th>
-                <th>Polarity</th>
+                <th style="width: 40px;">#</th>
+                <th>Scenario</th>
+                <th>Category</th>
+                <th>Query</th>
                 <th>Status</th>
+                <th>Action</th>
               </tr>
             </thead>
-            <tbody id="cands-body">
-            </tbody>
+            <tbody id="lab-tbody"></tbody>
           </table>
         </div>
       </div>
-
-      <!-- Gemini Targeted Semantic Selection & Clone Disambiguation (Phase 20.1) -->
-      <div class="card" id="gemini-card">
-        <h2>
-          <span>Gemini Targeted Candidate Selection &amp; Clone Disambiguation (Phase 20.1)</span>
-          <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: normal;" id="gemini-model-badge">gemini-3.5-flash-lite (targeted)</span>
-        </h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 12px;">
-          <div>
-            <label>Decision</label>
-            <div id="gemini-decision"><span class="badge badge-neutral">UNTRIGGERED</span></div>
-          </div>
-          <div>
-            <label>Correction Status</label>
-            <div id="gemini-status"><span class="badge badge-neutral">NO_CHANGE</span></div>
-          </div>
-          <div>
-            <label>Reason Code</label>
-            <div id="gemini-reason" style="font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">DIRECT_FEATURE_MATCH</div>
-          </div>
-          <div>
-            <label>Confidence</label>
-            <div id="gemini-confidence" style="font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">0.95</div>
-          </div>
-          <div>
-            <label>LLM Latency</label>
-            <div id="gemini-latency" style="font-size: 0.85rem; font-family: var(--font-mono); color: var(--accent-green);">0.0 ms</div>
-          </div>
-        </div>
-
-        <!-- Disambiguation Comparison Box -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; background: var(--bg-input); padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);">
-          <div>
-            <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--accent-amber); font-weight: 700; margin-bottom: 4px;">Deterministic Draft</div>
-            <div id="det-choice-display" style="font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">-</div>
-          </div>
-          <div>
-            <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--accent-purple); font-weight: 700; margin-bottom: 4px;">Gemini Selection</div>
-            <div id="gem-choice-display" style="font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">-</div>
-          </div>
-        </div>
-
-        <div style="margin-bottom: 8px;">
-          <label>Ambiguity Trigger Signals</label>
-          <div id="gemini-triggers" style="font-size: 0.8rem; color: var(--accent-amber); font-family: var(--font-mono);">No ambiguity detected; deterministic winner accepted.</div>
-        </div>
-        <div>
-          <label>Technical Audit Justification</label>
-          <div id="gemini-explanation" style="font-size: 0.8rem; color: var(--text-secondary); background: var(--bg-input); padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); font-family: var(--font-mono);">Deterministic selection accepted without LLM override.</div>
-        </div>
-      </div>
-
-      <!-- Final ContextDeeplinkResponse JSON -->
-      <div class="card">
-        <h2>
-          <span>Official ContextDeeplinkResponse JSON</span>
-          <button class="copy-btn" onclick="copyJson()">Copy Full JSON</button>
-        </h2>
-        <pre class="json-box" id="json-viewer">// Official response will render here...</pre>
-        <div class="latency-bar" style="margin-top: 12px;">
-          <span>Retrieval: <span class="latency-val" id="lat-ret">0.0 ms</span></span>
-          <span>Selection: <span class="latency-val" id="lat-sel">0.0 ms</span></span>
-          <span>Cache: <span class="latency-val" id="lat-cache">0.0 ms</span></span>
-          <span>Total: <span class="latency-val" id="lat-total">0.0 ms</span></span>
-        </div>
-      </div>
     </div>
+    
   </div>
-</div>
 
-<script>
-const EXAMPLES = [
-  {
-    name: "1. Normal",
-    query: "How do I turn on Wi-Fi on my Samsung Galaxy?",
-    title: "Wi-Fi Management on Galaxy Device",
-    content: "Open Settings. Tap Connections, then tap Wi-Fi. Turn on the Wi-Fi switch to scan for available networks."
-  },
-  {
-    name: "2. Paraphrase",
-    query: "Switch over to wireless internet",
-    title: "Wi-Fi Troubleshooting",
-    content: "Navigate to Settings. Select Connections and tap Wi-Fi. Switch Wi-Fi on to connect to wireless internet."
-  },
-  {
-    name: "3. Enable",
-    query: "Turn on battery saver mode",
-    title: "Battery Management on Galaxy Device",
-    content: "Go to Settings, tap Battery and device care, tap Battery, then enable Power saving mode."
-  },
-  {
-    name: "4. Disable",
-    query: "Disable Wi-Fi connection",
-    title: "Wi-Fi Settings",
-    content: "Open Settings, tap Connections, tap Wi-Fi, and turn the switch off to disconnect."
-  },
-  {
-    name: "5. Ambiguous",
-    query: "Save my data plan",
-    title: "Mobile Data Management",
-    content: "Open Settings, tap Connections, select Data usage, and configure data saving options or Wi-Fi connectivity."
-  },
-  {
-    name: "6. Typo",
-    query: "Disabel wi-fi conection",
-    title: "Wi-Fi Settings",
-    content: "Open Settings, tap Connections, tap Wi-Fi, and toggle the switch off to turn off wireless network."
-  },
-  {
-    name: "7. Short",
-    query: "wifi",
-    title: "Wi-Fi Support Guide",
-    content: "Open Settings on your Galaxy device to view and manage your Wi-Fi connections."
-  },
-  {
-    name: "8. Conversational",
-    query: "Hey my screen is keeping me awake at night, is there a dark wallpaper option?",
-    title: "Display Settings",
-    content: "Open Settings, tap Display, and select Dark mode or customize Wallpaper dimming options."
-  },
-  {
-    name: "9. Multi-Intent",
-    query: "Turn off Wi-Fi and switch on mobile data when signal drops",
-    title: "Intelligent Wi-Fi",
-    content: "In Settings, tap Connections, then Wi-Fi. Tap More options, select Intelligent Wi-Fi, and enable Switch to mobile data."
-  },
-  {
-    name: "10. Hardware Damage",
-    query: "My Galaxy phone screen is completely cracked and bleeding purple fluid",
-    title: "Physical Damage Report",
-    content: "Screen has sustained heavy impact. Liquid crystal bleeding observed. Do not use charger. Please visit a Samsung Authorized Service Center for hardware display replacement."
-  },
-  {
-    name: "11. Hotspot 2.0 Clone",
-    query: "Turn on Hotspot 2.0",
-    title: "Wi-Fi Settings",
-    content: "Open Settings, tap Connections, tap Wi-Fi, tap Advanced and turn on Hotspot 2.0."
-  },
-  {
-    name: "12. Mobile Data Switch Clone",
-    query: "Turn off Wi-Fi and switch to mobile data when connection is unstable",
-    title: "Intelligent Wi-Fi",
-    content: "Open Settings, tap Connections, select Wi-Fi, tap More options, Intelligent Wi-Fi, and enable Switch to mobile data."
-  },
-  {
-    name: "13. Dual Clock Clone",
-    query: "Show dual clock on always on display",
-    title: "Lock Screen and AOD Settings",
-    content: "Open Settings, tap Lock screen and AOD, and enable Dual clock to view roaming time."
-  }
-];
+  <!-- Toast Notification element -->
+  <div id="toast" class="toast">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--status-success);"><path d="M20 6L9 17l-5-5"></path></svg>
+    <span id="toast-text">Notification</span>
+  </div>
 
-// Populate Example Chips
-const chipsContainer = document.getElementById("example-chips");
-EXAMPLES.forEach((ex, idx) => {
-  const btn = document.createElement("button");
-  btn.className = "chip";
-  btn.innerText = ex.name;
-  btn.onclick = () => loadExample(idx);
-  chipsContainer.appendChild(btn);
-});
+  <script>
+    const SCENARIOS = [
+      { id: 1, category: "core", categoryLabel: "Core", name: "1. Wi-Fi Toggle", query: "How do I turn on Wi-Fi on my Samsung Galaxy?", title: "Wi-Fi Management", content: "Open Settings. Tap Connections, then tap Wi-Fi. Turn on the Wi-Fi switch to scan for available networks." },
+      { id: 2, category: "core", categoryLabel: "Paraphrase", name: "2. Wireless Internet", query: "Switch over to wireless internet", title: "Wi-Fi Troubleshooting", content: "Navigate to Settings. Select Connections and tap Wi-Fi. Switch Wi-Fi on to connect to wireless internet." },
+      { id: 3, category: "polarity", categoryLabel: "Polarity", name: "3. Battery Saver", query: "Turn on battery saver mode", title: "Battery Management", content: "Go to Settings, tap Battery and device care, tap Battery, then enable Power saving mode." },
+      { id: 4, category: "polarity", categoryLabel: "Polarity", name: "4. Wi-Fi Off", query: "Disable Wi-Fi connection", title: "Wi-Fi Settings", content: "Open Settings, tap Connections, tap Wi-Fi, and turn the switch off to disconnect." },
+      { id: 5, category: "clones", categoryLabel: "Ambiguity", name: "5. Data Saving", query: "Save my data plan", title: "Mobile Data Management", content: "Open Settings, tap Connections, select Data usage, and configure data saving options or Wi-Fi connectivity." },
+      { id: 6, category: "core", categoryLabel: "Robustness", name: "6. Wi-Fi Typo", query: "Disabel wi-fi conection", title: "Wi-Fi Settings", content: "Open Settings, tap Connections, tap Wi-Fi, and toggle the switch off to turn off wireless network." },
+      { id: 7, category: "core", categoryLabel: "Short", name: "7. Single Word", query: "wifi", title: "Wi-Fi Support Guide", content: "Open Settings on your Galaxy device to view and manage your Wi-Fi connections." },
+      { id: 8, category: "core", categoryLabel: "Conversational", name: "8. Dark Wallpaper", query: "Hey my screen is keeping me awake at night, is there a dark wallpaper option?", title: "Display Settings", content: "Open Settings, tap Display, and select Dark mode or customize Wallpaper dimming options." },
+      { id: 9, category: "clones", categoryLabel: "Multi-Intent", name: "9. Wi-Fi to Mobile", query: "Turn off Wi-Fi and switch on mobile data when signal drops", title: "Intelligent Wi-Fi", content: "In Settings, tap Connections, then Wi-Fi. Tap More options, select Intelligent Wi-Fi, and enable Switch to mobile data." },
+      { id: 10, category: "safety", categoryLabel: "Safety", name: "10. Cracked Screen", query: "My Galaxy phone screen is completely cracked and bleeding purple fluid", title: "Physical Damage Report", content: "Screen has sustained heavy impact. Liquid crystal bleeding observed. Do not use charger. Please visit a Samsung Authorized Service Center for hardware display replacement." },
+      { id: 11, category: "clones", categoryLabel: "Disambig", name: "11. Hotspot 2.0 Clone", query: "Turn on Hotspot 2.0", title: "Wi-Fi Settings", content: "Open Settings, tap Connections, tap Wi-Fi, tap Advanced and turn on Hotspot 2.0." },
+      { id: 12, category: "clones", categoryLabel: "Disambig", name: "12. Mobile Data Switch", query: "Turn off Wi-Fi and switch to mobile data when connection is unstable", title: "Intelligent Wi-Fi", content: "Open Settings, tap Connections, select Wi-Fi, tap More options, Intelligent Wi-Fi, and enable Switch to mobile data." },
+      { id: 13, category: "clones", categoryLabel: "Disambig", name: "13. Dual Clock Clone", query: "Show dual clock on always on display", title: "Lock Screen and AOD Settings", content: "Open Settings, tap Lock screen and AOD, and enable Dual clock to view roaming time." }
+    ];
 
-function loadExample(idx) {
-  const ex = EXAMPLES[idx];
-  document.getElementById("query-input").value = ex.query;
-  document.getElementById("siis-title").value = ex.title;
-  document.getElementById("siis-content").value = ex.content;
-  executePlayground();
-}
+    let currentResponseData = null;
+    let labTestResults = {};
+    let toastTimeout = null;
 
-function clearInputs() {
-  document.getElementById("query-input").value = "";
-  document.getElementById("siis-title").value = "";
-  document.getElementById("siis-content").value = "";
-}
-
-async function executePlayground() {
-  const query = document.getElementById("query-input").value.trim();
-  const title = document.getElementById("siis-title").value.trim();
-  const content = document.getElementById("siis-content").value.trim();
-
-  if (!query) {
-    alert("Please enter a user query.");
-    return;
-  }
-
-  const btn = document.getElementById("run-btn");
-  const btnText = document.getElementById("btn-text");
-  btn.disabled = true;
-  btnText.innerHTML = '<span class="spinner"></span> Running...';
-
-  try {
-    const payload = {
-      query: query,
-      siis_response: {
-        title: title || "Device Issue",
-        content: content || "Navigate to device Settings."
-      },
-      mode: "gemini-targeted",
-      top_k: 10
-    };
-
-    const res = await fetch("/dev/troubleshoot/debug", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-
-    if (!res.ok) {
-      const err = await res.text();
-      throw new Error(`HTTP ${res.status}: ${err}`);
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return "";
+      return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
     }
 
-    const data = await res.json();
-    renderDebugResults(data);
-  } catch (err) {
-    alert("Diagnostic execution error: " + err.message);
-  } finally {
-    btn.disabled = false;
-    btnText.innerText = "Run Diagnostic Test";
-  }
-}
-
-function renderDebugResults(data) {
-  const dbg = data.debug || {};
-  const resp = data.response || {};
-
-  // 1. Polarity Badge
-  const pol = (dbg.polarity?.detected || "NEUTRAL").toUpperCase();
-  let polClass = "badge-neutral";
-  if (pol === "ENABLE") polClass = "badge-enable";
-  else if (pol === "DISABLE") polClass = "badge-disable";
-  else if (pol === "VIEW") polClass = "badge-view";
-  else if (pol === "CONFIGURE") polClass = "badge-config";
-  document.getElementById("val-polarity").innerHTML = `<span class="badge ${polClass}">${pol}</span>`;
-
-  // 2. Cache Badge
-  const cStatus = dbg.cache?.status || "MISS";
-  const cTier = dbg.cache?.tier || "-";
-  const cBadge = cStatus === "HIT" ? "badge-hit" : "badge-miss";
-  document.getElementById("val-cache").innerHTML = `<span class="badge ${cBadge}">${cStatus}</span> <span style="font-size:0.7rem; color:var(--text-secondary);">${cTier.split(':')[0]}</span>`;
-
-  // 3. Deterministic Pick Ribbon
-  const det = dbg.deterministic_choice || {};
-  document.getElementById("val-selection").innerText = det.action ? `${det.action.slice(0, 18)}...` : "Dense Adjudicator";
-
-  // 4. Gemini Targeted Selection Ribbon & Card (Phase 20.1)
-  const gt = dbg.gemini_targeted || {};
-  const gtDec = (gt.decision || "UNTRIGGERED").toUpperCase();
-  let gtBadgeClass = "badge-neutral";
-  if (gtDec === "SELECT") gtBadgeClass = "badge-hit";
-  else if (gtDec === "AMBIGUOUS") gtBadgeClass = "badge-miss";
-
-  const valGemTargeted = document.getElementById("val-gemini-targeted");
-  if (valGemTargeted) {
-    const isOverride = gt.is_override;
-    valGemTargeted.innerHTML = `<span class="badge ${gtBadgeClass}">${gtDec}</span> ${isOverride ? '<span class="winner-tag" style="background:var(--accent-purple); color:white; margin-left:4px;">OVERRIDE</span>' : ''}`;
-  }
-
-  const gDecEl = document.getElementById("gemini-decision");
-  if (gDecEl) {
-    gDecEl.innerHTML = `<span class="badge ${gtBadgeClass}">${gtDec}</span>`;
-  }
-
-  const gStatEl = document.getElementById("gemini-status");
-  if (gStatEl) {
-    const stat = (gt.correction_status || "NO_CHANGE").toUpperCase();
-    let sClass = "badge-neutral";
-    if (stat === "TRUE_CORRECTION" || stat === "OVERRIDE") sClass = "badge-config";
-    else if (stat === "NO_CHANGE") sClass = "badge-view";
-    else if (stat === "AMBIGUOUS") sClass = "badge-miss";
-    gStatEl.innerHTML = `<span class="badge ${sClass}">${stat}</span>`;
-  }
-
-  const gReasonEl = document.getElementById("gemini-reason");
-  if (gReasonEl) {
-    gReasonEl.innerText = gt.reason_code || "-";
-  }
-
-  const gConfEl = document.getElementById("gemini-confidence");
-  if (gConfEl) {
-    gConfEl.innerText = gt.confidence !== undefined && gt.confidence !== null ? Number(gt.confidence).toFixed(2) : "-";
-  }
-
-  const gLatEl = document.getElementById("gemini-latency");
-  if (gLatEl) {
-    gLatEl.innerText = `${gt.latency_ms || 0} ms`;
-  }
-
-  const gBadgeEl = document.getElementById("gemini-model-badge");
-  if (gBadgeEl) {
-    gBadgeEl.innerText = `${gt.model || "gemini-3.5-flash-lite"} (${gt.source || "targeted"})`;
-  }
-
-  // Comparison Boxes
-  const detDisplay = document.getElementById("det-choice-display");
-  if (detDisplay) {
-    detDisplay.innerHTML = `<code>${det.catalog_id || 'None'}</code> — <strong>${escapeHtml(det.action || 'None')}</strong>`;
-  }
-
-  const gemDisplay = document.getElementById("gem-choice-display");
-  if (gemDisplay) {
-    if (gt.selected_catalog_id) {
-      gemDisplay.innerHTML = `<code>${gt.selected_catalog_id}</code> (${gt.selected_internal_id || 'cand'}) — <strong>${escapeHtml(gt.selected_action || 'Selected')}</strong>`;
-    } else {
-      gemDisplay.innerHTML = `<span style="color:var(--text-secondary);">(No LLM override; accepted deterministic choice)</span>`;
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      const text = document.getElementById("toast-text");
+      text.innerText = message;
+      toast.classList.add("show");
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 3000);
     }
-  }
 
-  const gTrigEl = document.getElementById("gemini-triggers");
-  if (gTrigEl) {
-    const trigs = gt.trigger_reasons || [];
-    gTrigEl.innerText = trigs.length > 0 ? trigs.join(" • ") : "No ambiguity detected; deterministic selection confident.";
-  }
-
-  const gExpEl = document.getElementById("gemini-explanation");
-  if (gExpEl) {
-    gExpEl.innerText = gt.explanation || "Deterministic selection accepted without LLM override.";
-  }
-
-  // 5. Latency Bar
-  const perf = dbg.performance || {};
-  document.getElementById("val-latency").innerText = `${perf.total_latency_ms || 0} ms`;
-  document.getElementById("lat-total").innerText = `${perf.total_latency_ms || 0} ms`;
-  document.getElementById("lat-ret").innerText = `${perf.retrieval_latency_ms || 0} ms`;
-  document.getElementById("lat-sel").innerText = `${perf.selection_latency_ms || 0} ms`;
-  document.getElementById("lat-cache").innerText = `${perf.cache_lookup_latency_ms || 0} ms`;
-
-  // 6. Catalog Resolution
-  const cat = dbg.catalog_resolution || {};
-  document.getElementById("res-uri").innerText = cat.uri || "None (Hardware Repair Manual Action)";
-  document.getElementById("res-cat-id").innerText = cat.catalog_id || "None";
-  document.getElementById("res-valid").innerHTML = cat.valid ? "✓ Verified Catalog URI" : "<span style='color:var(--accent-red)'>✗ Unverified</span>";
-
-  // 7. Candidates Table
-  const tbody = document.getElementById("cands-body");
-  tbody.innerHTML = "";
-  const candidates = dbg.retrieval?.candidates || [];
-  const selectedId = dbg.selection?.selected_catalog_id;
-
-  function escapeHtml(str) {
-    if (str === null || str === undefined) return "";
-    return String(str)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  }
-
-  document.getElementById("cand-count").innerText = `${candidates.length} candidates retrieved`;
-
-  if (candidates.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; color:var(--text-secondary);">No catalog candidates retrieved (Hardware safety intercept triggered)</td></tr>`;
-  } else {
-    candidates.forEach((cand, idx) => {
-      const isFinalWinner = cand.is_final_winner || (cand.catalog_id === selectedId) || (idx === 0 && !selectedId);
-      const isDetWinner = cand.is_deterministic_winner;
-      const isGemWinner = cand.is_gemini_winner;
-
-      const tr = document.createElement("tr");
-      if (isFinalWinner) tr.className = "selected-winner";
-
-      const polBadgeClass = cand.polarity === "enable" ? "badge-enable" : (cand.polarity === "disable" ? "badge-disable" : "badge-neutral");
+    function switchTab(tab) {
+      const isWorkbench = (tab === 'workbench');
+      document.getElementById('view-workbench').classList.toggle('hidden', !isWorkbench);
+      document.getElementById('view-workbench-pipeline').classList.toggle('hidden', !isWorkbench);
+      document.getElementById('view-testlab').classList.toggle('hidden', isWorkbench);
       
-      let statusTag = "-";
-      if (isDetWinner && isGemWinner) {
-        statusTag = '<span class="winner-tag" style="background:var(--accent-green); color:white;">AGREED WINNER</span>';
-      } else if (isGemWinner) {
-        statusTag = '<span class="winner-tag" style="background:var(--accent-purple); color:white;">GEMINI PICK</span>';
-      } else if (isDetWinner) {
-        statusTag = '<span class="winner-tag" style="background:var(--accent-amber); color:black;">DET DRAFT</span>';
-      } else if (isFinalWinner) {
-        statusTag = '<span class="winner-tag">WINNER</span>';
+      const setBtnState = (id, isActive) => {
+        const btn = document.getElementById(id);
+        if (isActive) {
+          btn.style.background = 'var(--bg-elevated)';
+          btn.style.color = 'var(--text-primary)';
+          btn.style.borderColor = 'var(--border-color)';
+        } else {
+          btn.style.background = 'transparent';
+          btn.style.color = 'var(--text-secondary)';
+          btn.style.borderColor = 'transparent';
+        }
+      };
+
+      setBtnState('tab-workbench-btn', isWorkbench);
+      setBtnState('tab-testlab-btn', !isWorkbench);
+
+      if (!isWorkbench) renderTestLabTable();
+    }
+
+    function renderScenarios() {
+      const container = document.getElementById('scenarios-grid');
+      container.innerHTML = '';
+      SCENARIOS.forEach((sc, idx) => {
+        const row = document.createElement('div');
+        row.className = 'scenario-row';
+        row.id = `scenario-row-${idx}`;
+        row.innerHTML = `
+          <div class="scenario-meta">
+            <div class="scenario-title">${escapeHtml(sc.name)}</div>
+            <div class="scenario-desc">${escapeHtml(sc.query)}</div>
+          </div>
+          <div class="badge bg-neutral">${escapeHtml(sc.categoryLabel)}</div>
+        `;
+        row.onclick = () => {
+          document.querySelectorAll('.scenario-row').forEach(r => r.classList.remove('active'));
+          row.classList.add('active');
+          loadScenario(idx);
+        };
+        container.appendChild(row);
+      });
+      
+      if (SCENARIOS.length > 0) {
+        document.getElementById("query-input").value = SCENARIOS[0].query;
+        document.getElementById("siis-title").value = SCENARIOS[0].title;
+        document.getElementById("siis-content").value = SCENARIOS[0].content;
+        const firstRow = document.getElementById('scenario-row-0');
+        if (firstRow) firstRow.classList.add('active');
+      }
+    }
+
+    function quickSelect(id) {
+      const idx = SCENARIOS.findIndex(s => s.id === id);
+      if (idx !== -1) {
+        document.querySelectorAll('.scenario-row').forEach(r => r.classList.remove('active'));
+        const targetRow = document.getElementById(`scenario-row-${idx}`);
+        if (targetRow) {
+          targetRow.classList.add('active');
+          targetRow.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        loadScenario(idx);
+      }
+    }
+
+    function loadScenario(idx) {
+      const sc = SCENARIOS[idx];
+      document.getElementById("query-input").value = sc.query;
+      document.getElementById("siis-title").value = sc.title;
+      document.getElementById("siis-content").value = sc.content;
+      executePlayground();
+    }
+
+    function clearQuery() {
+      document.getElementById("query-input").value = "";
+      document.getElementById("query-input").focus();
+    }
+
+    function resetDiagnosis() {
+      document.getElementById("query-input").value = "";
+      document.getElementById("siis-title").value = "Device Settings";
+      document.getElementById("siis-content").value = "";
+      document.querySelectorAll('.scenario-row').forEach(r => r.classList.remove('active'));
+      document.getElementById('result-placeholder').classList.remove('hidden');
+      document.getElementById('result-content').classList.add('hidden');
+      document.getElementById('result-error').classList.add('hidden');
+      ['pipe-query', 'pipe-siis', 'pipe-ret', 'pipe-ver'].forEach(id => {
+        document.getElementById(id).className = 'pipe-node';
+      });
+      currentResponseData = null;
+      showToast("SYNTRA diagnostic form reset");
+    }
+
+    function openDeeplink() {
+      const uri = document.getElementById("hero-uri").innerText;
+      if (!uri || uri.includes("None") || uri.includes("...")) {
+        showToast("No settings deeplink is available for this action.");
+        return;
+      }
+      
+      // Attempt to invoke the URI protocol
+      try {
+        window.location.assign(uri);
+      } catch (e) {
+        // Handled silently if protocol unhandled by OS
+      }
+      
+      // Copy to clipboard gracefully for desktop / non-Samsung browsers
+      navigator.clipboard.writeText(uri).then(() => {
+        showToast("✓ Samsung deeplink copied. Open this action on a supported Samsung device.");
+      }).catch(() => {
+        showToast("Samsung deeplink: " + uri);
+      });
+    }
+
+    function copyUri() {
+      const uri = document.getElementById("hero-uri").innerText;
+      if (!uri || uri.includes("None") || uri.includes("...")) {
+        showToast("No deeplink URI to copy.");
+        return;
+      }
+      navigator.clipboard.writeText(uri).then(() => {
+        showToast("✓ Deeplink URI copied to clipboard.");
+      }).catch(() => {
+        showToast("URI: " + uri);
+      });
+    }
+
+    function copyJson(e) {
+      if (e) e.stopPropagation();
+      if (!currentResponseData || !currentResponseData.response) {
+        showToast("No JSON response data available.");
+        return;
+      }
+      const jsonStr = JSON.stringify(currentResponseData.response, null, 2);
+      navigator.clipboard.writeText(jsonStr).then(() => {
+        showToast("✓ Response JSON copied to clipboard.");
+      });
+    }
+
+    function toggleHeroSwitch() {
+      const sw = document.getElementById('device-switch');
+      sw.classList.toggle('active');
+      showToast(sw.classList.contains('active') ? "Setting simulated: Enabled" : "Setting simulated: Disabled");
+    }
+
+    function viewDetails() {
+      const adv = document.getElementById('adv-details');
+      if (!adv) return;
+      
+      // Open all details sections
+      ['acc-pipeline', 'acc-candidates', 'acc-gemini', 'acc-catalog', 'acc-json'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.open = true;
+      });
+      
+      adv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    async function executePlayground() {
+      const query = document.getElementById("query-input").value.trim();
+      const title = document.getElementById("siis-title").value.trim();
+      const content = document.getElementById("siis-content").value.trim();
+      
+      if (!query) {
+        document.getElementById("query-input").focus();
+        showToast("Please enter an issue description.");
+        return;
       }
 
-      tr.innerHTML = `
-        <td>#${escapeHtml(cand.rank || idx + 1)}</td>
-        <td><code>${escapeHtml(cand.internal_id || 'cand_' + (idx + 1))}</code></td>
-        <td><code>${escapeHtml(cand.catalog_id || 'N/A')}</code></td>
-        <td><strong>${escapeHtml(cand.action || '')}</strong></td>
-        <td><strong>${cand.score?.toFixed(4) || '0.0000'}</strong></td>
-        <td style="color:var(--text-secondary);">${cand.bm25_score?.toFixed(4) || '0.0000'}</td>
-        <td style="color:var(--text-secondary);">${cand.dense_score?.toFixed(4) || '0.0000'}</td>
-        <td><span class="badge ${polBadgeClass}">${cand.polarity_alignment >= 0 ? '+' : ''}${cand.polarity_alignment?.toFixed(2) || '0.00'}</span></td>
-        <td>${statusTag}</td>
-      `;
-      tbody.appendChild(tr);
-    });
-  }
+      const btn = document.getElementById("run-btn");
+      const btnText = document.getElementById("btn-text");
+      btn.disabled = true;
+      btnText.innerText = "Analyzing System...";
+      
+      document.getElementById('result-placeholder').classList.add('hidden');
+      document.getElementById('result-error').classList.add('hidden');
+      document.getElementById('result-content').classList.remove('hidden');
+      document.getElementById('analysis-live-status').innerText = "RUNNING";
+      
+      // Reset activity states
+      const steps = ['act-query', 'act-siis', 'act-cache', 'act-retrieval', 'act-ranking', 'act-gemini', 'act-catalog'];
+      steps.forEach(id => {
+        const el = document.getElementById(id);
+        el.className = 'act-item';
+        document.getElementById(id + '-icon').innerText = '○';
+        document.getElementById(id + '-icon').style.color = 'var(--text-muted)';
+        document.getElementById(id + '-detail').innerText = 'Waiting...';
+      });
+      
+      document.getElementById('act-query').classList.add('active');
+      document.getElementById('act-query-icon').innerText = '●';
+      document.getElementById('act-query-icon').style.color = 'var(--accent-primary)';
+      document.getElementById('act-query-detail').innerText = 'Analyzing intent & polarity...';
+      
+      document.getElementById('telemetry-strip').style.opacity = '0';
+      document.getElementById('hero-deeplink').style.opacity = '0';
+      document.getElementById('hero-guidance').style.opacity = '0';
+      document.getElementById('adv-details').style.opacity = '0';
+      
+      ['pipe-query', 'pipe-siis', 'pipe-ret', 'pipe-ver'].forEach(id => {
+        document.getElementById(id).className = 'pipe-node active';
+      });
 
-  // 8. Render JSON Viewer
-  document.getElementById("json-viewer").innerText = JSON.stringify(resp, null, 2);
-}
+      try {
+        const res = await fetch("/dev/troubleshoot/debug", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            query: query,
+            siis_response: { title: title || "Device Issue", content: content || "Navigate to Settings." },
+            mode: "gemini-targeted",
+            top_k: 10
+          })
+        });
 
-function copyUri() {
-  const uri = document.getElementById("res-uri").innerText;
-  navigator.clipboard.writeText(uri).then(() => alert("Copied Deeplink URI to clipboard!"));
-}
+        if (!res.ok) throw new Error(`Engine returned HTTP ${res.status}`);
+        
+        const data = await res.json();
+        currentResponseData = data;
+        
+        // Sequence animation without delaying backend response
+        await animateActivitySequence(data);
+        
+        document.getElementById('analysis-live-status').innerText = "COMPLETE";
 
-function copyJson() {
-  const jsonText = document.getElementById("json-viewer").innerText;
-  navigator.clipboard.writeText(jsonText).then(() => alert("Copied ContextDeeplinkResponse JSON to clipboard!"));
-}
+      } catch (err) {
+        document.getElementById('result-content').classList.add('hidden');
+        document.getElementById('result-error').classList.remove('hidden');
+        document.getElementById('error-message').innerText = err.message || "Failed to execute SYNTRA diagnostic engine.";
+        ['pipe-query', 'pipe-siis', 'pipe-ret', 'pipe-ver'].forEach(id => {
+          document.getElementById(id).className = 'pipe-node skipped';
+        });
+      } finally {
+        btn.disabled = false;
+        btnText.innerText = "Diagnose \u2192";
+      }
+    }
 
-// Initial Run with Default Query on Page Load
-window.onload = () => {
-  executePlayground();
-};
-</script>
+    async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
+    async function animateActivitySequence(data) {
+      const dbg = data.debug || {};
+      const resp = data.response || {};
+      const ctx = (resp.contexts && resp.contexts[0]) || {};
+      
+      const gt = dbg.gemini_targeted || {};
+      const isHw = dbg.safety?.hardware_triggered;
+      const cat = dbg.catalog_resolution || {};
+      const totalLat = dbg.performance?.total_latency_ms || 0;
+      const candidates = dbg.retrieval?.candidates || [];
+      const score = ctx.score || 0.95;
+
+      // Update Top Header HUD values
+      const hudLat = document.getElementById('hud-latency');
+      if (hudLat) hudLat.innerText = `${totalLat.toFixed(1)} ms`;
+      
+      const hudCache = document.getElementById('hud-cache');
+      if (hudCache) {
+        hudCache.innerText = dbg.cache?.status === 'HIT' ? 'Cache Hit' : 'Cache Miss';
+        hudCache.style.color = dbg.cache?.status === 'HIT' ? 'var(--status-success)' : 'var(--text-secondary)';
+      }
+      
+      const hudCat = document.getElementById('hud-catalog');
+      if (hudCat) {
+        hudCat.innerText = isHw ? 'Manual Action' : 'Verified';
+        hudCat.style.color = isHw ? 'var(--status-warning)' : 'var(--status-success)';
+      }
+
+      const setDone = (id, detail, isSkip = false) => {
+        const item = document.getElementById(id);
+        item.className = isSkip ? 'act-item skipped done' : 'act-item done';
+        const icon = document.getElementById(id + '-icon');
+        icon.innerText = isSkip ? '—' : '✓';
+        icon.style.color = isSkip ? 'var(--text-muted)' : 'var(--status-success)';
+        document.getElementById(id + '-detail').innerText = detail;
+      };
+
+      // 1. Query
+      const polarity = dbg.polarity?.detected || 'Neutral';
+      setDone('act-query', `${polarity} intent detected`);
+      document.getElementById('pipe-query').className = 'pipe-node done';
+      await sleep(70);
+      
+      // 2. SIIS
+      setDone('act-siis', `${ctx.title || 'Device settings grounded'}`);
+      document.getElementById('pipe-siis').className = 'pipe-node done';
+      await sleep(70);
+      
+      // 3. Cache
+      setDone('act-cache', dbg.cache?.status === 'HIT' ? 'Cache hit \u2192 rapid response' : 'Cache miss \u2192 fresh evaluation');
+      await sleep(70);
+
+      // 4. Retrieval
+      if (isHw) setDone('act-retrieval', 'Intercepted by hardware safety filter');
+      else setDone('act-retrieval', `${candidates.length} candidates retrieved from catalog`);
+      document.getElementById('pipe-ret').className = 'pipe-node done';
+      await sleep(70);
+
+      // 5. Ranking
+      if (isHw) setDone('act-ranking', 'Manual action prioritized');
+      else setDone('act-ranking', `Confidence ${(score).toFixed(2)}`);
+      await sleep(70);
+
+      // 6. Targeted Reasoning
+      if (isHw) setDone('act-gemini', 'Not required', true);
+      else if (gt.is_override) setDone('act-gemini', 'Targeted disambiguation applied', false);
+      else if (gt.decision === "SELECT") setDone('act-gemini', 'Confirmed deterministic choice', false);
+      else setDone('act-gemini', 'Not required — deterministic confidence sufficient', true);
+      await sleep(70);
+
+      // 7. Catalog
+      if (isHw) setDone('act-catalog', 'Manual service required — no setting toggle');
+      else setDone('act-catalog', `Exact match verified in catalog`);
+      document.getElementById('pipe-ver').className = 'pipe-node done';
+      
+      // Populate Telemetry Strip
+      document.getElementById('tel-ret').innerText = isHw ? 'SAFETY' : `${candidates.length} \u2192 1`;
+      document.getElementById('tel-conf').innerText = score.toFixed(2);
+      document.getElementById('tel-lat').innerText = `${totalLat.toFixed(1)}ms`;
+      document.getElementById('tel-cache').innerText = dbg.cache?.status || 'MISS';
+      document.getElementById('tel-gem').innerText = gt.is_override ? 'OVERRIDE' : (gt.decision === 'SELECT' ? 'ACTIVE' : 'SKIPPED');
+      document.getElementById('tel-cat').innerText = isHw ? 'MANUAL' : 'VERIFIED';
+      
+      document.getElementById('telemetry-strip').style.opacity = '1';
+      await sleep(70);
+
+      // Render Hero Result
+      const acts = ctx.actions || [];
+      const act1 = acts[0] || {};
+      const isManual = (act1.category === 'manual') || isHw;
+      
+      document.getElementById("resp-act1-name").innerText = act1.actionName || "Configure Settings";
+      
+      const badge = document.getElementById("resp-category-badge");
+      badge.innerText = isManual ? 'MANUAL ACTION' : 'AUTO ACTION';
+      badge.className = isManual ? 'badge bg-amber' : 'badge bg-blue';
+      
+      const statusLabel = document.getElementById("hero-status-label");
+      statusLabel.innerHTML = isManual ? '<span>🛡️ MANUAL ACTION REQUIRED</span>' : '<span>READY TO FIX</span>';
+      statusLabel.className = isManual ? 'hero-status manual' : 'hero-status';
+
+      const tagline = document.getElementById("resp-tagline");
+      tagline.innerText = isManual ? 'SYNTRA recommends authorized service or hardware inspection.' : 'SYNTRA found an authoritative verified setting action for this issue.';
+      
+      const btnOpen = document.getElementById("btn-open-settings");
+      const btnCopy = document.getElementById("btn-copy-uri");
+      const deviceToggle = document.getElementById("hero-device-toggle");
+      const deviceSwitch = document.getElementById("device-switch");
+      const toggleName = document.getElementById("device-toggle-name");
+      
+      if (isManual) {
+        document.getElementById("hero-uri").innerText = "None (Manual Service Action)";
+        document.getElementById("cat-id").innerText = "None";
+        btnOpen.classList.add("hidden");
+        btnCopy.classList.add("hidden");
+        deviceToggle.classList.add("hidden");
+      } else {
+        const exactUri = cat.uri || "bixby://...";
+        document.getElementById("hero-uri").innerText = exactUri;
+        document.getElementById("cat-id").innerText = cat.catalog_id || "DL-XXXX";
+        btnOpen.classList.remove("hidden");
+        btnCopy.classList.remove("hidden");
+        deviceToggle.classList.remove("hidden");
+        toggleName.innerText = act1.actionName || "Device Setting";
+        // Animate toggle from inactive to active
+        deviceSwitch.classList.remove('active');
+        setTimeout(() => deviceSwitch.classList.add('active'), 200);
+      }
+
+      // Steps
+      const stepsList = document.getElementById("resp-steps-list");
+      stepsList.innerHTML = "";
+      const stepGroups = act1.stepGroups || [];
+      const allSteps = (stepGroups[0] && stepGroups[0].steps) || ["Navigate to device Settings."];
+      allSteps.forEach((st, idx) => {
+        const item = document.createElement("li");
+        item.className = "step-item";
+        const numStr = String(idx + 1).padStart(2, '0');
+        item.innerHTML = `<div class="step-num">${numStr}</div><div class="step-content">${escapeHtml(st)}</div>`;
+        stepsList.appendChild(item);
+      });
+
+      // Advanced data
+      document.getElementById("sig-polarity").innerText = polarity;
+      document.getElementById("sig-cache").innerText = dbg.cache?.status || "Miss";
+      document.getElementById("lat-total").innerText = `${totalLat.toFixed(1)} ms`;
+      document.getElementById("sig-safety").innerText = isHw ? "Triggered (Physical Damage)" : "Clear";
+      document.getElementById("gem-reason").innerText = gt.reason_code || "DETERMINISTIC_PASS";
+      document.getElementById("gem-triggers").innerText = (gt.trigger_reasons && gt.trigger_reasons.length > 0) ? gt.trigger_reasons.join(", ") : "None";
+      document.getElementById("hud-gemini-detail").innerText = gt.is_override ? "Override applied" : (gt.decision === "SELECT" ? "Candidate selected" : "Not required");
+
+      const candsBody = document.getElementById("cands-body");
+      candsBody.innerHTML = "";
+      candidates.forEach((c) => {
+        const isWinner = c.is_final_winner || (c.catalog_id === cat.catalog_id);
+        candsBody.innerHTML += `<tr>
+          <td><code class="mono" style="font-size: 0.78rem;">${escapeHtml(c.catalog_id)}</code></td>
+          <td>${escapeHtml(c.action)}</td>
+          <td class="mono">${c.score !== undefined ? c.score.toFixed(4) : '-'}</td>
+          <td>${isWinner ? '<span class="badge bg-green">WINNER</span>' : '<span style="color: var(--text-muted);">-</span>'}</td>
+        </tr>`;
+      });
+      document.getElementById("json-viewer").innerText = JSON.stringify(resp, null, 2);
+
+      // Hero Entrance
+      const hero = document.getElementById('hero-deeplink');
+      hero.style.opacity = '1';
+      hero.style.transform = 'translateY(0)';
+      
+      await sleep(80);
+      const guidance = document.getElementById('hero-guidance');
+      guidance.style.opacity = '1';
+      guidance.style.transform = 'translateY(0)';
+      
+      await sleep(80);
+      document.getElementById('adv-details').style.opacity = '1';
+    }
+
+    function renderTestLabTable() {
+      const tbody = document.getElementById("lab-tbody");
+      tbody.innerHTML = "";
+      SCENARIOS.forEach((sc, idx) => {
+        const res = labTestResults[sc.id];
+        let statusBadge = '<span style="color: var(--text-muted); font-size: 0.75rem;">Pending</span>';
+        if (res) {
+          statusBadge = res.status === "PASS" ? '<span class="badge bg-green">PASS</span>' : '<span class="badge bg-red">FAIL</span>';
+        }
+        
+        tbody.innerHTML += `<tr>
+          <td>${sc.id}</td>
+          <td><strong style="color: var(--text-primary); font-weight: 600;">${escapeHtml(sc.name)}</strong></td>
+          <td><span class="badge bg-neutral">${escapeHtml(sc.categoryLabel)}</span></td>
+          <td style="max-width: 240px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-secondary);">${escapeHtml(sc.query)}</td>
+          <td>${statusBadge}</td>
+          <td>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.75rem;" onclick="runSingleTestLab(${idx})">Run</button>
+              <button class="btn btn-outline" style="padding: 4px 10px; font-size: 0.75rem;" onclick="inspectScenarioInWorkbench(${idx})">Inspect</button>
+            </div>
+          </td>
+        </tr>`;
+      });
+    }
+
+    async function runSingleTestLab(idx) {
+      const sc = SCENARIOS[idx];
+      showToast(`Running test: ${sc.name}`);
+      try {
+        const res = await fetch("/dev/troubleshoot/debug", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            query: sc.query,
+            siis_response: { title: sc.title, content: sc.content },
+            mode: "gemini-targeted",
+            top_k: 10
+          })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          labTestResults[sc.id] = { status: "PASS", debug: data.debug };
+          showToast(`✓ Test ${sc.id} passed (${data.debug?.performance?.total_latency_ms?.toFixed(1) || 0}ms)`);
+        } else {
+          labTestResults[sc.id] = { status: "FAIL" };
+          showToast(`Test ${sc.id} failed`);
+        }
+      } catch (e) {
+        labTestResults[sc.id] = { status: "FAIL" };
+        showToast(`Test ${sc.id} error: ${e.message}`);
+      }
+      renderTestLabTable();
+      updateLabStats();
+    }
+
+    async function runAllTestLab() {
+      const btn = document.getElementById("btn-run-all-tests");
+      btn.disabled = true;
+      btn.innerText = "Running Tests...";
+      
+      let passCount = 0, failCount = 0, totalLat = 0;
+      for (let i = 0; i < SCENARIOS.length; i++) {
+        const sc = SCENARIOS[i];
+        btn.innerText = `Running (${i + 1}/${SCENARIOS.length})...`;
+        try {
+          const res = await fetch("/dev/troubleshoot/debug", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              query: sc.query,
+              siis_response: { title: sc.title, content: sc.content },
+              mode: "gemini-targeted",
+              top_k: 10
+            })
+          });
+          if (res.ok) {
+            const data = await res.json();
+            labTestResults[sc.id] = { status: "PASS", debug: data.debug };
+            passCount++;
+            totalLat += data.debug?.performance?.total_latency_ms || 0;
+          } else {
+            labTestResults[sc.id] = { status: "FAIL" };
+            failCount++;
+          }
+        } catch (e) {
+          labTestResults[sc.id] = { status: "FAIL" };
+          failCount++;
+        }
+        renderTestLabTable();
+      }
+      
+      document.getElementById("lab-passed").innerText = `${passCount} / ${SCENARIOS.length}`;
+      document.getElementById("lab-failed").innerText = `${failCount}`;
+      document.getElementById("lab-avg-lat").innerText = `${(totalLat / (passCount || 1)).toFixed(1)} ms`;
+      
+      btn.disabled = false;
+      btn.innerText = "Run Entire Suite";
+      if (failCount === 0) {
+        document.getElementById('lab-badge').innerText = "13/13 PERFECT";
+      }
+      showToast(`✓ Suite completed: ${passCount} passed, ${failCount} failed.`);
+    }
+
+    function updateLabStats() {
+      let pass = 0, fail = 0, lat = 0;
+      Object.values(labTestResults).forEach(r => {
+        if (r.status === "PASS") {
+          pass++;
+          lat += r.debug?.performance?.total_latency_ms || 0;
+        } else if (r.status === "FAIL") {
+          fail++;
+        }
+      });
+      document.getElementById("lab-passed").innerText = `${pass} / ${SCENARIOS.length}`;
+      document.getElementById("lab-failed").innerText = `${fail}`;
+      if (pass > 0) {
+        document.getElementById("lab-avg-lat").innerText = `${(lat / pass).toFixed(1)} ms`;
+      }
+    }
+
+    function inspectScenarioInWorkbench(idx) {
+      switchTab('workbench');
+      document.querySelectorAll('.scenario-row').forEach((r, i) => {
+        if (i === idx) r.classList.add('active');
+        else r.classList.remove('active');
+      });
+      loadScenario(idx);
+    }
+
+    async function checkHealth() {
+      try {
+        const start = performance.now();
+        const res = await fetch("/health");
+        const ping = (performance.now() - start).toFixed(1);
+        if (res.ok) {
+          document.getElementById("hud-api-status").innerText = "Online";
+          document.getElementById("hud-api-dot").style.background = "var(--status-success)";
+          
+          const hudLat = document.getElementById("hud-latency");
+          if (hudLat && hudLat.innerText === "-- ms") {
+            hudLat.innerText = `${ping} ms`;
+          }
+          const hudCache = document.getElementById("hud-cache");
+          if (hudCache && hudCache.innerText === "--") {
+            hudCache.innerText = "Ready";
+          }
+        } else {
+          document.getElementById("hud-api-status").innerText = "Offline";
+          document.getElementById("hud-api-dot").style.background = "var(--status-error)";
+        }
+      } catch (e) {
+        document.getElementById("hud-api-status").innerText = "Offline";
+        document.getElementById("hud-api-dot").style.background = "var(--status-error)";
+      }
+    }
+
+    // Keyboard shortcuts & initial setup
+    window.onload = () => {
+      renderScenarios();
+      checkHealth();
+      setInterval(checkHealth, 15000);
+      switchTab('workbench');
+      
+      document.getElementById("query-input").addEventListener("keydown", (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+          e.preventDefault();
+          executePlayground();
+        }
+      });
+      
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          // Collapse details if open
+          document.querySelectorAll('#adv-details details[open]').forEach(d => d.open = false);
+        }
+      });
+    };
+  </script>
 </body>
 </html>

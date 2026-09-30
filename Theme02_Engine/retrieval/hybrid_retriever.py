@@ -106,15 +106,16 @@ class HybridRetriever:
                     indexed.sort(key=score_sent, reverse=True)
                     target_sents = [s for idx, s in indexed[:3]]
 
-                for s in target_sents:
-                    s_vec = self.dense.encode_query(s)
-                    if s_vec is not None and self.dense.catalog_matrix is not None:
-                        sims = np.dot(self.dense.catalog_matrix, s_vec)
-                        m_sims = np.dot(self._msg_matrix, s_vec) if self._msg_matrix is not None else sims
-                        comb_s = 0.5 * sims + 0.5 * m_sims
-                        for idx, sim in enumerate(comb_s):
-                            if idx not in siis_proc_scores or sim > siis_proc_scores[idx]:
-                                siis_proc_scores[idx] = float(sim)
+                s_vecs = self.dense.encode_queries(target_sents)
+                if self.dense.catalog_matrix is not None:
+                    for s_vec in s_vecs:
+                        if s_vec is not None:
+                            sims = np.dot(self.dense.catalog_matrix, s_vec)
+                            m_sims = np.dot(self._msg_matrix, s_vec) if self._msg_matrix is not None else sims
+                            comb_s = 0.5 * sims + 0.5 * m_sims
+                            for idx, sim in enumerate(comb_s):
+                                if idx not in siis_proc_scores or sim > siis_proc_scores[idx]:
+                                    siis_proc_scores[idx] = float(sim)
             elif siis_title:
                 t_vec = self.dense.encode_query(siis_title)
                 if t_vec is not None and self.dense.catalog_matrix is not None:

@@ -811,25 +811,319 @@
     "reason_code": "DIRECT_FEATURE_MATCH",
     "explanation": "The user query 'power saving' directly aligns with the action to enable power saving mode."
   },
-  "blutooth off__k10": {
+  "my galaxy tablet screen stays completely blank when i try to use smart switch to scan the qr code for transferring data from my galaxy s25 phone, so the transfer can't proceed.__k10": {
     "decision": "SELECT",
     "selected_candidate_id": "candidate_1",
-    "confidence": 0.95,
+    "confidence": 0.85,
     "reason_code": "DIRECT_FEATURE_MATCH",
-    "explanation": "The user explicitly requested to turn off bluetooth ('blutooth off'). Candidate 1 matches the direct feature and disable polarity."
+    "explanation": "The user is attempting to open Smart Switch and the SIIS context notes opening Smart Switch by accessing the Apps screen via the Home screen. Candidate 1 provides the action to view the Show Apps screen button on the Home screen."
   },
-  "turn on bluetooth__k10": {
-    "decision": "SELECT",
-    "selected_candidate_id": "candidate_2",
-    "confidence": 0.95,
-    "reason_code": "DIRECT_FEATURE_MATCH",
-    "explanation": "Candidate 2 directly matches the user's explicit request to turn on Bluetooth with the correct enable polarity."
+  "1. my samsung a115g tablet screen flashes and then goes completely blank whenever i tap to open an email in gmail, and after it works for a short time it goes blank again.__k5": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
   },
-  "add fingerprint__k10": {
+  "1. my samsung a115g tablet screen flashes and then goes completely blank whenever i tap to open an email in gmail, and after it works for a short time it goes blank again.__k10": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "1. my samsung a115g tablet screen flashes and then goes completely blank whenever i tap to open an email in gmail, and after it works for a short time it goes blank again.": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my galaxy s22 screen turns completely blank or white and no text appears when i search for a stock price or use the smart tutor app, and it happens with other apps too.__k5": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my galaxy s22 screen turns completely blank or white and no text appears when i search for a stock price or use the smart tutor app, and it happens with other apps too.__k10": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my galaxy s22 screen turns completely blank or white and no text appears when i search for a stock price or use the smart tutor app, and it happens with other apps too.": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my galaxy z flip 7 screen went completely black, so i can't see or interact with the phone, and i'm unable to use smart switch or any other method to transfer my data.__k5": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my galaxy z flip 7 screen went completely black, so i can't see or interact with the phone, and i'm unable to use smart switch or any other method to transfer my data.__k10": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my galaxy z flip 7 screen went completely black, so i can't see or interact with the phone, and i'm unable to use smart switch or any other method to transfer my data.": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my samsung galaxy a15/a16 screen suddenly went completely black on its own after about a month of use. it doesn't display anything, even when i try to turn it on.__k5": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my samsung galaxy a15/a16 screen suddenly went completely black on its own after about a month of use. it doesn't display anything, even when i try to turn it on.__k10": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my samsung galaxy a15/a16 screen suddenly went completely black on its own after about a month of use. it doesn't display anything, even when i try to turn it on.": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my tablet's screen stays dark and only three app icons are lit while the rest are dark and won't open, so nothing loads on the screen and i can't use the device.__k5": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my tablet's screen stays dark and only three app icons are lit while the rest are dark and won't open, so nothing loads on the screen and i can't use the device.__k10": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my tablet's screen stays dark and only three app icons are lit while the rest are dark and won't open, so nothing loads on the screen and i can't use the device.": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my new samsung phone's main screen stays small and doesn't fill the whole display; i can't make it expand to full size and i've never seen this before.__k5": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my new samsung phone's main screen stays small and doesn't fill the whole display; i can't make it expand to full size and i've never seen this before.__k10": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my new samsung phone's main screen stays small and doesn't fill the whole display; i can't make it expand to full size and i've never seen this before.": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my galaxy flip 7 inner screen stopped working by itself; it shows no image and doesn't respond to touch, while the outer cover screen still works.__k5": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my galaxy flip 7 inner screen stopped working by itself; it shows no image and doesn't respond to touch, while the outer cover screen still works.__k10": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my galaxy flip 7 inner screen stopped working by itself; it shows no image and doesn't respond to touch, while the outer cover screen still works.": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my samsung galaxy z flip 6 screen flickers and goes blank whenever i open it, so i can't see anything or access the settings, which stops me from using the phone.__k5": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my samsung galaxy z flip 6 screen flickers and goes blank whenever i open it, so i can't see anything or access the settings, which stops me from using the phone.__k10": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my samsung galaxy z flip 6 screen flickers and goes blank whenever i open it, so i can't see anything or access the settings, which stops me from using the phone.": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my galaxy s25 has a floating circle that constantly hovers on my screen and gives me quick shortcuts to recent apps, home, back, screen off, volume control, and more; i want to remove it.__k5": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my galaxy s25 has a floating circle that constantly hovers on my screen and gives me quick shortcuts to recent apps, home, back, screen off, volume control, and more; i want to remove it.__k10": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my galaxy s25 has a floating circle that constantly hovers on my screen and gives me quick shortcuts to recent apps, home, back, screen off, volume control, and more; i want to remove it.": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my galaxy s22 screen stays blank and doesn't show any activation message or anything else when i turn it on after the carrier deactivated the old phone.__k5": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my galaxy s22 screen stays blank and doesn't show any activation message or anything else when i turn it on after the carrier deactivated the old phone.__k10": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my galaxy s22 screen stays blank and doesn't show any activation message or anything else when i turn it on after the carrier deactivated the old phone.": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my galaxy s26 ultra only shows a blue (or black) screen with tiny text when i try to turn it on, and it won't start up. i tried holding the power button but it doesn't help.__k5": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my galaxy s26 ultra only shows a blue (or black) screen with tiny text when i try to turn it on, and it won't start up. i tried holding the power button but it doesn't help.__k10": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my galaxy s26 ultra only shows a blue (or black) screen with tiny text when i try to turn it on, and it won't start up. i tried holding the power button but it doesn't help.": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "1. \"my galaxy s24 screen goes completely blank, just a dark screen with occasional scrolling and no visible content, so i can't see anything or use smart switch to transfer data.\"__k5": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "1. \"my galaxy s24 screen goes completely blank, just a dark screen with occasional scrolling and no visible content, so i can't see anything or use smart switch to transfer data.\"__k10": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "1. \"my galaxy s24 screen goes completely blank, just a dark screen with occasional scrolling and no visible content, so i can't see anything or use smart switch to transfer data.\"": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my galaxy a17 screen looks distorted right after i received the phone, and i need a diagnostic test.__k5": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my galaxy a17 screen looks distorted right after i received the phone, and i need a diagnostic test.__k10": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my galaxy a17 screen looks distorted right after i received the phone, and i need a diagnostic test.": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my galaxy s24 ultra screen is completely black and won't turn on, even though the phone powers on, rings, and otherwise works; there is no physical damage.__k5": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my galaxy s24 ultra screen is completely black and won't turn on, even though the phone powers on, rings, and otherwise works; there is no physical damage.__k10": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "my galaxy s24 ultra screen is completely black and won't turn on, even though the phone powers on, rings, and otherwise works; there is no physical damage.": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.85,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "Candidate selection evaluated as ambiguous among screen settings; deterministic choice retained."
+  },
+  "fix battery issue__k5": {
+    "decision": "AMBIGUOUS",
+    "selected_candidate_id": null,
+    "confidence": 0.0,
+    "reason_code": "AMBIGUOUS",
+    "explanation": "The user query asks to fix a battery issue, but the available candidates only cover vibration intensity, disable/enable vibrations, disable battery protection, and view diagnostic data. None of the candidates directly address general battery issues such as power saving."
+  },
+  "my screen is flashing and goes black when opening gmail on my tablet__k5": {
     "decision": "SELECT",
-    "selected_candidate_id": "candidate_1",
+    "selected_candidate_id": "candidate_5",
     "confidence": 0.95,
-    "reason_code": "DIRECT_FEATURE_MATCH",
-    "explanation": "The user query directly asks to add a fingerprint, and candidate_1 corresponds to the View Fingerprint unlock settings."
+    "reason_code": "SIIS_GROUNDED",
+    "explanation": "The SIIS context specifically guides to disable Keep screen on while viewing to resolve screen flickering and blank display issues."
   }
 }

@@ -162,12 +162,12 @@ class TroubleshootingEngine:
             # Phase 20.1: Targeted Gemini Semantic Candidate Selection & Clone Disambiguation
             # Operates strictly over verified candidate pool when ambiguity signals are detected
             targeted_res: Optional[GeminiReasonerResult] = None
-            if self.reasoner.is_enabled() and self.reasoner.should_trigger_targeted_gemini(query, candidates, adj):
+            if self.reasoner.is_enabled() and self.reasoner.should_trigger_targeted_gemini(query, candidates[:5], adj):
                 targeted_res = self.reasoner.select_targeted_candidate(
                     query=query,
                     siis_title=siis_title,
                     siis_content=siis_content,
-                    candidate_pool=candidates,
+                    candidate_pool=candidates[:5],
                     deterministic_draft=det_best
                 )
                 if targeted_res and targeted_res.decision == "SELECT" and targeted_res.selected_candidate_id:

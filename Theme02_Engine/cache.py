@@ -41,7 +41,11 @@ SYNONYM_MAP = {
     r"\b(auto\s+blocker)\b": "__auto_blocker__",
     r"\b(battery\s+protection|protect\s+battery)\b": "__battery_protect__",
     r"\b(samsung\s+cloud(\s+backup)?|back\s+up\s+data(\s+to\s+cloud)?|backup\s+phone\s+data)\b": "__cloud_backup__",
+    r"\b(flashes?|blinks?|flickers?)\b": "__flicker__",
+    r"\b(black|blank|dark)\b": "__black_screen__",
 }
+
+COMPILED_SYNONYMS = [(re.compile(p, re.I), r) for p, r in SYNONYM_MAP.items()]
 
 
 class QueryCache:
@@ -85,8 +89,8 @@ class QueryCache:
         """Extract canonical semantic tokens with strict polarity namespacing."""
         pol = cls._detect_polarity(query)
         q = query.lower()
-        for pattern, replacement in SYNONYM_MAP.items():
-            q = re.sub(pattern, replacement, q)
+        for pat, replacement in COMPILED_SYNONYMS:
+            q = pat.sub(replacement, q)
         tokens = re.findall(r"__[a-z_]+__|[a-z]{3,}", q)
         stopwords = {"the", "and", "for", "phone", "device", "samsung", "galaxy", "mode", "with", "from", "when", "after", "about", "cant", "cannot", "turn", "switch", "off", "on"}
         feature_tokens = sorted([t for t in tokens if t not in stopwords and t not in ("__enable__", "__disable__", "__adjust__", "__view__")])
@@ -143,12 +147,15 @@ class QueryCache:
                 continue
             overlap = len(q_tokens.intersection(known_tokens))
             union = len(q_tokens.union(known_tokens))
-            score = overlap / union if union else 0
+            jaccard = overlap / union if union else 0
+            # For queries within the exact same SIIS context digest, also test containment
+            containment = overlap / min(len(q_tokens), len(known_tokens)) if min(len(q_tokens), len(known_tokens)) > 0 else 0
+            score = max(jaccard, containment if (has_context and known_digest == digest) else 0)
             if score > best_score:
                 best_score = score
                 best_resp = resp
 
-        if best_score >= 0.55:
+        if best_score >= 0.50:
             # Store in exact cache to speed up subsequent queries
             store_key = f"{norm}#{digest}" if has_context else f"{norm}#none"
             if len(self.exact_cache) >= self.capacity:

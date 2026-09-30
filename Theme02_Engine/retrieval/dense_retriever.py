@@ -32,6 +32,7 @@ class DenseRetriever:
         self.model = None
         self.catalog_matrix = None  # Shape: (578, 384)
         self.is_available = False
+        self._query_vec_cache: Dict[str, Any] = {}
         self._init_model()
 
     def _init_model(self):
@@ -75,10 +76,38 @@ class DenseRetriever:
             self.catalog_matrix = None
 
     def encode_query(self, query: str):
-        """Encodes query into a 384-dimensional normalized vector."""
-        if not self.is_available or self.model is None:
+        """Encodes query into a 384-dimensional normalized vector with in-memory caching."""
+        if not self.is_available or self.model is None or not query:
             return None
-        return self.model.encode([query], normalize_embeddings=True, show_progress_bar=False)[0]
+        if query in self._query_vec_cache:
+            return self._query_vec_cache[query]
+        vec = self.model.encode([query], normalize_embeddings=True, show_progress_bar=False)[0]
+        if len(self._query_vec_cache) >= 500:
+            self._query_vec_cache.pop(next(iter(self._query_vec_cache)))
+        self._query_vec_cache[query] = vec
+        return vec
+
+    def encode_queries(self, queries: List[str]) -> List[Any]:
+        """Encodes multiple queries in a single batched tensor forward pass."""
+        if not self.is_available or self.model is None or not queries:
+            return []
+        results = [None] * len(queries)
+        missing_indices = []
+        missing_texts = []
+        for idx, q in enumerate(queries):
+            if q in self._query_vec_cache:
+                results[idx] = self._query_vec_cache[q]
+            else:
+                missing_indices.append(idx)
+                missing_texts.append(q)
+        if missing_texts:
+            encoded_batch = self.model.encode(missing_texts, normalize_embeddings=True, show_progress_bar=False)
+            for m_idx, text, vec in zip(missing_indices, missing_texts, encoded_batch):
+                if len(self._query_vec_cache) >= 500:
+                    self._query_vec_cache.pop(next(iter(self._query_vec_cache)))
+                self._query_vec_cache[text] = vec
+                results[m_idx] = vec
+        return results
 
     def score_docs(self, query: str) -> Dict[int, float]:
         """Calculates cosine similarity of query against all 578 catalog entries."""
