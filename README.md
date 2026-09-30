@@ -451,7 +451,8 @@ Post-hackathon enhancements planned for the SYNTRA architecture:
 Submitted as part of the **Samsung PRISM GenAI Hackathon 3.0**:
 - **Project Name:** SYNTRA — Samsung Galaxy Smart Guided Troubleshooting Engine
 - **Theme:** Theme 2 (Smart Guided Troubleshooting Engine)
-- **Institution / Team Details:** Refer to [`CollegeName_TeamName_Submission.pptx`](file:///d:/Samsung_Hackathon/CollegeName_TeamName_Submission.pptx) and [`LangAI3.0_AI_Disclosure.docx`](file:///d:/Samsung_Hackathon/LangAI3.0_AI_Disclosure.docx).
+- **Institution:** SRMIST (SRM Institute of Science and Technology)
+- **Team Details:** Refer to [`CollegeName_TeamName_Submission.pptx`](file:///d:/Samsung_Hackathon/CollegeName_TeamName_Submission.pptx) and [`LangAI3.0_AI_Disclosure.docx`](file:///d:/Samsung_Hackathon/LangAI3.0_AI_Disclosure.docx).
 
 ---
 
