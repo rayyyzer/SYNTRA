@@ -593,18 +593,50 @@ class TroubleshootingEngine:
                 "is_override": (verifier_res.decision == "CORRECT") if verifier_res else False
             }
 
-            act_dl = best.get("deeplink") if best else "bixby://dummy_positive"
-            valid_uris = {e["deeplink"] for e in self.retriever.bm25.entries}
-            valid_uris.add("bixby://dummy_positive")
-            is_valid = (act_dl in valid_uris) if act_dl else False
+            # Canonical resolution derived strictly from official_response primary action
+            primary_acts = official_response.get("contexts", [{}])[0].get("actions", [])
+            primary_act = primary_acts[0] if primary_acts else None
+            primary_sg = (primary_act.get("stepGroups") or [{}])[0] if primary_act else {}
+            primary_adl = primary_sg.get("actionableDeeplink") if primary_sg else None
 
-            catalog_info = {
-                "catalog_id": selected_catalog_id,
-                "action": best.get("message") if best else "Open Relevant Settings Screen",
-                "uri": act_dl,
-                "valid": is_valid,
-                "original_type": best.get("originalType", "onClickURL") if best else "onClickURL"
-            }
+            if primary_adl and primary_adl.get("deeplink"):
+                act_dl = primary_adl.get("deeplink")
+                cat_match = next((e for e in self.retriever.bm25.entries if e.get("deeplink") == act_dl), None)
+                cat_id_resolved = cat_match.get("id") if cat_match else selected_catalog_id
+                cat_act_resolved = primary_act.get("actionName") or (cat_match.get("message") if cat_match else (best.get("message") if best else ""))
+                cat_orig_type = cat_match.get("originalType", "onClickURL") if cat_match else "onClickURL"
+                valid_uris = {e["deeplink"] for e in self.retriever.bm25.entries}
+                valid_uris.add("bixby://dummy_positive")
+                is_valid = (act_dl in valid_uris) if act_dl else False
+
+                catalog_info = {
+                    "catalog_id": cat_id_resolved,
+                    "action": cat_act_resolved,
+                    "uri": act_dl,
+                    "valid": is_valid,
+                    "original_type": cat_orig_type
+                }
+            elif primary_act and primary_act.get("category") == "manual":
+                catalog_info = {
+                    "catalog_id": None,
+                    "action": primary_act.get("actionName", "Schedule Device Repair Service"),
+                    "uri": None,
+                    "valid": True,
+                    "original_type": "manual_action"
+                }
+            else:
+                act_dl = best.get("deeplink") if best else None
+                valid_uris = {e["deeplink"] for e in self.retriever.bm25.entries}
+                valid_uris.add("bixby://dummy_positive")
+                is_valid = (act_dl in valid_uris) if act_dl else False
+
+                catalog_info = {
+                    "catalog_id": selected_catalog_id,
+                    "action": best.get("message") if best else (primary_act.get("actionName") if primary_act else "Configure Settings"),
+                    "uri": act_dl,
+                    "valid": is_valid,
+                    "original_type": best.get("originalType", "onClickURL") if best else "onClickURL"
+                }
 
         # 7. Performance Summary
         total_latency_ms = (time.perf_counter() - t_total_0) * 1000.0

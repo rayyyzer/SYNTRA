@@ -1193,8 +1193,15 @@
             <div class="hero-action-name" id="resp-act1-name">Action Name</div>
             <div class="hero-tagline" id="resp-tagline">SYNTRA found a verified action for this issue.</div>
             
-            <div style="margin-bottom: 20px;">
+            <div style="margin-bottom: 14px; display: flex; align-items: center; justify-content: center; gap: 8px;">
               <span class="badge bg-blue" id="resp-category-badge">AUTO ACTION</span>
+              <span class="badge bg-neutral mono" id="hero-cat-id-badge" style="display: none;">DL-0000</span>
+            </div>
+
+            <!-- Deeplink URI Preview / No Deeplink banner -->
+            <div id="hero-uri-container" style="margin-bottom: 18px;">
+              <div id="hero-uri-preview" class="mono" style="font-size: 0.8rem; color: var(--accent-primary); word-break: break-all; background: rgba(56, 114, 224, 0.08); padding: 8px 14px; border-radius: var(--radius-sm); border: 1px solid rgba(56, 114, 224, 0.2); max-width: 520px; margin: 0 auto; display: none;"></div>
+              <div id="hero-no-uri-banner" class="hidden" style="font-size: 0.82rem; color: var(--text-secondary); background: rgba(255, 179, 0, 0.08); padding: 8px 14px; border-radius: var(--radius-sm); border: 1px solid rgba(255, 179, 0, 0.2); max-width: 520px; margin: 0 auto;">No verified Samsung Settings deeplink is available for this action</div>
             </div>
 
             <!-- Action Buttons -->
@@ -1284,7 +1291,7 @@
               <div class="details-content mono" style="padding-top: 8px;">
                 <div><strong style="color: var(--text-primary);">Catalog ID:</strong> <span id="cat-id">N/A</span></div>
                 <div style="margin-top: 6px;"><strong style="color: var(--text-primary);">Verified Catalog URI:</strong></div>
-                <pre id="hero-uri" style="margin-top: 4px; color: var(--accent-primary);">bixby://...</pre>
+                <pre id="hero-uri" style="margin-top: 4px; color: var(--accent-primary);">Waiting for diagnostic execution...</pre>
               </div>
             </details>
             
@@ -1370,6 +1377,32 @@
     let currentResponseData = null;
     let labTestResults = {};
     let toastTimeout = null;
+    let activeExecutionId = 0;
+    let activeAbortController = null;
+    let currentActiveAction = {
+      actionName: "Device Settings",
+      uri: null,
+      catalogId: null,
+      isManual: false,
+      hasValidDeeplink: false
+    };
+
+    function validateActionUriConsistency(actionName, uri) {
+      if (!uri) return { valid: true };
+      const lowerAct = (actionName || "").toLowerCase();
+      const lowerUri = (uri || "").toLowerCase();
+      
+      const isBatteryAct = lowerAct.includes("battery") || lowerAct.includes("power saving") || lowerAct.includes("power save");
+      const isWifiAct = lowerAct.includes("wi-fi") || lowerAct.includes("wifi") || lowerAct.includes("wlan");
+      
+      if (isBatteryAct && (lowerUri.includes("wifi") || lowerUri.includes("wlan"))) {
+        return { valid: false, reason: "Battery action cannot carry a Wi-Fi deeplink URI." };
+      }
+      if (isWifiAct && (lowerUri.includes("battery") || lowerUri.includes("power"))) {
+        return { valid: false, reason: "Wi-Fi action cannot carry a Battery deeplink URI." };
+      }
+      return { valid: true };
+    }
 
     function escapeHtml(str) {
       if (str === null || str === undefined) return "";
@@ -1470,6 +1503,11 @@
     }
 
     function resetDiagnosis() {
+      if (activeAbortController) {
+        activeAbortController.abort();
+        activeAbortController = null;
+      }
+      activeExecutionId++;
       document.getElementById("query-input").value = "";
       document.getElementById("siis-title").value = "Device Settings";
       document.getElementById("siis-content").value = "";
@@ -1481,15 +1519,22 @@
         document.getElementById(id).className = 'pipe-node';
       });
       currentResponseData = null;
+      currentActiveAction = {
+        actionName: "Device Settings",
+        uri: null,
+        catalogId: null,
+        isManual: false,
+        hasValidDeeplink: false
+      };
       showToast("SYNTRA diagnostic form reset");
     }
 
     function openDeeplink() {
-      const uri = document.getElementById("hero-uri").innerText;
-      if (!uri || uri.includes("None") || uri.includes("...")) {
-        showToast("No settings deeplink is available for this action.");
+      if (!currentActiveAction || !currentActiveAction.hasValidDeeplink || !currentActiveAction.uri) {
+        showToast("No verified Samsung Settings deeplink is available for this action.");
         return;
       }
+      const uri = currentActiveAction.uri;
       
       // Attempt to invoke the URI protocol
       try {
@@ -1500,18 +1545,18 @@
       
       // Copy to clipboard gracefully for desktop / non-Samsung browsers
       navigator.clipboard.writeText(uri).then(() => {
-        showToast("✓ Samsung deeplink copied. Open this action on a supported Samsung device.");
+        showToast("✓ Samsung deeplink copied: " + uri);
       }).catch(() => {
         showToast("Samsung deeplink: " + uri);
       });
     }
 
     function copyUri() {
-      const uri = document.getElementById("hero-uri").innerText;
-      if (!uri || uri.includes("None") || uri.includes("...")) {
-        showToast("No deeplink URI to copy.");
+      if (!currentActiveAction || !currentActiveAction.hasValidDeeplink || !currentActiveAction.uri) {
+        showToast("No verified Samsung Settings deeplink is available for this action.");
         return;
       }
+      const uri = currentActiveAction.uri;
       navigator.clipboard.writeText(uri).then(() => {
         showToast("✓ Deeplink URI copied to clipboard.");
       }).catch(() => {
@@ -1561,6 +1606,13 @@
         return;
       }
 
+      // Concurrency control: abort any previous in-flight request
+      if (activeAbortController) {
+        activeAbortController.abort();
+      }
+      activeAbortController = new AbortController();
+      const executionId = ++activeExecutionId;
+
       const btn = document.getElementById("run-btn");
       const btnText = document.getElementById("btn-text");
       btn.disabled = true;
@@ -1570,6 +1622,26 @@
       document.getElementById('result-error').classList.add('hidden');
       document.getElementById('result-content').classList.remove('hidden');
       document.getElementById('analysis-live-status').innerText = "RUNNING";
+
+      // Atomically reset action card state and DOM to avoid displaying stale scenario data
+      currentActiveAction = {
+        actionName: "Analyzing...",
+        uri: null,
+        catalogId: null,
+        isManual: false,
+        hasValidDeeplink: false
+      };
+      document.getElementById("resp-act1-name").innerText = "Analyzing System Action...";
+      document.getElementById("resp-tagline").innerText = "Grounding issue in Samsung knowledge...";
+      document.getElementById("resp-steps-list").innerHTML = '<li class="step-item"><div class="step-content">Retrieving authoritative Samsung troubleshooting steps...</div></li>';
+      document.getElementById("btn-open-settings").disabled = true;
+      document.getElementById("btn-copy-uri").disabled = true;
+      const heroUriPreviewInit = document.getElementById("hero-uri-preview");
+      if (heroUriPreviewInit) heroUriPreviewInit.style.display = 'none';
+      const heroNoUriBannerInit = document.getElementById("hero-no-uri-banner");
+      if (heroNoUriBannerInit) heroNoUriBannerInit.classList.add("hidden");
+      const heroCatBadgeInit = document.getElementById("hero-cat-id-badge");
+      if (heroCatBadgeInit) heroCatBadgeInit.style.display = 'none';
       
       // Reset activity states
       const steps = ['act-query', 'act-siis', 'act-cache', 'act-retrieval', 'act-ranking', 'act-gemini', 'act-catalog'];
@@ -1599,6 +1671,7 @@
         const res = await fetch("/dev/troubleshoot/debug", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          signal: activeAbortController.signal,
           body: JSON.stringify({
             query: query,
             siis_response: { title: title || "Device Issue", content: content || "Navigate to Settings." },
@@ -1607,17 +1680,26 @@
           })
         });
 
+        if (executionId !== activeExecutionId) return;
         if (!res.ok) throw new Error(`Engine returned HTTP ${res.status}`);
         
         const data = await res.json();
+        if (executionId !== activeExecutionId) return;
+
         currentResponseData = data;
         
-        // Sequence animation without delaying backend response
-        await animateActivitySequence(data);
+        // Sequence animation without race conditions
+        await animateActivitySequence(data, executionId);
         
+        if (executionId !== activeExecutionId) return;
         document.getElementById('analysis-live-status').innerText = "COMPLETE";
 
       } catch (err) {
+        if (err.name === 'AbortError') {
+          // In-flight fetch was aborted for a newer scenario selection; suppress
+          return;
+        }
+        if (executionId !== activeExecutionId) return;
         document.getElementById('result-content').classList.add('hidden');
         document.getElementById('result-error').classList.remove('hidden');
         document.getElementById('error-message').innerText = err.message || "Failed to execute SYNTRA diagnostic engine.";
@@ -1625,24 +1707,57 @@
           document.getElementById(id).className = 'pipe-node skipped';
         });
       } finally {
-        btn.disabled = false;
-        btnText.innerText = "Diagnose \u2192";
+        if (executionId === activeExecutionId) {
+          btn.disabled = false;
+          btnText.innerText = "Diagnose \u2192";
+        }
       }
     }
 
     async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-    async function animateActivitySequence(data) {
+    async function animateActivitySequence(data, executionId) {
+      if (executionId !== activeExecutionId) return;
+
       const dbg = data.debug || {};
       const resp = data.response || {};
       const ctx = (resp.contexts && resp.contexts[0]) || {};
       
       const gt = dbg.gemini_targeted || {};
-      const isHw = dbg.safety?.hardware_triggered;
+      const isHw = Boolean(dbg.safety?.hardware_triggered);
       const cat = dbg.catalog_resolution || {};
       const totalLat = dbg.performance?.total_latency_ms || 0;
       const candidates = dbg.retrieval?.candidates || [];
       const score = ctx.score || 0.95;
+
+      // Extract canonical primary action strictly from official response
+      const acts = ctx.actions || [];
+      const primaryAct = acts[0] || {};
+      const primaryStepGroup = (primaryAct.stepGroups && primaryAct.stepGroups[0]) || {};
+      const actionableDl = primaryStepGroup.actionableDeeplink || null;
+      const isManual = (primaryAct.category === 'manual') || isHw;
+
+      let resolvedActionName = primaryAct.actionName || cat.action || (isManual ? "Schedule Device Repair Service" : "Configure Settings");
+      let resolvedUri = (!isManual && actionableDl && actionableDl.deeplink) ? actionableDl.deeplink : ((!isManual && cat.uri && !cat.uri.includes("dummy") && !cat.uri.includes("...")) ? cat.uri : null);
+      let resolvedCatId = cat.catalog_id || (actionableDl ? "DL-VERIFIED" : null);
+
+      // Defensive cross-action validation: reject contradictory pairing
+      const consistency = validateActionUriConsistency(resolvedActionName, resolvedUri);
+      if (!consistency.valid) {
+        console.warn("SYNTRA cross-action check:", consistency.reason);
+        resolvedUri = null;
+        resolvedCatId = null;
+      }
+
+      const hasValidDeeplink = Boolean(resolvedUri && resolvedUri.startsWith("bixby://"));
+
+      currentActiveAction = {
+        actionName: resolvedActionName,
+        uri: hasValidDeeplink ? resolvedUri : null,
+        catalogId: resolvedCatId,
+        isManual: isManual,
+        hasValidDeeplink: hasValidDeeplink
+      };
 
       // Update Top Header HUD values
       const hudLat = document.getElementById('hud-latency');
@@ -1656,55 +1771,68 @@
       
       const hudCat = document.getElementById('hud-catalog');
       if (hudCat) {
-        hudCat.innerText = isHw ? 'Manual Action' : 'Verified';
-        hudCat.style.color = isHw ? 'var(--status-warning)' : 'var(--status-success)';
+        hudCat.innerText = isManual ? 'Manual Action' : (hasValidDeeplink ? 'Verified' : 'Guidance');
+        hudCat.style.color = isManual ? 'var(--status-warning)' : 'var(--status-success)';
       }
 
       const setDone = (id, detail, isSkip = false) => {
         const item = document.getElementById(id);
+        if (!item) return;
         item.className = isSkip ? 'act-item skipped done' : 'act-item done';
         const icon = document.getElementById(id + '-icon');
-        icon.innerText = isSkip ? '—' : '✓';
-        icon.style.color = isSkip ? 'var(--text-muted)' : 'var(--status-success)';
-        document.getElementById(id + '-detail').innerText = detail;
+        if (icon) {
+          icon.innerText = isSkip ? '—' : '✓';
+          icon.style.color = isSkip ? 'var(--text-muted)' : 'var(--status-success)';
+        }
+        const det = document.getElementById(id + '-detail');
+        if (det) det.innerText = detail;
       };
+
+      const animStepDelay = 20;
 
       // 1. Query
       const polarity = dbg.polarity?.detected || 'Neutral';
       setDone('act-query', `${polarity} intent detected`);
       document.getElementById('pipe-query').className = 'pipe-node done';
-      await sleep(70);
+      await sleep(animStepDelay);
+      if (executionId !== activeExecutionId) return;
       
       // 2. SIIS
       setDone('act-siis', `${ctx.title || 'Device settings grounded'}`);
       document.getElementById('pipe-siis').className = 'pipe-node done';
-      await sleep(70);
+      await sleep(animStepDelay);
+      if (executionId !== activeExecutionId) return;
       
       // 3. Cache
       setDone('act-cache', dbg.cache?.status === 'HIT' ? 'Cache hit \u2192 rapid response' : 'Cache miss \u2192 fresh evaluation');
-      await sleep(70);
+      await sleep(animStepDelay);
+      if (executionId !== activeExecutionId) return;
 
       // 4. Retrieval
       if (isHw) setDone('act-retrieval', 'Intercepted by hardware safety filter');
       else setDone('act-retrieval', `${candidates.length} candidates retrieved from catalog`);
       document.getElementById('pipe-ret').className = 'pipe-node done';
-      await sleep(70);
+      await sleep(animStepDelay);
+      if (executionId !== activeExecutionId) return;
 
       // 5. Ranking
       if (isHw) setDone('act-ranking', 'Manual action prioritized');
       else setDone('act-ranking', `Confidence ${(score).toFixed(2)}`);
-      await sleep(70);
+      await sleep(animStepDelay);
+      if (executionId !== activeExecutionId) return;
 
       // 6. Targeted Reasoning
       if (isHw) setDone('act-gemini', 'Not required', true);
       else if (gt.is_override) setDone('act-gemini', 'Targeted disambiguation applied', false);
       else if (gt.decision === "SELECT") setDone('act-gemini', 'Confirmed deterministic choice', false);
       else setDone('act-gemini', 'Not required — deterministic confidence sufficient', true);
-      await sleep(70);
+      await sleep(animStepDelay);
+      if (executionId !== activeExecutionId) return;
 
       // 7. Catalog
       if (isHw) setDone('act-catalog', 'Manual service required — no setting toggle');
-      else setDone('act-catalog', `Exact match verified in catalog`);
+      else if (hasValidDeeplink) setDone('act-catalog', `Exact match verified in catalog (${resolvedCatId || 'DL-VERIFIED'})`);
+      else setDone('act-catalog', `General settings guidance — manual navigation`);
       document.getElementById('pipe-ver').className = 'pipe-node done';
       
       // Populate Telemetry Strip
@@ -1713,59 +1841,90 @@
       document.getElementById('tel-lat').innerText = `${totalLat.toFixed(1)}ms`;
       document.getElementById('tel-cache').innerText = dbg.cache?.status || 'MISS';
       document.getElementById('tel-gem').innerText = gt.is_override ? 'OVERRIDE' : (gt.decision === 'SELECT' ? 'ACTIVE' : 'SKIPPED');
-      document.getElementById('tel-cat').innerText = isHw ? 'MANUAL' : 'VERIFIED';
+      document.getElementById('tel-cat').innerText = isHw ? 'MANUAL' : (hasValidDeeplink ? 'VERIFIED' : 'GUIDE');
       
       document.getElementById('telemetry-strip').style.opacity = '1';
-      await sleep(70);
+      await sleep(animStepDelay);
+      if (executionId !== activeExecutionId) return;
 
-      // Render Hero Result
-      const acts = ctx.actions || [];
-      const act1 = acts[0] || {};
-      const isManual = (act1.category === 'manual') || isHw;
-      
-      document.getElementById("resp-act1-name").innerText = act1.actionName || "Configure Settings";
+      // Render Hero Result strictly from currentActiveAction
+      document.getElementById("resp-act1-name").innerText = currentActiveAction.actionName;
       
       const badge = document.getElementById("resp-category-badge");
       badge.innerText = isManual ? 'MANUAL ACTION' : 'AUTO ACTION';
       badge.className = isManual ? 'badge bg-amber' : 'badge bg-blue';
+
+      const catBadge = document.getElementById("hero-cat-id-badge");
+      if (catBadge) {
+        if (currentActiveAction.catalogId) {
+          catBadge.innerText = currentActiveAction.catalogId;
+          catBadge.style.display = 'inline-block';
+        } else {
+          catBadge.style.display = 'none';
+        }
+      }
       
       const statusLabel = document.getElementById("hero-status-label");
       statusLabel.innerHTML = isManual ? '<span>🛡️ MANUAL ACTION REQUIRED</span>' : '<span>READY TO FIX</span>';
       statusLabel.className = isManual ? 'hero-status manual' : 'hero-status';
 
       const tagline = document.getElementById("resp-tagline");
-      tagline.innerText = isManual ? 'SYNTRA recommends authorized service or hardware inspection.' : 'SYNTRA found an authoritative verified setting action for this issue.';
+      tagline.innerText = isManual 
+        ? 'SYNTRA recommends authorized service or hardware inspection.' 
+        : (hasValidDeeplink ? 'SYNTRA found an authoritative verified setting action for this issue.' : 'SYNTRA generated verified device settings guidance.');
       
       const btnOpen = document.getElementById("btn-open-settings");
       const btnCopy = document.getElementById("btn-copy-uri");
       const deviceToggle = document.getElementById("hero-device-toggle");
       const deviceSwitch = document.getElementById("device-switch");
       const toggleName = document.getElementById("device-toggle-name");
+      const heroUriPreview = document.getElementById("hero-uri-preview");
+      const heroNoUriBanner = document.getElementById("hero-no-uri-banner");
       
-      if (isManual) {
-        document.getElementById("hero-uri").innerText = "None (Manual Service Action)";
-        document.getElementById("cat-id").innerText = "None";
+      if (isManual || !hasValidDeeplink) {
+        document.getElementById("hero-uri").innerText = "No verified Samsung Settings deeplink available";
+        document.getElementById("cat-id").innerText = currentActiveAction.catalogId || "None";
         btnOpen.classList.add("hidden");
-        btnCopy.classList.add("hidden");
-        deviceToggle.classList.add("hidden");
-      } else {
-        const exactUri = cat.uri || "bixby://...";
-        document.getElementById("hero-uri").innerText = exactUri;
-        document.getElementById("cat-id").innerText = cat.catalog_id || "DL-XXXX";
-        btnOpen.classList.remove("hidden");
+        btnOpen.disabled = true;
         btnCopy.classList.remove("hidden");
+        btnCopy.disabled = true;
+        btnCopy.setAttribute("title", "No verified Samsung Settings deeplink is available for this action");
+        deviceToggle.classList.add("hidden");
+        if (heroUriPreview) heroUriPreview.style.display = 'none';
+        if (heroNoUriBanner) {
+          heroNoUriBanner.innerText = isManual 
+            ? "No settings deeplink: physical inspection/repair required" 
+            : "No verified Samsung Settings deeplink is available for this action";
+          heroNoUriBanner.classList.remove("hidden");
+        }
+      } else {
+        document.getElementById("hero-uri").innerText = currentActiveAction.uri;
+        document.getElementById("cat-id").innerText = currentActiveAction.catalogId || "DL-VERIFIED";
+        btnOpen.classList.remove("hidden");
+        btnOpen.disabled = false;
+        btnCopy.classList.remove("hidden");
+        btnCopy.disabled = false;
+        btnCopy.removeAttribute("title");
         deviceToggle.classList.remove("hidden");
-        toggleName.innerText = act1.actionName || "Device Setting";
+        toggleName.innerText = currentActiveAction.actionName;
+        if (heroUriPreview) {
+          heroUriPreview.innerText = currentActiveAction.uri;
+          heroUriPreview.style.display = 'block';
+        }
+        if (heroNoUriBanner) heroNoUriBanner.classList.add("hidden");
         // Animate toggle from inactive to active
         deviceSwitch.classList.remove('active');
-        setTimeout(() => deviceSwitch.classList.add('active'), 200);
+        setTimeout(() => {
+          if (executionId === activeExecutionId) deviceSwitch.classList.add('active');
+        }, 120);
       }
 
-      // Steps
+      // Populate Troubleshooting Steps strictly from primary action
       const stepsList = document.getElementById("resp-steps-list");
       stepsList.innerHTML = "";
-      const stepGroups = act1.stepGroups || [];
-      const allSteps = (stepGroups[0] && stepGroups[0].steps) || ["Navigate to device Settings."];
+      const allSteps = (primaryStepGroup.steps && primaryStepGroup.steps.length > 0) 
+        ? primaryStepGroup.steps 
+        : ["Navigate to device Settings."];
       allSteps.forEach((st, idx) => {
         const item = document.createElement("li");
         item.className = "step-item";
@@ -1774,7 +1933,7 @@
         stepsList.appendChild(item);
       });
 
-      // Advanced data
+      // Advanced diagnostics telemetry
       document.getElementById("sig-polarity").innerText = polarity;
       document.getElementById("sig-cache").innerText = dbg.cache?.status || "Miss";
       document.getElementById("lat-total").innerText = `${totalLat.toFixed(1)} ms`;
@@ -1786,7 +1945,7 @@
       const candsBody = document.getElementById("cands-body");
       candsBody.innerHTML = "";
       candidates.forEach((c) => {
-        const isWinner = c.is_final_winner || (c.catalog_id === cat.catalog_id);
+        const isWinner = c.is_final_winner || (c.catalog_id === currentActiveAction.catalogId);
         candsBody.innerHTML += `<tr>
           <td><code class="mono" style="font-size: 0.78rem;">${escapeHtml(c.catalog_id)}</code></td>
           <td>${escapeHtml(c.action)}</td>
@@ -1801,12 +1960,14 @@
       hero.style.opacity = '1';
       hero.style.transform = 'translateY(0)';
       
-      await sleep(80);
+      await sleep(animStepDelay);
+      if (executionId !== activeExecutionId) return;
       const guidance = document.getElementById('hero-guidance');
       guidance.style.opacity = '1';
       guidance.style.transform = 'translateY(0)';
       
-      await sleep(80);
+      await sleep(animStepDelay);
+      if (executionId !== activeExecutionId) return;
       document.getElementById('adv-details').style.opacity = '1';
     }
 

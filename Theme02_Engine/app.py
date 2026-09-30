@@ -25,7 +25,7 @@ app = FastAPI(
 
 engine = TroubleshootingEngine()
 
-DEBUG_MODE = os.getenv("THEME2_DEBUG", "false").lower() in ("true", "1", "yes")
+DEBUG_MODE = os.getenv("THEME2_DEBUG", "true").lower() in ("true", "1", "yes")
 DEBUG_SECRET = os.getenv("THEME2_DEBUG_SECRET", "")
 
 

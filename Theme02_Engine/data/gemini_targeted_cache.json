@@ -1125,5 +1125,19 @@
     "confidence": 0.95,
     "reason_code": "SIIS_GROUNDED",
     "explanation": "The SIIS context specifically guides to disable Keep screen on while viewing to resolve screen flickering and blank display issues."
+  },
+  "turn on battery saver mode__k5": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user requested to turn on battery saver mode, which directly matches the action of enabling power saving mode in candidate_1."
+  },
+  "how do i turn on wi-fi on my samsung phone?__k5": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_2",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user explicitly asked to turn on Wi-Fi, which matches candidate_2 (Enable WiFi, polarity enable) and aligns with the SIIS guidance to turn on the Wi-Fi switch."
   }
 }

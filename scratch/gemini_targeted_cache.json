@@ -831,5 +831,12 @@
     "confidence": 0.95,
     "reason_code": "DIRECT_FEATURE_MATCH",
     "explanation": "The user query directly asks to add a fingerprint, and candidate_1 corresponds to the View Fingerprint unlock settings."
+  },
+  "wifi on__k10": {
+    "decision": "SELECT",
+    "selected_candidate_id": "candidate_1",
+    "confidence": 0.95,
+    "reason_code": "DIRECT_FEATURE_MATCH",
+    "explanation": "The user query 'wifi on' clearly requests enabling the primary Wi-Fi feature, which matches candidate_1 (Enable WiFi)."
   }
 }
