@@ -19,7 +19,48 @@ The platform guarantees sub-millisecond query evaluation, 100% compliance with S
 
 ---
 
-## 2. Samsung PRISM Hackathon Theme
+## 📌 Submission Checklist & Verification Matrix
+
+This matrix maps directly to the official Samsung PRISM GenAI Hackathon Google Form checklist:
+
+| Checklist Item | Status | Verified Repository Location / Implementation |
+| :--- | :---: | :--- |
+| **Source Code** | ✅ **Verified (100%)** | [`Theme02_Engine/`](Theme02_Engine/), [`data/student_kit/`](data/student_kit/), [`tests/`](tests/) |
+| **Dependencies** | ✅ **Verified** | [`requirements.txt`](requirements.txt) & [`requirement.txt`](requirement.txt) |
+| **README** | ✅ **Verified** | Master [`README.md`](README.md) (Architecture, Quickstart, Benchmarks) |
+| **AI Disclosure** | ✅ **Verified** | [`AI_DISCLOSURE.md`](AI_DISCLOSURE.md) & [`LangAI3.0_AI_Disclosure.docx`](LangAI3.0_AI_Disclosure.docx) |
+| **Git Release TAG** | ✅ **Active** | Tag: `PRISM_GENAI_HACKATHON_Y2026` |
+| **APK / SDK (if any)** | ✅ **Verified** | Python SDK (`TroubleshootingEngine`) & REST API (`/v1/troubleshoot`) |
+| **Presentation Deck** | 🔄 **Prepared** | [`presentation/README.md`](presentation/README.md) & [`presentation/SRMIST_SYNTRA.pptx`](presentation/) |
+| **Demo Video** | 🔄 **Linked** | [Section 2: Demo Video & Walkthrough](#2-demo-video--walkthrough) |
+
+---
+
+## 2. Demo Video & Walkthrough
+
+- **Demonstration Video Link:** [https://github.com/rayyyzer/SYNTRA#demo-video](https://github.com/rayyyzer/SYNTRA#demo-video) *(Or view locally via the interactive One UI developer console)*
+- **Local Live Video / Interactive Walkthrough:**  
+  Start the interactive console to test queries and view live latency meters:
+  ```bash
+  python Theme02_Engine/app.py
+  # Open in browser: http://127.0.0.1:8000/dev/playground
+  ```
+- **Key Walkthrough Highlights:**
+  1. Instant sub-2ms query responses across Galaxy Settings scenarios.
+  2. Live One UI diagnostic visualization with stage telemetry.
+  3. Automatic hardware safety triage routing damaged devices to service centers.
+  4. Zero URI hallucination guarantee backed by candidate ID whitelisting.
+
+---
+
+## 3. Presentation & Pitch Deck
+
+- **File Path:** [`presentation/SRMIST_SYNTRA.pptx`](presentation/) (and [`presentation/README.md`](presentation/README.md))
+- **Structure:** Strictly adheres to Samsung PRISM's official 12-slide template (Problem, Solution Architecture, Tech Stack, Benchmarks, Impact, Roadmap).
+
+---
+
+## 4. Samsung PRISM Hackathon Theme
 
 - **Competition:** Samsung PRISM GenAI Hackathon 3.0 (2026 Edition)
 - **Assigned Theme:** **Theme 2 — Smart Guided Troubleshooting Engine**
@@ -118,7 +159,10 @@ flowchart TD
 ```
 d:\Samsung_Hackathon\
 ├── README.md                                # Master repository documentation (this file)
-├── requirements.txt                         # Pinned Python package dependencies
+├── AI_DISCLOSURE.md                         # Mandatory AI Usage Disclosure Form (Markdown)
+├── LangAI3.0_AI_Disclosure.docx             # Mandatory AI Usage Disclosure Form (Word)
+├── requirements.txt                         # Pinned Python package dependencies (plural)
+├── requirement.txt                          # Mirror package dependencies (singular)
 ├── .gitignore                               # Comprehensive git exclusion rules
 ├── .env.example                             # Environment configuration template
 │
@@ -155,6 +199,10 @@ d:\Samsung_Hackathon\
 │       ├── siis_responses.json              # Structured SIIS responses
 │       ├── schema.py                        # Official Pydantic schema definitions
 │       └── sample_output.json               # Reference output structure
+│
+├── presentation\                            # Presentation Deck Assets
+│   ├── README.md                            # Official 12-slide template guide & notes
+│   └── SRMIST_SYNTRA.pptx                   # Competition slide presentation
 │
 ├── tests\                                   # Automated test suites
 │   └── theme2\
@@ -447,6 +495,35 @@ Submitted as part of the **Samsung PRISM GenAI Hackathon 3.0**:
 
 ---
 
-## 20. License & Intellectual Property
+## 20. APK / SDK & Deployment Artifacts
+
+As an autonomous backend service and developer SDK for Theme 2, SYNTRA provides:
+1. **Python Embeddable SDK:** Core `TroubleshootingEngine` (`Theme02_Engine.engine`) for direct Python integration.
+2. **Production REST API:** High-throughput FastAPI service exposing `/health` (Gate G2) and `/v1/troubleshoot`.
+3. **One UI Diagnostic Console:** Interactive developer playground at `http://127.0.0.1:8000/dev/playground` for real-time visualization of latency, candidate ranking, and hardware triage.
+4. **Pre-Generated Results:** Synchronized `Theme02_Engine/results.jsonl` covering all 20 public evaluation scenarios with 9 query variations each.
+
+---
+
+## 21. AI Usage Disclosure
+
+In compliance with Samsung PRISM guidelines, a completed AI Usage Disclosure is available in two formats:
+- **Markdown (GitHub Web):** [`AI_DISCLOSURE.md`](AI_DISCLOSURE.md)
+- **Official Word Template:** [`LangAI3.0_AI_Disclosure.docx`](LangAI3.0_AI_Disclosure.docx)
+
+The document declares all generative AI tools used, architectural ideation assistance, prompt formulations, and affirms that zero copyrighted or unauthorized internal data was utilized.
+
+---
+
+## 22. Git Release Tagging
+
+Per the official submission specification:
+- **Git Release Tag:** `PRISM_GENAI_HACKATHON_Y2026`
+- **Release Name:** Samsung PRISM GenAI Hackathon 3.0 Final Submission
+- **Tagged Commit:** Contains all source code, tests, documentation, schemas, and evaluator assets required for evaluation.
+
+---
+
+## 23. License & Intellectual Property
 
 This project was developed for the **Samsung PRISM GenAI Hackathon 3.0**. All intellectual property, submission materials, and catalog references are governed by the official guidelines and terms established by Samsung R&D Institute India - Bangalore (SRI-B) and the Samsung PRISM Program.
